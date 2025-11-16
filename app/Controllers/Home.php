@@ -4,11 +4,8 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
-    public function index(): string
+    public function index()
     {
-        $data = [
-            'title' => 'Página de Inicio'
-        ];
-        return view('home', $data);
+        return view('Home');
     }
 }
