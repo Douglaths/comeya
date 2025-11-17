@@ -11261,7 +11261,8 @@ th {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    padding: 1rem 1rem; }
+    padding: 1rem 1rem;
+  flex-direction: row-reverse }
     .sidebar .navbar-brand svg {
       color: #FE9436; }
     .sidebar .navbar-brand .logo-title {

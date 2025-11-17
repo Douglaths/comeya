@@ -46,3 +46,23 @@ $routes->get('/superadmin/contabilidad/morosos', 'Contabilidad::morosos');
 $routes->get('/superadmin/contabilidad/planes', 'Contabilidad::planes');
 $routes->match(['get', 'post'], '/superadmin/contabilidad/crear-plan', 'Contabilidad::crearPlan');
 $routes->get('/superadmin/contabilidad/exportar', 'Contabilidad::exportarReporte');
+
+// Rutas de Marketing
+$routes->get('/superadmin/marketing', 'Marketing::index');
+$routes->get('/superadmin/marketing/campanas', 'Marketing::campanas');
+$routes->match(['get', 'post'], '/superadmin/marketing/crear-campana', 'Marketing::crearCampana');
+$routes->get('/superadmin/marketing/referidos', 'Marketing::referidos');
+$routes->match(['get', 'post'], '/superadmin/marketing/crear-referido', 'Marketing::crearReferido');
+$routes->get('/superadmin/marketing/emails', 'Marketing::emails');
+$routes->match(['get', 'post'], '/superadmin/marketing/crear-email', 'Marketing::crearEmail');
+
+// Rutas de Publicidad
+$routes->get('/superadmin/publicidad', 'Publicidad::index');
+$routes->get('/superadmin/publicidad/promociones', 'Publicidad::promociones');
+$routes->match(['get', 'post'], '/superadmin/publicidad/crear-promocion', 'Publicidad::crearPromocion');
+$routes->get('/superadmin/publicidad/banners', 'Publicidad::banners');
+$routes->match(['get', 'post'], '/superadmin/publicidad/crear-banner', 'Publicidad::crearBanner');
+$routes->get('/superadmin/publicidad/material', 'Publicidad::material');
+$routes->match(['get', 'post'], '/superadmin/publicidad/crear-material', 'Publicidad::crearMaterial');
+$routes->get('/superadmin/publicidad/destacados', 'Publicidad::destacados');
+$routes->post('/superadmin/publicidad/toggle-destacado/(:num)', 'Publicidad::toggleDestacado/$1');
