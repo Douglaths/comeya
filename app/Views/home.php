@@ -65,6 +65,21 @@
     </div>
   </header>
 
+  <!-- Carrusel de Promociones -->
+  <div id="promoCarouselSmall" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" style="height: 120px;">
+    <div class="carousel-inner h-100">
+      <div class="carousel-item active h-100">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=120&fit=crop" class="d-block w-100 h-100" style="object-fit: cover;" alt="Promoción Pizza">
+      </div>
+      <div class="carousel-item h-100">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=120&fit=crop" class="d-block w-100 h-100" style="object-fit: cover;" alt="Promoción Tacos">
+      </div>
+      <div class="carousel-item h-100">
+        <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=1200&h=120&fit=crop" class="d-block w-100 h-100" style="object-fit: cover;" alt="Promoción Sushi">
+      </div>
+    </div>
+  </div>
+
   <!-- Filtros y Búsqueda -->
   <section class="py-4 bg-light">
     <div class="container">
@@ -169,7 +184,13 @@
     </div>
   </section>
 
+<<<<<<< HEAD
   <!-- Bootstrap 5 JS (opcional, para interacciones) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+=======
+ 
+
+<?= $this->include('templates/footer') ?>
+>>>>>>> e177b345ea60a3e9df2f77d31254603608b569d8
