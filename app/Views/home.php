@@ -1,64 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menús Digitales</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Iconos de Bootstrap -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <style>
-    .hero-header {
-      background-color: #ff6b35;
-      color: white;
-      padding: 3rem 0;
-    }
-    .btn-primary-custom {
-      background-color: #fff;
-      color: #ff6b35;
-      font-weight: bold;
-    }
-    .btn-primary-custom:hover {
-      background-color: #f0f0f0;
-    }
-    .restaurant-card {
-      border: 1px solid #eee;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.2s;
-    }
-    .restaurant-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-    .restaurant-img {
-      height: 180px;
-      object-fit: cover;
-    }
-    .badge-type {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 0.75rem;
-      padding: 0.35em 0.65em;
-    }
-    .btn-menu {
-      background-color: #ff3b30;
-      border: none;
-      font-weight: 600;
-    }
-    .btn-menu:hover {
-      background-color: #e32d27;
-    }
-  </style>
-</head>
-<body>
+
+<?= $this->include('templates/header') ?>
 
   <!-- Header Hero -->
   <header class="hero-header text-center">
     <div class="container">
-      <i class="bi bi-x-lg d-block mx-auto mb-3" style="font-size: 1.5rem;"></i>
+      <i class="bi bi-qr-code d-block mx-auto mb-3" style="font-size: 3rem;"></i>
       <h1 class="display-5 fw-bold">Menús Digitales para tu Restaurante</h1>
       <p class="lead">Moderniza tu negocio con menús digitales interactivos. Fácil de gestionar, perfecto para tus clientes.</p>
       <a href="#" class="btn btn-primary-custom px-4 py-2 rounded-pill">Comenzar Ahora</a>
@@ -100,22 +46,25 @@
   <!-- Restaurantes Disponibles -->
   <section class="py-5">
     <div class="container">
-      <h2 class="mb-4">Restaurantes Disponibles</h2>
+      <h2 class="mb-4 fw-bold">Restaurantes Disponibles</h2>
       <p class="text-muted mb-4">4 restaurantes</p>
 
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
         <!-- Restaurante 1 -->
         <div class="col">
           <div class="restaurant-card h-100 position-relative">
-            <span class="badge bg-dark badge-type">Parrilla</span>
-            <img src="https://images.unsplash.com/photo-1517248135467-2c7ed3da9f6b?w=500&h=300&fit=crop" class="restaurant-img w-100" alt="La Parrilla Dorada">
+            <div class="img-container">
+              <span class="badge bg-white badge-type text-dark">Parrilla</span>
+              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" class="restaurant-img" alt="La Parrilla Dorada">
+            </div>
             <div class="p-3">
               <h5 class="fw-bold">La Parrilla Dorada</h5>
               <p class="small text-muted mb-2">Especialistas en carnes a la brasa y parrilla argentina</p>
-              <p class="small mb-1"><i class="bi bi-geo-alt-fill text-danger"></i> Madrid</p>
-              <p class="small mb-3"><i class="bi bi-telephone-fill text-primary"></i> +34 912 345 678</p>
-              <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              <div class="mt-auto">
+                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Madrid <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 912 345 678</p>
+                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              </div>
             </div>
           </div>
         </div>
@@ -123,14 +72,17 @@
         <!-- Restaurante 2 -->
         <div class="col">
           <div class="restaurant-card h-100 position-relative">
-            <span class="badge bg-dark badge-type">Italiana</span>
-            <img src="https://images.unsplash.com/photo-1574071318507-94d3e8f2a9b4?w=500&h=300&fit=crop" class="restaurant-img w-100" alt="Pizzería Bella Napoli">
+            <div class="img-container">
+              <span class="badge bg-white badge-type text-dark">Italiana</span>
+              <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" class="restaurant-img" alt="Pizzería Bella Napoli">
+            </div>
             <div class="p-3">
               <h5 class="fw-bold">Pizzería Bella Napoli</h5>
               <p class="small text-muted mb-2">Pizza artesanal al horno de leña con recetas tradicionales napolitanas</p>
-              <p class="small mb-1"><i class="bi bi-geo-alt-fill text-danger"></i> Sevilla</p>
-              <p class="small mb-3"><i class="bi bi-telephone-fill text-primary"></i> +34 954 567 890</p>
-              <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              <div class="mt-auto">
+                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Sevilla <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 954 567 890</p>
+                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              </div>
             </div>
           </div>
         </div>
@@ -138,14 +90,17 @@
         <!-- Restaurante 3 -->
         <div class="col">
           <div class="restaurant-card h-100 position-relative">
-            <span class="badge bg-dark badge-type">Japonesa</span>
-            <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=500&h=300&fit=crop" class="restaurant-img w-100" alt="Sushi Sakura">
+            <div class="img-container">
+              <span class="badge bg-white badge-type text-dark">Japonesa</span>
+              <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=500&h=300&fit=crop" class="restaurant-img" alt="Sushi Sakura">
+            </div>
             <div class="p-3">
               <h5 class="fw-bold">Sushi Sakura</h5>
               <p class="small text-muted mb-2">Auténtica cocina japonesa con los mejores ingredientes frescos</p>
-              <p class="small mb-1"><i class="bi bi-geo-alt-fill text-danger"></i> Barcelona</p>
-              <p class="small mb-3"><i class="bi bi-telephone-fill text-primary"></i> +34 933 456 789</p>
-              <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              <div class="mt-auto">
+                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Barcelona <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 933 456 789</p>
+                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              </div>
             </div>
           </div>
         </div>
@@ -153,14 +108,17 @@
         <!-- Restaurante 4 -->
         <div class="col">
           <div class="restaurant-card h-100 position-relative">
-            <span class="badge bg-dark badge-type">Mexicana</span>
-            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=300&fit=crop" class="restaurant-img w-100" alt="Tacos El Mariachi">
+            <div class="img-container">
+              <span class="badge bg-white badge-type text-dark ">Mexicana</span>
+              <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=300&fit=crop" class="restaurant-img" alt="Tacos El Mariachi">
+            </div>
             <div class="p-3">
               <h5 class="fw-bold">Tacos El Mariachi</h5>
               <p class="small text-muted mb-2">Comida mexicana auténtica con sabores tradicionales</p>
-              <p class="small mb-1"><i class="bi bi-geo-alt-fill text-danger"></i> Valencia</p>
-              <p class="small mb-3"><i class="bi bi-telephone-fill text-primary"></i> +34 963 678 901</p>
-              <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              <div class="mt-auto">
+                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Valencia <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 963 678 901</p>
+                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+              </div>
             </div>
           </div>
         </div>
@@ -169,16 +127,6 @@
     </div>
   </section>
 
-  <!-- Bootstrap 5 JS (opcional, para interacciones) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
-<?= $this->include('templates/header') ?>
-
-<div class="container">
-    <h1>Bienvenido a mi sitio web</h1>
-    <p>Este es el contenido principal de la página.</p>
-</div>
+ 
 
 <?= $this->include('templates/footer') ?>

@@ -1,13 +1,22 @@
-    </main>
-    <footer>
-        <div class="footer-content">
-            <p>&copy; <?= date('Y') ?> Mi Sitio Web. Todos los derechos reservados.</p>
-            <div class="social-links">
-                <a href="#">Facebook</a>
-                <a href="#">Twitter</a>
-                <a href="#">Instagram</a>
-            </div>
+</div>
+
+ <!-- Footer -->
+  <footer class="bg-white border-top py-4 mt-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="text-muted mb-0">&copy; 2024 Comeya. Todos los derechos reservados.</p>
         </div>
-    </footer>
+        <div class="col-md-6 text-md-end">
+          <p class="text-muted mb-0">Hecho con <i class="bi bi-heart-fill text-danger"></i> para restaurantes</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+   <!-- JS Locales -->
+  <script src="<?= base_url('public/assets/js/libs.min.js') ?>"></script>
+  <script src="<?= base_url('public/assets/js/app.js') ?>"></script>
+  <!-- Bootstrap 5 JS (opcional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

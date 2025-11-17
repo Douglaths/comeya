@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Mi Sitio Web' ?></title>
-    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menús Digitales</title>
+  <!-- CSS Locales -->
+  <link rel="stylesheet" href="<?= base_url('public/assets/css/bootstrap/bootstrap.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('public/assets/css/menu/menu.css') ?>">
+  <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    .content-wrapper {
+      flex: 1;
+    }
+    footer {
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <h1>Mi Sitio</h1>
-            </div>
-            <ul>
-                <li><a href="<?= base_url() ?>">Inicio</a></li>
-                <li><a href="<?= base_url('about') ?>">Acerca de</a></li>
-                <li><a href="<?= base_url('contact') ?>">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
+<div class="content-wrapper">
