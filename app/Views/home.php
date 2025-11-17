@@ -83,7 +83,7 @@
               <p class="small text-muted mb-2">Especialistas en carnes a la brasa y parrilla argentina</p>
               <div class="mt-auto">
                 <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Madrid <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 912 345 678</p>
-                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+                <a href="<?= base_url('public/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@
               <p class="small text-muted mb-2">Pizza artesanal al horno de leña con recetas tradicionales napolitanas</p>
               <div class="mt-auto">
                 <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Sevilla <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 954 567 890</p>
-                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+                <a href="<?= base_url('/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
               </div>
             </div>
           </div>
@@ -115,7 +115,7 @@
               <p class="small text-muted mb-2">Auténtica cocina japonesa con los mejores ingredientes frescos</p>
               <div class="mt-auto">
                 <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Barcelona <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 933 456 789</p>
-                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+                <a href="<?= base_url('/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@
               <p class="small text-muted mb-2">Comida mexicana auténtica con sabores tradicionales</p>
               <div class="mt-auto">
                 <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Valencia <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 963 678 901</p>
-                <a href="#" class="btn btn-menu w-100 text-white">Ver Menú Digital</a>
+                <a href="<?= base_url('/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
               </div>
             </div>
           </div>
