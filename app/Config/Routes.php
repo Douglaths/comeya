@@ -29,3 +29,9 @@ $routes->get('/superadmin/ventas/empresas', 'Ventas::empresas');
 $routes->get('/superadmin/ventas/productos', 'Ventas::productos');
 $routes->get('/superadmin/ventas/pedidos', 'Ventas::pedidos');
 $routes->get('/superadmin/ventas/exportar', 'Ventas::exportar');
+
+// Rutas de Analytics
+$routes->get('/superadmin/analytics', 'Analytics::index');
+$routes->get('/superadmin/analytics/empresas', 'Analytics::empresas');
+$routes->get('/superadmin/analytics/dispositivos', 'Analytics::dispositivos');
+$routes->get('/superadmin/analytics/origenes', 'Analytics::origenes');
