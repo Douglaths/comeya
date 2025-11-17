@@ -21,17 +21,17 @@
     </main>
   
     <!-- Backend Bundle JavaScript -->
-    <script src="<?= base_url('assets/js/libs.min.js') ?>"></script>
+    <script src="<?= base_url('public/assets/js/libs.min.js') ?>"></script>
 
     <!-- Dashboard Charts JavaScript -->
-    <script src="<?= base_url('assets/js/charts/dashboard.js') ?>"></script>
-    <script src="<?= base_url('assets/js/charts/apexcharts.js') ?>"></script>
+    <script src="<?= base_url('public/assets/js/charts/dashboard.js') ?>"></script>
+    <script src="<?= base_url('public/assets/js/charts/apexcharts.js') ?>"></script>
 
     <!-- fslightbox JavaScript -->
-    <script src="<?= base_url('assets/js/fslightbox.js') ?>"></script>
+    <script src="<?= base_url('public/assets/js/fslightbox.js') ?>"></script>
 
     <!-- app JavaScript -->
-    <script src="<?= base_url('assets/js/app.js') ?>"></script>
+    <script src="<?= base_url('public/assets/js/app.js') ?>"></script>
     
     <!-- Superadmin JavaScript -->
     <script>
