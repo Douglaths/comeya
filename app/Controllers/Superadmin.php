@@ -2,35 +2,21 @@
 
 namespace App\Controllers;
 
-use App\Models\EmpresaModel;
-use App\Models\VentaModel;
-use App\Models\VisitaModel;
-
 class Superadmin extends BaseController
 {
-    protected $empresaModel;
-    protected $ventaModel;
-    protected $visitaModel;
-
-    public function __construct()
-    {
-        $this->empresaModel = new EmpresaModel();
-        $this->ventaModel = new VentaModel();
-        $this->visitaModel = new VisitaModel();
-    }
-
     public function index()
     {
+        // Datos de prueba para verificar que la vista funciona
         $data = [
-            'empresas' => $this->empresaModel->findAll(),
+            'empresas' => [],
             'estadisticas' => [
-                'empresas_activas' => $this->empresaModel->where('activo', 1)->countAllResults(),
-                'total_ventas' => $this->ventaModel->selectSum('total')->get()->getRow()->total ?? 0,
-                'total_visitas' => $this->visitaModel->countAllResults()
+                'empresas_activas' => 0,
+                'total_ventas' => 0,
+                'total_visitas' => 0
             ]
         ];
 
-        return view('dashboard/superadmin', $data);
+        return view('Dashboard/superadmin', $data);
     }
 
     public function toggleEmpresa()

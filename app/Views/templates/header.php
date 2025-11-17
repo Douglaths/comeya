@@ -23,7 +23,21 @@
     footer {
       margin-top: auto;
     }
+    .restaurant-card:hover h5 {
+      color: #ff6b35 !important;
+    }
+    .restaurant-img {
+      height: 200px;
+      object-fit: cover;
+    }
   </style>
 </head>
-<body>
-<div class="content-wrapper">
+  <!-- Header Hero -->
+  <header class="hero-header text-center">
+    <div class="container">
+      <i class="bi bi-x-lg d-block mx-auto mb-3" style="font-size: 1.5rem;"></i>
+      <h1 class="display-5 fw-bold">Menús Digitales para tu Restaurante</h1>
+      <p class="lead">Moderniza tu negocio con menús digitales interactivos. Fácil de gestionar, perfecto para tus clientes.</p>
+      <a href="#" class="btn btn-primary-custom px-4 py-2 rounded-pill">Comenzar Ahora</a>
+    </div>
+  </header>

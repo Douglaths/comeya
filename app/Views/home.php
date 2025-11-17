@@ -1,87 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menús Digitales</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Iconos de Bootstrap -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <style>
-    .hero-header {
-      background-color: #ff6b35;
-      color: white;
-      padding: 3rem 0;
-    }
-    .btn-primary-custom {
-      background-color: #fff;
-      color: #ff6b35;
-      font-weight: bold;
-    }
-    .btn-primary-custom:hover {
-      background-color: #f0f0f0;
-    }
-    .restaurant-card {
-      border: 1px solid #eee;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: box-shadow 0.4s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .restaurant-card .p-3 {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .restaurant-card .mt-auto {
-      margin-top: auto;
-    }
-    .restaurant-card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .restaurant-card:hover h5 {
-      color: #ff6b35;
-    }
-    .restaurant-img {
-      height: 180px;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .badge-type {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 0.75rem;
-      padding: 0.35em 0.65em;
-      z-index: 10;
-    }
-    .btn-menu {
-      background-color: #ff6b35;
-      border: none;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-    .btn-menu:hover {
-      background-color: #e55a2b;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Header Hero -->
-  <header class="hero-header text-center">
-    <div class="container">
-      <i class="bi bi-x-lg d-block mx-auto mb-3" style="font-size: 1.5rem;"></i>
-      <h1 class="display-5 fw-bold">Menús Digitales para tu Restaurante</h1>
-      <p class="lead">Moderniza tu negocio con menús digitales interactivos. Fácil de gestionar, perfecto para tus clientes.</p>
-      <a href="#" class="btn btn-primary-custom px-4 py-2 rounded-pill">Comenzar Ahora</a>
-    </div>
-  </header>
+<?= $this->include('templates/header') ?>
 
   <!-- Carrusel de Promociones -->
   <div id="promoCarouselSmall" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" style="height: 120px;">
@@ -206,7 +123,4 @@
     </div>
   </section>
 
-  <!-- Bootstrap 5 JS (opcional, para interacciones) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?= $this->include('templates/footer') ?>
