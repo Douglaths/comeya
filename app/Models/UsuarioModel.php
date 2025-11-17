@@ -4,26 +4,26 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EmpresaModel extends Model
+class UsuarioModel extends Model
 {
-    protected $table = 'empresas';
+    protected $table = 'usuarios';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['nombre', 'email', 'telefono', 'direccion', 'ciudad', 'plan', 'estado', 'fecha_trial_fin', 'limite_productos', 'activo', 'fecha_alta'];
+    protected $allowedFields = ['empresa_id', 'nombre', 'email', 'password', 'rol', 'activo'];
 
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at';
 
     protected $validationRules = [
         'nombre' => 'required|min_length[3]|max_length[255]',
-        'email' => 'required|valid_email|is_unique[empresas.email]',
-        'activo' => 'in_list[0,1]'
+        'email' => 'required|valid_email|is_unique[usuarios.email]',
+        'password' => 'required|min_length[6]',
+        'rol' => 'required|in_list[superadmin,admin_empresa,usuario]'
     ];
 
     protected $validationMessages = [
