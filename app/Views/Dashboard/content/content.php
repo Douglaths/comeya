@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <main class="main-content">
 
 <!--Nav Start-->
@@ -130,6 +131,8 @@
                 </div>
             </nav>
             <!--Nav End-->
+=======
+>>>>>>> Stashed changes
 
 <div class="content-page">
         <div class="conatiner-fluid content-inner mt-5 py-0">
