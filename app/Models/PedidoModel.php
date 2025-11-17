@@ -10,29 +10,34 @@ class PedidoModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['empresa_id', 'numero_pedido', 'cliente_nombre', 'cliente_email', 'cliente_telefono', 'subtotal', 'impuestos', 'total', 'estado', 'fecha_pedido'];
     protected $useTimestamps = true;
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
 
     public function getVentasHoy()
     {
-        return $this->selectSum('total')
-                   ->where('DATE(fecha_pedido)', date('Y-m-d'))
-                   ->where('estado !=', 'cancelado')
-                   ->get()->getRow()->total ?? 0;
+        $result = $this->selectSum('total')
+                      ->where('DATE(fecha_pedido)', date('Y-m-d'))
+                      ->where('estado !=', 'cancelado')
+                      ->get()->getRow();
+        return $result ? ($result->total ?? 0) : 0;
     }
 
     public function getVentasMes()
     {
-        return $this->selectSum('total')
-                   ->where('YEAR(fecha_pedido)', date('Y'))
-                   ->where('MONTH(fecha_pedido)', date('m'))
-                   ->where('estado !=', 'cancelado')
-                   ->get()->getRow()->total ?? 0;
+        $result = $this->selectSum('total')
+                      ->where('YEAR(fecha_pedido)', date('Y'))
+                      ->where('MONTH(fecha_pedido)', date('m'))
+                      ->where('estado !=', 'cancelado')
+                      ->get()->getRow();
+        return $result ? ($result->total ?? 0) : 0;
     }
 
     public function getVentasTotal()
     {
-        return $this->selectSum('total')
-                   ->where('estado !=', 'cancelado')
-                   ->get()->getRow()->total ?? 0;
+        $result = $this->selectSum('total')
+                      ->where('estado !=', 'cancelado')
+                      ->get()->getRow();
+        return $result ? ($result->total ?? 0) : 0;
     }
 
     public function getPedidosHoy()

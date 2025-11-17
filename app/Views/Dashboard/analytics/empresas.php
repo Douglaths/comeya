@@ -13,8 +13,8 @@
             <div class="conatiner-fluid content-inner mt-5 py-0">
                 <div class="row">
                     <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
-                        <h2>Ventas por Empresa</h2>
-                        <a href="<?= base_url('public/superadmin/ventas') ?>" class="btn btn-secondary">
+                        <h2>Visitas por Empresa</h2>
+                        <a href="<?= base_url('public/superadmin/analytics') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver
                         </a>
                     </div>
@@ -42,14 +42,14 @@
                 <!-- Ranking de empresas -->
                 <div class="card">
                     <div class="card-header">
-                        <h5>Ranking de Empresas por Ventas</h5>
+                        <h5>Ranking de Empresas por Visitas</h5>
                         <small class="text-muted">Período: <?= $fechaInicio ?> - <?= $fechaFin ?></small>
                     </div>
                     <div class="card-body">
                         <?php if (empty($rankingEmpresas)): ?>
                             <div class="text-center py-4">
                                 <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
-                                <p class="text-muted">No hay datos de ventas para el período seleccionado</p>
+                                <p class="text-muted">No hay datos de visitas para el período seleccionado</p>
                             </div>
                         <?php else: ?>
                             <div class="table-responsive">
@@ -58,9 +58,9 @@
                                         <tr>
                                             <th>Posición</th>
                                             <th>Empresa</th>
-                                            <th>Total Ventas</th>
-                                            <th>Pedidos</th>
-                                            <th>Promedio por Pedido</th>
+                                            <th>Total Visitas</th>
+                                            <th>Visitantes Únicos</th>
+                                            <th>Promedio Visitas/Visitante</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,15 +75,15 @@
                                                     <strong><?= esc($empresa['nombre']) ?></strong>
                                                 </td>
                                                 <td>
-                                                    <span class="text-success fw-bold">
-                                                        €<?= number_format($empresa['total_ventas'], 2) ?>
+                                                    <span class="text-primary fw-bold">
+                                                        <?= number_format($empresa['total_visitas']) ?>
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-info"><?= $empresa['total_pedidos'] ?></span>
+                                                    <span class="badge bg-info"><?= $empresa['visitantes_unicos'] ?></span>
                                                 </td>
                                                 <td>
-                                                    €<?= number_format($empresa['total_ventas'] / $empresa['total_pedidos'], 2) ?>
+                                                    <?= number_format($empresa['total_visitas'] / max($empresa['visitantes_unicos'], 1), 1) ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -98,7 +98,6 @@
                         <?php endif; ?>
                     </div>
                 </div>
-                </div>
             </div>
         </main>
     </div>
@@ -110,14 +109,14 @@ const ctx = document.getElementById('empresasChart').getContext('2d');
 const empresasData = <?= json_encode($rankingEmpresas) ?>;
 
 const labels = empresasData.map(item => item.nombre);
-const data = empresasData.map(item => parseFloat(item.total_ventas));
+const data = empresasData.map(item => parseInt(item.total_visitas));
 
 new Chart(ctx, {
     type: 'bar',
     data: {
         labels: labels,
         datasets: [{
-            label: 'Ventas (€)',
+            label: 'Visitas',
             data: data,
             backgroundColor: 'rgba(54, 162, 235, 0.8)',
             borderColor: 'rgba(54, 162, 235, 1)',
@@ -128,12 +127,7 @@ new Chart(ctx, {
         responsive: true,
         scales: {
             y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return '€' + value.toFixed(2);
-                    }
-                }
+                beginAtZero: true
             }
         }
     }

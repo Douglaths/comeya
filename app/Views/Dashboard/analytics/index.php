@@ -13,15 +13,7 @@
             <div class="conatiner-fluid content-inner mt-5 py-0">
                 <div class="row">
                     <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
-                        <h2>Resumen de Ventas</h2>
-                        <div>
-                            <a href="<?= base_url('public/superadmin/ventas/exportar?tipo=csv') ?>" class="btn btn-success btn-sm">
-                                <i class="fas fa-file-csv"></i> Exportar CSV
-                            </a>
-                            <a href="<?= base_url('public/superadmin/ventas/exportar?tipo=excel') ?>" class="btn btn-primary btn-sm">
-                                <i class="fas fa-file-excel"></i> Exportar Excel
-                            </a>
-                        </div>
+                        <h2>Analytics y Visitas</h2>
                     </div>
 
                 <!-- Estadísticas principales -->
@@ -31,11 +23,11 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6 class="card-title">Ventas Hoy</h6>
-                                        <h4>€<?= number_format($ventasHoy, 2) ?></h4>
+                                        <h6 class="card-title">Visitas Hoy</h6>
+                                        <h4><?= number_format($visitasHoy) ?></h4>
                                     </div>
                                     <div class="align-self-center">
-                                        <i class="fas fa-euro-sign fa-2x"></i>
+                                        <i class="fas fa-eye fa-2x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -46,8 +38,8 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6 class="card-title">Ventas del Mes</h6>
-                                        <h4>€<?= number_format($ventasMes, 2) ?></h4>
+                                        <h6 class="card-title">Visitas del Mes</h6>
+                                        <h4><?= number_format($visitasMes) ?></h4>
                                     </div>
                                     <div class="align-self-center">
                                         <i class="fas fa-chart-line fa-2x"></i>
@@ -61,11 +53,11 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6 class="card-title">Total Facturado</h6>
-                                        <h4>€<?= number_format($ventasTotal, 2) ?></h4>
+                                        <h6 class="card-title">Total Visitas</h6>
+                                        <h4><?= number_format($visitasTotal) ?></h4>
                                     </div>
                                     <div class="align-self-center">
-                                        <i class="fas fa-coins fa-2x"></i>
+                                        <i class="fas fa-users fa-2x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -76,11 +68,11 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6 class="card-title">Pedidos Hoy</h6>
-                                        <h4><?= $pedidosHoy ?></h4>
+                                        <h6 class="card-title">Empresas Activas</h6>
+                                        <h4><?= $empresasActivas ?></h4>
                                     </div>
                                     <div class="align-self-center">
-                                        <i class="fas fa-shopping-cart fa-2x"></i>
+                                        <i class="fas fa-building fa-2x"></i>
                                     </div>
                                 </div>
                             </div>
@@ -88,13 +80,13 @@
                     </div>
                 </div>
 
-                <!-- Gráfico de ventas -->
+                <!-- Gráfico de visitas -->
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h5>Ventas de los Últimos 30 Días</h5>
+                        <h5>Visitas de los Últimos 30 Días</h5>
                     </div>
                     <div class="card-body">
-                        <canvas id="ventasChart" height="100"></canvas>
+                        <canvas id="visitasChart" height="100"></canvas>
                     </div>
                 </div>
 
@@ -104,29 +96,29 @@
                         <div class="card">
                             <div class="card-body text-center">
                                 <i class="fas fa-building fa-3x text-primary mb-3"></i>
-                                <h5>Ventas por Empresa</h5>
+                                <h5>Visitas por Empresa</h5>
                                 <p>Ranking y análisis por empresa</p>
-                                <a href="<?= base_url('public/superadmin/ventas/empresas') ?>" class="btn btn-primary">Ver Ranking</a>
+                                <a href="<?= base_url('public/superadmin/analytics/empresas') ?>" class="btn btn-primary">Ver Ranking</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body text-center">
-                                <i class="fas fa-box fa-3x text-success mb-3"></i>
-                                <h5>Top Productos</h5>
-                                <p>Productos más vendidos</p>
-                                <a href="<?= base_url('public/superadmin/ventas/productos') ?>" class="btn btn-success">Ver Productos</a>
+                                <i class="fas fa-mobile-alt fa-3x text-success mb-3"></i>
+                                <h5>Dispositivos</h5>
+                                <p>Móvil vs Desktop y navegadores</p>
+                                <a href="<?= base_url('public/superadmin/analytics/dispositivos') ?>" class="btn btn-success">Ver Stats</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body text-center">
-                                <i class="fas fa-list fa-3x text-info mb-3"></i>
-                                <h5>Pedidos Globales</h5>
-                                <p>Listado completo de pedidos</p>
-                                <a href="<?= base_url('public/superadmin/ventas/pedidos') ?>" class="btn btn-info">Ver Pedidos</a>
+                                <i class="fas fa-share-alt fa-3x text-info mb-3"></i>
+                                <h5>Orígenes de Tráfico</h5>
+                                <p>QR, redes sociales, web</p>
+                                <a href="<?= base_url('public/superadmin/analytics/origenes') ?>" class="btn btn-info">Ver Orígenes</a>
                             </div>
                         </div>
                     </div>
@@ -137,21 +129,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const ctx = document.getElementById('ventasChart').getContext('2d');
+const ctx = document.getElementById('visitasChart').getContext('2d');
 const chartData = <?= json_encode($chartData) ?>;
 
 const labels = chartData.map(item => item.fecha);
-const data = chartData.map(item => parseFloat(item.total));
+const data = chartData.map(item => parseInt(item.total));
 
 new Chart(ctx, {
     type: 'line',
     data: {
         labels: labels,
         datasets: [{
-            label: 'Ventas (€)',
+            label: 'Visitas',
             data: data,
-            borderColor: 'rgb(75, 192, 192)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgb(54, 162, 235)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
             tension: 0.1
         }]
     },
@@ -159,12 +151,7 @@ new Chart(ctx, {
         responsive: true,
         scales: {
             y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return '€' + value.toFixed(2);
-                    }
-                }
+                beginAtZero: true
             }
         }
     }

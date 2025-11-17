@@ -22,26 +22,33 @@ class Ventas extends Controller
 
     public function index()
     {
-        try {
-            $data = [
-                'title' => 'Resumen de Ventas',
-                'ventasHoy' => $this->pedidoModel->getVentasHoy(),
-                'ventasMes' => $this->pedidoModel->getVentasMes(),
-                'ventasTotal' => $this->pedidoModel->getVentasTotal(),
-                'pedidosHoy' => $this->pedidoModel->getPedidosHoy(),
-                'chartData' => $this->pedidoModel->getVentasPorDia(30)
-            ];
-        } catch (\Exception $e) {
-            $data = [
-                'title' => 'Resumen de Ventas',
-                'ventasHoy' => 0,
-                'ventasMes' => 0,
-                'ventasTotal' => 0,
-                'pedidosHoy' => 0,
-                'chartData' => []
-            ];
-        }
+        $ventasHoy = $this->pedidoModel->getVentasHoy();
+        $ventasMes = $this->pedidoModel->getVentasMes();
+        $ventasTotal = $this->pedidoModel->getVentasTotal();
+        $pedidosHoy = $this->pedidoModel->getPedidosHoy();
+        $chartData = $this->pedidoModel->getVentasPorDia(30);
+        
+        // Debug output
+        log_message('debug', 'Ventas Hoy: ' . $ventasHoy);
+        log_message('debug', 'Ventas Mes: ' . $ventasMes);
+        log_message('debug', 'Pedidos Hoy: ' . $pedidosHoy);
+        log_message('debug', 'Chart Data: ' . json_encode($chartData));
+        
+        $data = [
+            'title' => 'Resumen de Ventas',
+            'ventasHoy' => $ventasHoy ?: 0,
+            'ventasMes' => $ventasMes ?: 0,
+            'ventasTotal' => $ventasTotal ?: 0,
+            'pedidosHoy' => $pedidosHoy ?: 0,
+            'chartData' => $chartData ?: []
+        ];
 
+        // Simple test query
+        $db = \Config\Database::connect();
+        $testQuery = $db->query('SELECT COUNT(*) as count FROM pedidos');
+        $testResult = $testQuery->getRow();
+        log_message('debug', 'Total pedidos in DB: ' . $testResult->count);
+        
         return view('dashboard/ventas/index', $data);
     }
 
