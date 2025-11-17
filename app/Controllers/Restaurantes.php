@@ -8,4 +8,9 @@ class Restaurantes extends BaseController
     {
         return view('Restaurantes/restaurantes');
     }
+
+    public function confirmarPedido()
+    {
+        return view('Restaurantes/confirmar_pedido');
+    }
 }

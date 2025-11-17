@@ -590,8 +590,7 @@
         }
 
         function goToConfirm() {
-            document.getElementById('cartView').classList.add('hidden');
-            document.getElementById('confirmView').classList.remove('hidden');
+            window.location.href = '/comeya/public/confirmar-pedido';
         }
 
         function goToCart() {
