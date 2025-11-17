@@ -35,3 +35,12 @@ $routes->get('/superadmin/analytics', 'Analytics::index');
 $routes->get('/superadmin/analytics/empresas', 'Analytics::empresas');
 $routes->get('/superadmin/analytics/dispositivos', 'Analytics::dispositivos');
 $routes->get('/superadmin/analytics/origenes', 'Analytics::origenes');
+
+// Rutas de Contabilidad
+$routes->get('/superadmin/contabilidad', 'Contabilidad::index');
+$routes->get('/superadmin/contabilidad/facturas', 'Contabilidad::facturas');
+$routes->get('/superadmin/contabilidad/pagos', 'Contabilidad::pagos');
+$routes->get('/superadmin/contabilidad/morosos', 'Contabilidad::morosos');
+$routes->get('/superadmin/contabilidad/planes', 'Contabilidad::planes');
+$routes->match(['get', 'post'], '/superadmin/contabilidad/crear-plan', 'Contabilidad::crearPlan');
+$routes->get('/superadmin/contabilidad/exportar', 'Contabilidad::exportarReporte');
