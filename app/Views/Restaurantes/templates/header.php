@@ -266,7 +266,7 @@
             align-items: stretch;
         }
 
-        #destacadosCarousel .col-md-6 {
+        #destacadosCarousel .col-md-4 {
             display: flex;
         }
 

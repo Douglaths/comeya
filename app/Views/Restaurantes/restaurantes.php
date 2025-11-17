@@ -10,7 +10,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card card-destacado">
                                 <span class="badge-destacado">Destacado</span>
                                 <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&h=300&fit=crop" alt="Provoleta Argentina">
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card card-destacado">
                                 <span class="badge-destacado">Destacado</span>
                                 <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500&h=300&fit=crop" alt="Bife de Chorizo Premium">
@@ -32,11 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card card-destacado">
                                 <span class="badge-destacado">Destacado</span>
                                 <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500&h=300&fit=crop" alt="Ensalada Gourmet">
@@ -47,7 +43,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row g-3">
+                        <div class="col-md-4">
                             <div class="card card-destacado">
                                 <span class="badge-destacado">Destacado</span>
                                 <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=300&fit=crop" alt="Tacos Especiales">
@@ -56,6 +56,28 @@
                                     <p class="card-text">Trio de tacos con carne asada, pollo y carnitas con guacamole</p>
                                     <div class="price">$16.50</div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-destacado">
+                                <span class="badge-destacado">Destacado</span>
+                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&h=300&fit=crop" alt="Pasta Fresca">
+                                <div class="card-body">
+                                    <h3 class="card-title">Pasta Fresca</h3>
+                                    <p class="card-text">Pasta artesanal con salsa de tomate y albahaca fresca</p>
+                                    <div class="price">$14.90</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-destacado">
+                                <span class="badge-destacado">Destacado</span>
+                                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=300&fit=crop" alt="Burger Gourmet">
+                                <div class="card-body">
+                                    <h3 class="card-title">Burger Gourmet</h3>
+                                    <p class="card-text">Hamburguesa artesanal con carne angus y papas fritas</p>
+                                    <div class="price">$18.50</div>
+as                                </div>
                             </div>
                         </div>
                     </div>
