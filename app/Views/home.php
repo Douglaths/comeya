@@ -173,12 +173,3 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<?= $this->include('templates/header') ?>
-
-<div class="container">
-    <h1>Bienvenido a mi sitio web</h1>
-    <p>Este es el contenido principal de la página.</p>
-</div>
-
-<?= $this->include('templates/footer') ?>
