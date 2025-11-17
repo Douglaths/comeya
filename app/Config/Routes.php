@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('/restaurantes', 'Restaurantes::index');
 $routes->get('/confirmar-pedido', 'Restaurantes::confirmarPedido');
+$routes->get('/login', 'Login::index');
 
 // Rutas del Super Admin
 $routes->get('/superadmin', 'Superadmin::index');

@@ -45,8 +45,13 @@
   </style>
 </head>
   <!-- Header Hero -->
-  <header class="hero-header text-center">
+  <header class="hero-header text-center position-relative">
     <div class="container">
+      <div class="position-absolute top-0 end-0 p-3">
+        <a href="<?= base_url('/login') ?>" class="btn btn-light px-3 py-2 rounded-pill fw-semibold" style="color: #ff6b35; border: 2px solid white;">
+          <i class="bi bi-person-circle me-1"></i> Login
+        </a>
+      </div>
       <img src="<?= base_url('public/assets/images/logos/logo.png') ?>" alt="Logo" class="mb-4 logo-responsive">
       <h1 class="display-6 fw-bold">¡Pide lo que Quieras!</h1>
       <p class="lead">Descubre los mejores restaurantes y ordena tu comida favorita desde cualquier lugar.</p>
