@@ -1,5 +1,4 @@
 <?= $this->include('templates/header') ?>
-
   <!-- Carrusel de Promociones -->
   <section class="py-3 bg-light">
     <div class="container">
@@ -72,14 +71,8 @@
       </div>
     </div>
   </section>
-
-
-
   <?= $this->include('templates/sidebar') ?>
- 
-
           <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-
         <!-- Restaurante 1 -->
         <div class="col">
           <div class="restaurant-card h-100 position-relative">
