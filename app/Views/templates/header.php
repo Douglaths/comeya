@@ -31,14 +31,25 @@
       height: 200px;
       object-fit: cover;
     }
+    .logo-responsive {
+      max-height: 240px;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+    }
+    @media (max-width: 768px) {
+      .logo-responsive {
+        max-height: 120px;
+      }
+    }
   </style>
 </head>
   <!-- Header Hero -->
   <header class="hero-header text-center">
     <div class="container">
-      <img src="<?= base_url('public/assets/images/logos/logo.png') ?>" alt="Logo" class="mb-4" style="max-height: 240px; width: auto;">
-      <h1 class="display-6 fw-bold">Menús Digitales para tu Restaurante</h1>
-      <p class="lead">Moderniza tu negocio con menús digitales interactivos. Fácil de gestionar, perfecto para tus clientes.</p>
+      <img src="<?= base_url('public/assets/images/logos/logo.png') ?>" alt="Logo" class="mb-4 logo-responsive">
+      <h1 class="display-6 fw-bold">¡Pide lo que Quieras!</h1>
+      <p class="lead">Descubre los mejores restaurantes y ordena tu comida favorita desde cualquier lugar.</p>
       <a href="#" class="btn btn-primary-custom px-4 py-2 rounded-pill">Comenzar Ahora</a>
     </div>
   </header>
