@@ -10,6 +10,8 @@ class ProductoModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['empresa_id', 'nombre', 'descripcion', 'precio', 'categoria', 'activo'];
     protected $useTimestamps = true;
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
 
     public function getTopProductos($fechaInicio, $fechaFin, $limit = 20)
     {

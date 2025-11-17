@@ -13,16 +13,16 @@
             <div class="conatiner-fluid content-inner mt-5 py-0">
                 <div class="row">
                     <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
-                    <h2>Resumen de Ventas</h2>
-                    <div>
-                        <a href="<?= base_url('public/superadmin/ventas/exportar?tipo=csv') ?>" class="btn btn-success btn-sm">
-                            <i class="fas fa-file-csv"></i> Exportar CSV
-                        </a>
-                        <a href="<?= base_url('public/superadmin/ventas/exportar?tipo=excel') ?>" class="btn btn-primary btn-sm">
-                            <i class="fas fa-file-excel"></i> Exportar Excel
-                        </a>
+                        <h2>Resumen de Ventas</h2>
+                        <div>
+                            <a href="<?= base_url('public/superadmin/ventas/exportar?tipo=csv') ?>" class="btn btn-success btn-sm">
+                                <i class="fas fa-file-csv"></i> Exportar CSV
+                            </a>
+                            <a href="<?= base_url('public/superadmin/ventas/exportar?tipo=excel') ?>" class="btn btn-primary btn-sm">
+                                <i class="fas fa-file-excel"></i> Exportar Excel
+                            </a>
+                        </div>
                     </div>
-                </div>
 
                 <!-- Estadísticas principales -->
                 <div class="row mb-4">
@@ -132,9 +132,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>

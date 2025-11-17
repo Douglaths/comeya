@@ -1,19 +1,23 @@
-<?= $this->include('dashboard/templates/header') ?>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <?= $this->include('dashboard/templates/navbar') ?>
+<?= $this->include('Dashboard/templates/header') ?>
+<body class="">
+    <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
         </div>
-        
-        <div class="col-md-9">
-            <div class="main-content">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>Ventas por Empresa</h2>
-                    <a href="<?= base_url('public/superadmin/ventas') ?>" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </a>
-                </div>
+    </div>
+
+    <?= $this->include('Dashboard/templates/navbar') ?>
+
+    <div class="content-page">
+        <main class="main-content">
+            <div class="conatiner-fluid content-inner mt-5 py-0">
+                <div class="row">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
+                        <h2>Ventas por Empresa</h2>
+                        <a href="<?= base_url('public/superadmin/ventas') ?>" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
 
                 <!-- Filtros de fecha -->
                 <div class="card mb-4">
@@ -94,10 +98,10 @@
                         <?php endif; ?>
                     </div>
                 </div>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
