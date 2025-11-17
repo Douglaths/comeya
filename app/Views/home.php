@@ -1,59 +1,83 @@
 <?= $this->include('templates/header') ?>
 
   <!-- Carrusel de Promociones -->
-  <div id="promoCarouselSmall" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" style="height: 120px;">
-    <div class="carousel-inner h-100">
-      <div class="carousel-item active h-100">
-        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=120&fit=crop" class="d-block w-100 h-100" style="object-fit: cover;" alt="Promoción Pizza">
-      </div>
-      <div class="carousel-item h-100">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=120&fit=crop" class="d-block w-100 h-100" style="object-fit: cover;" alt="Promoción Tacos">
-      </div>
-      <div class="carousel-item h-100">
-        <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=1200&h=120&fit=crop" class="d-block w-100 h-100" style="object-fit: cover;" alt="Promoción Sushi">
-      </div>
-    </div>
-  </div>
-
-  <!-- Filtros y Búsqueda -->
-  <section class="py-4 bg-light">
+  <section class="py-3 bg-light">
     <div class="container">
-      <div class="row g-3 align-items-center">
-        <div class="col-md-6">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-            <input type="text" class="form-control border-start-0" placeholder="Buscar restaurantes...">
+      <h5 class="mb-3">Promociones Especiales</h5>
+      <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="card border-0 shadow-sm position-relative">
+                  <span class="badge bg-danger position-absolute top-0 end-0 m-2 px-3 py-2" style="z-index: 10; font-size: 14px; border-radius: 20px;"><i class="bi bi-percent me-1"></i>2x1</span>
+                  <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=200&fit=crop" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Promoción Pizza">
+                  <div class="card-body p-2">
+                    <small class="text-muted">Pizza 2x1 - Solo hoy</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card border-0 shadow-sm position-relative">
+                  <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2 px-3 py-2" style="z-index: 10; font-size: 14px; border-radius: 20px;"><i class="bi bi-percent me-1"></i>15% OFF</span>
+                  <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=200&fit=crop" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Promoción Tacos">
+                  <div class="card-body p-2">
+                    <small class="text-muted">Tacos + Bebida - 15% OFF</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card border-0 shadow-sm position-relative">
+                  <span class="badge bg-success position-absolute top-0 end-0 m-2 px-3 py-2" style="z-index: 10; font-size: 14px; border-radius: 20px;"><i class="bi bi-percent me-1"></i>20% OFF</span>
+                  <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=200&fit=crop" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Promoción Sushi">
+                  <div class="card-body p-2">
+                    <small class="text-muted">Sushi Premium - 20% OFF</small>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <select class="form-select">
-            <option>Todas las ciudades</option>
-            <option>Madrid</option>
-            <option>Sevilla</option>
-            <option>Barcelona</option>
-            <option>Valencia</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <select class="form-select">
-            <option>Todos los tipos</option>
-            <option>Parrilla</option>
-            <option>Italiana</option>
-            <option>Japonesa</option>
-            <option>Mexicana</option>
-          </select>
+          <div class="carousel-item">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="card border-0 shadow-sm position-relative">
+                  <span class="badge bg-info position-absolute top-0 end-0 m-2 px-3 py-2" style="z-index: 10; font-size: 14px; border-radius: 20px;"><i class="bi bi-percent me-1"></i>25% OFF</span>
+                  <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=200&fit=crop" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Promoción Pasta">
+                  <div class="card-body p-2">
+                    <small class="text-muted">Pasta Fresca - 25% OFF</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card border-0 shadow-sm position-relative">
+                  <span class="badge bg-primary position-absolute top-0 end-0 m-2 px-3 py-2" style="z-index: 10; font-size: 14px; border-radius: 20px;"><i class="bi bi-gift me-1"></i>GRATIS</span>
+                  <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=200&fit=crop" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Promoción Burger">
+                  <div class="card-body p-2">
+                    <small class="text-muted">Burger + Papas - Gratis</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card border-0 shadow-sm position-relative">
+                  <span class="badge bg-success position-absolute top-0 end-0 m-2 px-3 py-2" style="z-index: 10; font-size: 14px; border-radius: 20px;"><i class="bi bi-percent me-1"></i>30% OFF</span>
+                  <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400&h=200&fit=crop" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Promoción Ensalada">
+                  <div class="card-body p-2">
+                    <small class="text-muted">Ensaladas Saludables - 30% OFF</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Restaurantes Disponibles -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="mb-4">Restaurantes Disponibles</h2>
-      <p class="text-muted mb-4">4 restaurantes</p>
 
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+  <?= $this->include('templates/sidebar') ?>
+
+          <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
 
         <!-- Restaurante 1 -->
         <div class="col">
@@ -119,6 +143,8 @@
           </div>
         </div>
 
+          </div>
+        </div>
       </div>
     </div>
   </section>
