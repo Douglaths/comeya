@@ -1,79 +1,109 @@
-<!-- Contenido Principal con Sidebar -->
-<section class="py-5">
-  <div class="container">
-    <div class="row">
-      <!-- Sidebar de Filtros -->
-      <div class="col-lg-4">
-        <div class="bg-white p-5 rounded-3 shadow-sm sticky-top" style="top: 20px; border: 1px solid #f0f0f0;">
-          <!-- Búsqueda -->
-          <div class="mb-5">
-            <h4 class="fw-bold mb-4" style="color: #ff6b35; font-size: 1.5rem;">Buscar</h4>
-            <div class="input-group" style="height: 50px;">
-              <span class="input-group-text bg-white border-end-0" style="color: #ff6b35;"><i class="bi bi-search"></i></span>
-              <input type="text" class="form-control border-start-0" placeholder="Buscar restaurantes..." style="font-size: 18px;">
+ <!-- Contenido Principal con Sidebar -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar de Filtros -->
+        <div class="col-lg-3">
+          <div class="bg-white p-4 rounded shadow-sm sticky-top" style="top: 20px;">
+            <!-- Búsqueda -->
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3">Buscar</h6>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control border-start-0" placeholder="Buscar restaurantes...">
+              </div>
             </div>
-          </div>
-          
-          <!-- Promociones -->
-          <div class="mb-5">
-            <h4 class="fw-bold mb-4" style="color: #ff6b35; font-size: 1.5rem;">Promociones</h4>
-            <div class="d-grid gap-4">
-              <label class="btn btn-outline-secondary text-start p-4" style="border-radius: 15px; font-size: 16px;">
-                <input type="radio" name="promo" class="form-check-input me-3" style="accent-color: #ff6b35;">
-                <span class="badge me-2" style="background-color: #ff6b35;">2x1</span>Ofertas 2x1
-              </label>
-              <label class="btn btn-outline-secondary text-start p-4" style="border-radius: 15px; font-size: 16px;">
-                <input type="radio" name="promo" class="form-check-input me-3" style="accent-color: #ff6b35;">
-                <span class="badge bg-success me-2">GRATIS</span>Envío Gratis
-              </label>
-              <label class="btn btn-outline-secondary text-start p-4" style="border-radius: 15px; font-size: 16px;">
-                <input type="radio" name="promo" class="form-check-input me-3" style="accent-color: #ff6b35;">
-                <span class="badge me-2" style="background-color: #ff6b35;">%</span>Descuentos
-              </label>
+            
+            <!-- Promociones -->
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3 text-danger"><i class="bi bi-fire me-2"></i>Promociones</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="promo2x1">
+                <label class="form-check-label" for="promo2x1">
+                  <span class="badge bg-danger me-2">2x1</span>Ofertas 2x1
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="promoGratis">
+                <label class="form-check-label" for="promoGratis">
+                  <span class="badge bg-success me-2">GRATIS</span>Envío Gratis
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="promoDescuento">
+                <label class="form-check-label" for="promoDescuento">
+                  <span class="badge bg-warning text-dark me-2">%</span>Descuentos
+                </label>
+              </div>
             </div>
-          </div>
-          
-          <!-- Ciudades -->
-          <div class="mb-5">
-            <h4 class="fw-bold mb-4" style="color: #ff6b35; font-size: 1.5rem;">Ciudades</h4>
-            <div class="d-grid gap-3">
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="ciudad" class="form-check-input me-3" style="accent-color: #ff6b35;">Madrid
-              </label>
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="ciudad" class="form-check-input me-3" style="accent-color: #ff6b35;">Sevilla
-              </label>
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="ciudad" class="form-check-input me-3" style="accent-color: #ff6b35;">Barcelona
-              </label>
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="ciudad" class="form-check-input me-3" style="accent-color: #ff6b35;">Valencia
-              </label>
+            
+            <!-- Ciudades -->
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3"><i class="bi bi-geo-alt me-2"></i>Ciudades</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="madrid">
+                <label class="form-check-label" for="madrid">Madrid</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="sevilla">
+                <label class="form-check-label" for="sevilla">Sevilla</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="barcelona">
+                <label class="form-check-label" for="barcelona">Barcelona</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="valencia">
+                <label class="form-check-label" for="valencia">Valencia</label>
+              </div>
             </div>
-          </div>
-          
-          <!-- Tipos de Comida -->
-          <div class="mb-4">
-            <h4 class="fw-bold mb-4" style="color: #ff6b35; font-size: 1.5rem;">Tipo de Comida</h4>
-            <div class="d-grid gap-3">
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="comida" class="form-check-input me-3" style="accent-color: #ff6b35;">Parrilla
-              </label>
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="comida" class="form-check-input me-3" style="accent-color: #ff6b35;">Italiana
-              </label>
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="comida" class="form-check-input me-3" style="accent-color: #ff6b35;">Japonesa
-              </label>
-              <label class="btn btn-outline-light text-start p-4" style="border-radius: 15px; border-color: #e0e0e0; color: #333; font-size: 16px;">
-                <input type="radio" name="comida" class="form-check-input me-3" style="accent-color: #ff6b35;">Mexicana
-              </label>
+            
+            <!-- Tipos de Comida -->
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3"><i class="bi bi-cup-hot me-2"></i>Tipo de Comida</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="parrilla">
+                <label class="form-check-label" for="parrilla">
+                  <i class="bi bi-fire me-1 text-danger"></i>Parrilla
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="italiana">
+                <label class="form-check-label" for="italiana">
+                  <i class="bi bi-circle-fill me-1 text-success"></i>Italiana
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="japonesa">
+                <label class="form-check-label" for="japonesa">
+                  <i class="bi bi-circle-fill me-1 text-info"></i>Japonesa
+                </label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="mexicana">
+                <label class="form-check-label" for="mexicana">
+                  <i class="bi bi-circle-fill me-1 text-warning"></i>Mexicana
+                </label>
+              </div>
+            </div>
+            
+            <!-- Ofertas Especiales -->
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3 text-primary"><i class="bi bi-gift me-2"></i>Ofertas Especiales</h6>
+              <div class="alert alert-warning p-2 mb-2">
+                <small class="fw-bold"><i class="bi bi-lightning-fill me-1"></i>¡Bebida GRATIS!</small>
+              </div>
+              <div class="alert alert-success p-2 mb-2">
+                <small class="fw-bold"><i class="bi bi-truck me-1"></i>Envío sin costo</small>
+              </div>
+              <div class="alert alert-info p-2 mb-2">
+                <small class="fw-bold"><i class="bi bi-percent me-1"></i>Hasta 50% OFF</small>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Contenido Principal -->
-      <div class="col-lg-8">
-        <h2 class="mb-4 fw-bold">Restaurantes Disponibles</h2>
-        <p class="text-muted mb-4">4 restaurantes</p>
+        
+        <!-- Contenido Principal -->
+        <div class="col-lg-9">
+          <h2 class="mb-4 fw-bold">Restaurantes Disponibles</h2>
+          <p class="text-muted mb-4">4 restaurantes</p>
