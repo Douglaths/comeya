@@ -1,5 +1,5 @@
 
-
+ 
 <aside class="sidebar sidebar-default navs-rounded">
         <div class="sidebar-header d-flex align-items-center justify-content-start">
             <a href="../dashboard/index.html" class="navbar-brand">
@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="<?= base_url('superadmin') ?>">
+                        <a class="nav-link active" aria-current="page" href="<?= base_url('public/superadmin') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6.5C3 3.87479 3.02811 3 6.5 3C9.97189 3 10 3.87479 10 6.5C10 9.12521 10.0111 10 6.5 10C2.98893 10 3 9.12521 3 6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('superadmin/empresas') ?>">
+                        <a class="nav-link" href="<?= base_url('public/superadmin/empresas') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.5 2H17.5C19.7091 2 21.5 3.79086 21.5 6V18C21.5 20.2091 19.7091 22 17.5 22H6.5C4.29086 22 2.5 20.2091 2.5 18V6C2.5 3.79086 4.29086 2 6.5 2Z" stroke="currentColor" stroke-width="1.5"/>
@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('superadmin/ventas') ?>">
+                        <a class="nav-link" href="<?= base_url('public/superadmin/ventas') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V16.5M9 19.5C9.8 19.5 10.5 20.2 10.5 21S9.8 22.5 9 22.5 7.5 21.8 7.5 21 8.2 19.5 9 19.5ZM20 19.5C20.8 19.5 21.5 20.2 21.5 21S20.8 22.5 20 22.5 18.5 21.8 18.5 21 19.2 19.5 20 19.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -70,7 +70,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('superadmin/analytics') ?>">
+                        <a class="nav-link" href="<?= base_url('public/superadmin/analytics') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 3V21H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -98,7 +98,7 @@
                         </a>
                         <ul class="sub-nav collapse" id="sidebar-contabilidad" data-bs-parent="#sidebar">
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('superadmin/facturacion') ?>">
+                                <a class="nav-link" href="<?= base_url('public/superadmin/facturacion') ?>">
                                     <i class="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -111,7 +111,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('superadmin/pagos-recibidos') ?>">
+                                <a class="nav-link" href="<?= base_url('public/superadmin/pagos-recibidos') ?>">
                                     <i class="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -124,7 +124,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('superadmin/pagos-pendientes') ?>">
+                                <a class="nav-link" href="<?= base_url('public/superadmin/pagos-pendientes') ?>">
                                     <i class="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -137,7 +137,20 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('superadmin/configuracion-planes') ?>">
+                                <a class="nav-link" href="<?= base_url('public/superadmin/planes') ?>">
+                                    <i class="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                            <g>
+                                                <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                    <i class="sidenav-mini-icon"> P </i>
+                                    <span class="item-name">Planes y precios</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= base_url('public/superadmin/configuracion-planes') ?>">
                                     <i class="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -152,7 +165,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('superadmin/marketing') ?>">
+                        <a class="nav-link" href="<?= base_url('public/superadmin/marketing') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -164,7 +177,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('superadmin/configuracion') ?>">
+                        <a class="nav-link" href="<?= base_url('public/superadmin/configuracion') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -256,11 +269,7 @@
                                         <div class="card-body p-0">
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
-<<<<<<< Updated upstream
                                                     <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/01.png') ?>" alt="">
-=======
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="./assets/images/shapes/01.png" alt="">
->>>>>>> Stashed changes
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Emma Watson Bni</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -273,11 +282,7 @@
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
-<<<<<<< Updated upstream
                                                         <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/02.png') ?>" alt="">
-=======
-                                                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="./assets/images/shapes/02.png" alt="">
->>>>>>> Stashed changes
                                                     </div>
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">New customer is join</h6>
@@ -290,11 +295,7 @@
                                             </a>
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
-<<<<<<< Updated upstream
                                                     <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/03.png') ?>" alt="">
-=======
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="./assets/images/shapes/03.png" alt="">
->>>>>>> Stashed changes
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Two customer is left</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -306,11 +307,7 @@
                                             </a>
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
-<<<<<<< Updated upstream
                                                     <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/04.png') ?>" alt="">
-=======
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="./assets/images/shapes/04.png" alt="">
->>>>>>> Stashed changes
                                                     <div class="w-100 ms-3">
                                                         <h6 class="mb-0 ">New Mail from Fenny</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -326,11 +323,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-<<<<<<< Updated upstream
                                     <img src="<?= base_url('public/assets/images/avatars/01.png') ?>" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
-=======
-                                    <img src="./assets/images/avatars/01.png" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
->>>>>>> Stashed changes
                                     <div class="caption ms-3 d-none d-md-block ">
                                         <h6 class="mb-0 caption-title">James Patterson</h6>
                                         <p class="mb-0 caption-sub-title">Marketing Administrator</p>
