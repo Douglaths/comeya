@@ -9,7 +9,24 @@ $routes->get('/', 'Home::index');
 $routes->get('/restaurante/(:num)', 'Restaurantes::ver/$1');
 $routes->get('/restaurantes', 'Restaurantes::index');
 $routes->get('/confirmar-pedido', 'Restaurantes::confirmarPedido');
+
+// Rutas del Carrito
+$routes->post('carrito/agregar', 'Carrito::agregar');
+$routes->post('carrito/actualizar', 'Carrito::actualizar');
+$routes->post('carrito/eliminar', 'Carrito::eliminar');
+$routes->get('carrito/obtener', 'Carrito::obtener');
+$routes->post('carrito/limpiar', 'Carrito::limpiar');
 $routes->get('/login', 'Login::index');
+$routes->get('uploads/(:any)', function($filename) {
+    $filepath = FCPATH . 'uploads/' . $filename;
+    if (file_exists($filepath)) {
+        $mime = mime_content_type($filepath);
+        header('Content-Type: ' . $mime);
+        readfile($filepath);
+        exit;
+    }
+    throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+});
 
 // Rutas del Admin
 $routes->get('admin', 'Admin::index');
@@ -90,3 +107,6 @@ $routes->get('/superadmin/publicidad/material', 'Publicidad::material');
 $routes->match(['get', 'post'], '/superadmin/publicidad/crear-material', 'Publicidad::crearMaterial');
 $routes->get('/superadmin/publicidad/destacados', 'Publicidad::destacados');
 $routes->post('/superadmin/publicidad/toggle-destacado/(:num)', 'Publicidad::toggleDestacado/$1');
+
+// Ruta para restaurantes (debe ir al final)
+$routes->get('(:any)', 'Restaurantes::verPorNombre/$1');

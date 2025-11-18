@@ -180,7 +180,7 @@
                         <i class="bi bi-telephone-fill ms-3 me-1"></i> <?= esc($restaurante['telefono']) ?>
                       <?php endif; ?>
                     </p>
-                    <a href="<?= base_url('/restaurante/' . $restaurante['id']) ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
+                    <a href="<?= base_url('/' . slugify($restaurante['nombre'])) ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
                   </div>
                 </div>
               </div>

@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Parrilla Dorada</title>
+    <title><?= isset($nombreRestaurante) ? ucfirst(str_replace('-', ' ', $nombreRestaurante)) : 'La Parrilla Dorada' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="<?= base_url('js/carrito.js') ?>" defer></script>
     <style>
         :root {
             --primary-red: #d32323;
@@ -380,17 +381,21 @@
     <div class="header">
         <div class="container">
             <div class="d-flex align-items-center">
-                <i class="fas fa-arrow-left me-3" style="font-size: 1.3rem; cursor: pointer;"></i>
+                <i class="fas fa-arrow-left me-3" style="font-size: 1.3rem; cursor: pointer;" onclick="window.history.back()"></i>
                 <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=100&h=100&fit=crop" alt="Logo" class="restaurant-logo me-3">
                 <div>
-                    <h1 class="restaurant-name">La Parrilla Dorada</h1>
+                    <h1 class="restaurant-name"><?= isset($empresa) ? esc($empresa['nombre']) : (isset($nombreRestaurante) ? ucfirst(str_replace('-', ' ', $nombreRestaurante)) : 'La Parrilla Dorada') ?></h1>
                     <div class="restaurant-info">
-                        <i class="fas fa-map-marker-alt"></i> Madrid
+                        <i class="fas fa-map-marker-alt"></i> <?= isset($empresa) ? esc($empresa['ciudad']) : 'Madrid' ?>
+                        <?php if (isset($empresa) && $empresa['telefono']): ?>
                         <span class="mx-2">•</span>
-                        <i class="fas fa-phone"></i> +34 912 345 678
+                        <i class="fas fa-phone"></i> <?= esc($empresa['telefono']) ?>
+                        <?php endif; ?>
                     </div>
-                    <p class="restaurant-subtitle mb-0">Especialistas en carnes a la brasa y parrilla argentina</p>
+                    <p class="restaurant-subtitle mb-0"><?= isset($empresa) ? esc($empresa['descripcion']) : 'Especialistas en carnes a la brasa y parrilla argentina' ?></p>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
