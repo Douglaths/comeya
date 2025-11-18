@@ -10,6 +10,29 @@ $routes->get('/restaurantes', 'Restaurantes::index');
 $routes->get('/confirmar-pedido', 'Restaurantes::confirmarPedido');
 $routes->get('/login', 'Login::index');
 
+// Rutas del Admin
+$routes->get('admin', 'Admin::index');
+$routes->get('admin/menu', 'Admin::menu');
+$routes->get('admin/productos/crear', 'Admin::crearProducto');
+$routes->post('admin/productos/store', 'Admin::storeProducto');
+$routes->get('admin/productos/editar/(:num)', 'Admin::editarProducto/$1');
+$routes->post('admin/productos/update/(:num)', 'Admin::updateProducto/$1');
+$routes->post('admin/productos/toggle/(:num)', 'Admin::toggleProducto/$1');
+$routes->post('admin/productos/eliminar/(:num)', 'Admin::eliminarProducto/$1');
+$routes->get('admin/productos/ver/(:num)', 'Admin::verProducto/$1');
+$routes->get('admin/pedidos', 'Admin::pedidos');
+$routes->get('admin/pedidos/ver/(:num)', 'Admin::verPedido/$1');
+$routes->post('admin/pedidos/cambiar-estado/(:num)', 'Admin::cambiarEstadoPedido/$1');
+$routes->get('admin/plan', 'Admin::plan');
+$routes->get('admin/configuracion', 'Admin::configuracion');
+$routes->post('admin/cambiar-password', 'Admin::cambiarPassword');
+$routes->post('admin/actualizar-perfil', 'Admin::actualizarPerfil');
+$routes->post('admin/agregar-usuario', 'Admin::agregarUsuario');
+$routes->post('admin/actualizar-notificaciones', 'Admin::actualizarNotificaciones');
+$routes->get('admin/categorias/crear', 'Admin::crearCategoria');
+$routes->post('admin/categorias/store', 'Admin::storeCategoria');
+$routes->post('admin/toggle-empresa', 'Admin::toggleEmpresa');
+
 // Rutas del Super Admin
 $routes->get('/superadmin', 'Superadmin::index');
 $routes->post('/superadmin/toggle-empresa', 'Superadmin::toggleEmpresa');
