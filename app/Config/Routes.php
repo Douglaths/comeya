@@ -8,7 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('/restaurante/(:num)', 'Restaurantes::ver/$1');
 $routes->get('/restaurantes', 'Restaurantes::index');
-$routes->get('/confirmar-pedido', 'Restaurantes::confirmarPedido');
+$routes->get('/restaurantes/confirmar-pedido', 'Restaurantes::confirmarPedido');
 
 // Rutas del Carrito
 $routes->post('carrito/agregar', 'Carrito::agregar');
@@ -16,6 +16,7 @@ $routes->post('carrito/actualizar', 'Carrito::actualizar');
 $routes->post('carrito/eliminar', 'Carrito::eliminar');
 $routes->get('carrito/obtener', 'Carrito::obtener');
 $routes->post('carrito/limpiar', 'Carrito::limpiar');
+$routes->post('carrito/confirmar-limpieza', 'Carrito::confirmarLimpieza');
 $routes->get('/login', 'Login::index');
 $routes->get('uploads/(:any)', function($filename) {
     $filepath = FCPATH . 'uploads/' . $filename;

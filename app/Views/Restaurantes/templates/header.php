@@ -375,6 +375,27 @@
             opacity: 1;
             visibility: visible;
         }
+
+        @media (max-width: 768px) {
+            #cartModal {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .cart-float-btn {
+                bottom: 15px;
+                right: 15px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+            
+            .cart-count {
+                width: 22px;
+                height: 22px;
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>

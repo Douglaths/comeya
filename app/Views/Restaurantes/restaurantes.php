@@ -114,7 +114,9 @@ as                                </div>
                                 data-id="<?= $producto['id'] ?>"
                                 data-nombre="<?= esc($producto['nombre']) ?>"
                                 data-precio="<?= $producto['precio'] ?>"
-                                data-imagen="<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop' ?>">
+                                data-imagen="<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop' ?>"
+                                data-restaurante-id="<?= isset($empresa) ? $empresa['id'] : $nombreRestaurante ?>"
+                                data-restaurante-nombre="<?= isset($empresa) ? esc($empresa['nombre']) : ucfirst(str_replace('-', ' ', $nombreRestaurante)) ?>">
                             <i class="fas fa-plus"></i> Agregar
                         </button>
                     </div>
