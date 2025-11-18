@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('/restaurante/(:num)', 'Restaurantes::ver/$1');
 $routes->get('/restaurantes', 'Restaurantes::index');
 $routes->get('/confirmar-pedido', 'Restaurantes::confirmarPedido');
 $routes->get('/login', 'Login::index');

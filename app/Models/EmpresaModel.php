@@ -8,30 +8,77 @@ class EmpresaModel extends Model
 {
     protected $table = 'empresas';
     protected $primaryKey = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType = 'array';
-    protected $useSoftDeletes = false;
-    protected $protectFields = true;
-    protected $allowedFields = ['nombre', 'email', 'telefono', 'direccion', 'ciudad', 'plan', 'estado', 'fecha_trial_fin', 'limite_productos', 'activo', 'fecha_alta'];
+    protected $allowedFields = ['nombre', 'email', 'telefono', 'direccion', 'descripcion', 'ciudad', 'categoria_comida', 'promociones', 'envio_gratis', 'descuento_activo', 'oferta_2x1', 'plan', 'estado', 'activo', 'destacado'];
 
-    protected $useTimestamps = false;
-    protected $dateFormat = 'datetime';
-    protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
-    protected $deletedField = 'deleted_at';
+    public function getRestaurantesActivos($filters = [])
+    {
+        $builder = $this->where('activo', 1)
+                        ->where('estado', 'activo');
 
-    protected $validationRules = [
-        'nombre' => 'required|min_length[3]|max_length[255]',
-        'email' => 'required|valid_email|is_unique[empresas.email]',
-        'activo' => 'in_list[0,1]'
-    ];
+        if (!empty($filters['search'])) {
+            $builder->like('nombre', $filters['search']);
+        }
 
-    protected $validationMessages = [
-        'email' => [
-            'is_unique' => 'Este email ya está registrado.'
-        ]
-    ];
+        if (!empty($filters['ciudad'])) {
+            if (is_array($filters['ciudad'])) {
+                $builder->whereIn('ciudad', $filters['ciudad']);
+            } else {
+                $builder->where('ciudad', $filters['ciudad']);
+            }
+        }
 
-    protected $skipValidation = false;
-    protected $cleanValidationRules = true;
+        if (!empty($filters['categoria'])) {
+            if (is_array($filters['categoria'])) {
+                $builder->whereIn('categoria_comida', $filters['categoria']);
+            } else {
+                $builder->where('categoria_comida', $filters['categoria']);
+            }
+        }
+
+        if (!empty($filters['plan'])) {
+            $builder->where('plan', $filters['plan']);
+        }
+
+        if (!empty($filters['oferta_2x1'])) {
+            $builder->where('oferta_2x1', 1);
+        }
+
+        if (!empty($filters['envio_gratis'])) {
+            $builder->where('envio_gratis', 1);
+        }
+
+        if (!empty($filters['descuento_activo'])) {
+            $builder->where('descuento_activo', 1);
+        }
+
+        return $builder->orderBy('destacado', 'DESC')
+                      ->orderBy('nombre', 'ASC')
+                      ->findAll();
+    }
+
+    public function getCiudades()
+    {
+        return $this->select('ciudad')
+                   ->where('activo', 1)
+                   ->where('estado', 'activo')
+                   ->groupBy('ciudad')
+                   ->orderBy('ciudad', 'ASC')
+                   ->findAll();
+    }
+
+    public function getCategorias()
+    {
+        try {
+            return $this->select('categoria_comida')
+                       ->where('activo', 1)
+                       ->where('estado', 'activo')
+                       ->where('categoria_comida IS NOT NULL')
+                       ->groupBy('categoria_comida')
+                       ->orderBy('categoria_comida', 'ASC')
+                       ->findAll();
+        } catch (\Exception $e) {
+            // Si la columna no existe, retornar array vacío
+            return [];
+        }
+    }
 }

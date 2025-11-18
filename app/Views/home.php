@@ -71,72 +71,122 @@
       </div>
     </div>
   </section>
-  <?= $this->include('templates/sidebar') ?>
+  
+  <!-- Contenido Principal -->
+  <section class="py-4">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar de Filtros -->
+        <div class="col-lg-3">
+          <div class="bg-white p-2 p-lg-4 rounded shadow-sm sticky-top" style="top: 20px;">
+            <form method="GET" id="filterForm">
+              <!-- Búsqueda -->
+              <div class="mb-2 mb-lg-4">
+                <h6 class="fw-bold mb-2 mb-lg-3 fs-6 fs-lg-5">Buscar</h6>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                  <input type="text" class="form-control border-start-0" name="search" placeholder="Buscar restaurantes..." value="<?= esc($filters['search'] ?? '') ?>">
+                </div>
+              </div>
+              
+              <!-- Promociones -->
+              <div class="mb-2 mb-lg-4">
+                <h6 class="fw-bold mb-2 mb-lg-3 text-danger fs-6 fs-lg-5"><i class="bi bi-fire me-1 me-lg-2"></i>Promociones</h6>
+                <div class="form-check mb-1 mb-lg-2">
+                  <input class="form-check-input" type="checkbox" name="oferta_2x1" value="1" id="promo2x1" <?= !empty($filters['oferta_2x1']) ? 'checked' : '' ?>>
+                  <label class="form-check-label small d-lg-block" for="promo2x1">
+                    <span class="badge bg-danger me-1 me-lg-2" style="font-size: 0.6rem;">2x1</span>Ofertas 2x1
+                  </label>
+                </div>
+                <div class="form-check mb-1 mb-lg-2">
+                  <input class="form-check-input" type="checkbox" name="envio_gratis" value="1" id="promoGratis" <?= !empty($filters['envio_gratis']) ? 'checked' : '' ?>>
+                  <label class="form-check-label small d-lg-block" for="promoGratis">
+                    <span class="badge bg-success me-1 me-lg-2" style="font-size: 0.6rem;">GRATIS</span>Envío Gratis
+                  </label>
+                </div>
+                <div class="form-check mb-1 mb-lg-2">
+                  <input class="form-check-input" type="checkbox" name="descuento_activo" value="1" id="promoDescuento" <?= !empty($filters['descuento_activo']) ? 'checked' : '' ?>>
+                  <label class="form-check-label small d-lg-block" for="promoDescuento">
+                    <span class="badge bg-warning text-dark me-1 me-lg-2" style="font-size: 0.6rem;">%</span>Descuentos
+                  </label>
+                </div>
+              </div>
+              
+              <!-- Ciudades -->
+              <div class="mb-2 mb-lg-4">
+                <h6 class="fw-bold mb-2 mb-lg-3 fs-6 fs-lg-5"><i class="bi bi-geo-alt me-1 me-lg-2"></i>Ciudades</h6>
+                <?php foreach ($ciudades as $ciudad_item): ?>
+                  <div class="form-check mb-1 mb-lg-2">
+                    <input class="form-check-input" type="checkbox" name="ciudad[]" value="<?= esc($ciudad_item['ciudad']) ?>" id="ciudad_<?= esc($ciudad_item['ciudad']) ?>" <?= (isset($filters['ciudad']) && is_array($filters['ciudad']) && in_array($ciudad_item['ciudad'], $filters['ciudad'])) ? 'checked' : '' ?>>
+                    <label class="form-check-label small d-lg-block" for="ciudad_<?= esc($ciudad_item['ciudad']) ?>"><?= esc($ciudad_item['ciudad']) ?></label>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+              
+              <!-- Tipos de Comida -->
+              <?php if (!empty($categorias)): ?>
+              <div class="mb-2 mb-lg-4">
+                <h6 class="fw-bold mb-2 mb-lg-3 fs-6 fs-lg-5"><i class="bi bi-cup-hot me-1 me-lg-2"></i>Tipo de Comida</h6>
+                <?php foreach ($categorias as $categoria_item): ?>
+                  <div class="form-check mb-1 mb-lg-2">
+                    <input class="form-check-input" type="checkbox" name="categoria[]" value="<?= esc($categoria_item['categoria_comida']) ?>" id="cat_<?= esc($categoria_item['categoria_comida']) ?>" <?= (isset($filters['categoria']) && is_array($filters['categoria']) && in_array($categoria_item['categoria_comida'], $filters['categoria'])) ? 'checked' : '' ?>>
+                    <label class="form-check-label small d-lg-block" for="cat_<?= esc($categoria_item['categoria_comida']) ?>">
+                      <i class="bi bi-circle-fill me-1 text-primary"></i><?= esc($categoria_item['categoria_comida']) ?>
+                    </label>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+              <?php endif; ?>
+              
+              <button type="button" id="clearFilters" class="btn btn-outline-secondary btn-sm w-100">Limpiar filtros</button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Contenido de Restaurantes -->
+        <div class="col-lg-9">
           <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-        <!-- Restaurante 1 -->
-        <div class="col">
-          <div class="restaurant-card h-100 position-relative">
-            <span class="badge badge-type" style="background-color: rgba(255, 255, 255, 0.8); color: #000; border-radius: 50px;">Parrilla</span>
-            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" class="restaurant-img w-100" alt="La Parrilla Dorada">
-            <div class="p-3">
-              <h5 class="fw-bold">La Parrilla Dorada</h5>
-              <p class="small text-muted mb-2">Especialistas en carnes a la brasa y parrilla argentina</p>
-              <div class="mt-auto">
-                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Madrid <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 912 345 678</p>
-                <a href="<?= base_url('public/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
-              </div>
+        <?php if (empty($restaurantes)): ?>
+          <div class="col-12">
+            <div class="text-center py-5">
+              <h5 class="text-muted">No se encontraron restaurantes</h5>
+              <p class="text-muted">Intenta con otros filtros de búsqueda</p>
             </div>
           </div>
-        </div>
-
-        <!-- Restaurante 2 -->
-        <div class="col">
-          <div class="restaurant-card h-100 position-relative">
-            <span class="badge badge-type" style="background-color: rgba(255, 255, 255, 0.8); color: #000; border-radius: 50px;">Italiana</span>
-            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" class="restaurant-img w-100" alt="Pizzería Bella Napoli">
-            <div class="p-3">
-              <h5 class="fw-bold">Pizzería Bella Napoli</h5>
-              <p class="small text-muted mb-2">Pizza artesanal al horno de leña con recetas tradicionales napolitanas</p>
-              <div class="mt-auto">
-                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Sevilla <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 954 567 890</p>
-                <a href="<?= base_url('/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
+        <?php else: ?>
+          <?php foreach ($restaurantes as $restaurante): ?>
+            <div class="col">
+              <div class="restaurant-card h-100 position-relative">
+                <?php if ($restaurante['destacado']): ?>
+                  <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2" style="z-index: 10;">Destacado</span>
+                <?php endif; ?>
+                <span class="badge badge-type" style="background-color: rgba(255, 255, 255, 0.8); color: #000; border-radius: 50px;">
+                  <?= esc($restaurante['categoria_comida'] ?? ucfirst($restaurante['plan'])) ?>
+                </span>
+                <?php if (isset($restaurante['oferta_2x1']) && $restaurante['oferta_2x1']): ?>
+                  <span class="badge bg-danger position-absolute top-0 start-0 m-2" style="z-index: 9;">2x1</span>
+                <?php endif; ?>
+                <?php if (isset($restaurante['envio_gratis']) && $restaurante['envio_gratis']): ?>
+                  <span class="badge bg-success position-absolute" style="top: 40px; left: 8px; z-index: 9; font-size: 0.7rem;">Envío Gratis</span>
+                <?php endif; ?>
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" class="restaurant-img w-100" alt="<?= esc($restaurante['nombre']) ?>">
+                <div class="p-3">
+                  <h5 class="fw-bold"><?= esc($restaurante['nombre']) ?></h5>
+                  <p class="small text-muted mb-2"><?= esc($restaurante['descripcion'] ?? 'Deliciosa comida con los mejores ingredientes') ?></p>
+                  <div class="mt-auto">
+                    <p class="small text-muted mb-3">
+                      <i class="bi bi-geo-alt-fill me-1"></i> <?= esc($restaurante['direccion']) ?>
+                      <?php if ($restaurante['telefono']): ?>
+                        <i class="bi bi-telephone-fill ms-3 me-1"></i> <?= esc($restaurante['telefono']) ?>
+                      <?php endif; ?>
+                    </p>
+                    <a href="<?= base_url('/restaurante/' . $restaurante['id']) ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Restaurante 3 -->
-        <div class="col">
-          <div class="restaurant-card h-100 position-relative">
-            <span class="badge badge-type" style="background-color: rgba(255, 255, 255, 0.8); color: #000; border-radius: 50px;">Japonesa</span>
-            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" class="restaurant-img w-100" alt="Sushi Sakura">
-            <div class="p-3">
-              <h5 class="fw-bold">Sushi Sakura</h5>
-              <p class="small text-muted mb-2">Auténtica cocina japonesa con los mejores ingredientes frescos</p>
-              <div class="mt-auto">
-                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Barcelona <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 933 456 789</p>
-                <a href="<?= base_url('/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Restaurante 4 -->
-        <div class="col">
-          <div class="restaurant-card h-100 position-relative">
-            <span class="badge badge-type" style="background-color: rgba(255, 255, 255, 0.8); color: #000; border-radius: 50px;">Mexicana</span>
-            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=300&fit=crop" class="restaurant-img w-100" alt="Tacos El Mariachi">
-            <div class="p-3">
-              <h5 class="fw-bold">Tacos El Mariachi</h5>
-              <p class="small text-muted mb-2">Comida mexicana auténtica con sabores tradicionales</p>
-              <div class="mt-auto">
-                <p class="small text-muted mb-3"><i class="bi bi-geo-alt-fill me-1"></i> Valencia <i class="bi bi-telephone-fill ms-3 me-1"></i> +34 963 678 901</p>
-                <a href="<?= base_url('/restaurantes') ?>" class="btn btn-menu w-100 text-white">Ver Restaurante</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
+          <?php endforeach; ?>
+        <?php endif; ?>
           </div>
         </div>
       </div>
