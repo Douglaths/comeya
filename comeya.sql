@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 07:52 AM
+-- Generation Time: Nov 19, 2025 at 04:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -323,11 +323,15 @@ CREATE TABLE `pedidos` (
   `cliente_nombre` varchar(255) DEFAULT NULL,
   `cliente_email` varchar(255) DEFAULT NULL,
   `cliente_telefono` varchar(20) DEFAULT NULL,
+  `direccion_entrega` text DEFAULT NULL,
+  `notas` text DEFAULT NULL,
+  `metodo_pago` enum('efectivo','tarjeta') DEFAULT NULL,
   `mesa` varchar(10) DEFAULT NULL,
   `subtotal` decimal(10,2) NOT NULL,
+  `costo_envio` decimal(10,2) DEFAULT 0.00,
   `impuestos` decimal(10,2) DEFAULT 0.00,
   `total` decimal(10,2) NOT NULL,
-  `estado` enum('pendiente','procesando','completado','cancelado') DEFAULT 'pendiente',
+  `estado` enum('pendiente','procesando','enviado','completado','cancelado') DEFAULT 'pendiente',
   `fecha_pedido` datetime DEFAULT current_timestamp(),
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -337,20 +341,30 @@ CREATE TABLE `pedidos` (
 -- Dumping data for table `pedidos`
 --
 
-INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `cliente_email`, `cliente_telefono`, `mesa`, `subtotal`, `impuestos`, `total`, `estado`, `fecha_pedido`, `created_at`, `updated_at`) VALUES
-(1, 1, 'PED-001', 'Juan Pérez', 'juan@email.com', '300-123-4567', 'Mesa 5', 32.00, 3.36, 35.36, 'completado', '2024-01-15 14:30:00', '2025-11-16 22:51:14', '2025-11-17 22:55:17'),
-(2, 1, 'PED-002', 'María García', 'maria@email.com', '300-987-6543', 'Mesa 2', 24.00, 2.52, 26.52, 'completado', '2024-01-16 19:45:00', '2025-11-16 22:51:14', '2025-11-17 22:55:17'),
-(3, 2, 'PED-003', 'Carlos López', 'carlos@email.com', '300-555-1234', 'Mesa 8', 42.50, 4.46, 46.96, 'completado', '2024-01-15 20:15:00', '2025-11-16 22:51:14', '2025-11-17 22:55:17'),
-(4, 2, 'PED-004', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, 28.00, 2.94, 30.94, 'procesando', '2024-01-17 13:20:00', '2025-11-16 22:51:14', '2025-11-16 22:51:14'),
-(5, 4, 'PED-005', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, 65.00, 6.83, 71.83, 'completado', '2024-01-16 21:00:00', '2025-11-16 22:51:14', '2025-11-16 22:51:14'),
-(6, 1, 'PED-001', 'Juan Pérez', 'juan@email.com', '666-111-222', NULL, 32.00, 3.36, 35.36, 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-16 23:34:46'),
-(7, 1, 'PED-002', 'María García', 'maria@email.com', '666-333-444', NULL, 24.00, 2.52, 26.52, 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-16 23:34:46'),
-(8, 2, 'PED-003', 'Carlos López', 'carlos@email.com', '666-555-666', NULL, 42.50, 4.46, 46.96, 'completado', '2025-11-15 00:00:00', '2025-11-16 23:34:46', '2025-11-16 23:34:46'),
-(9, 2, 'PED-004', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, 28.00, 2.94, 30.94, 'procesando', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-16 23:34:46'),
-(10, 4, 'PED-005', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, 65.00, 6.83, 71.83, 'completado', '2025-11-14 00:00:00', '2025-11-16 23:34:46', '2025-11-16 23:34:46'),
-(11, 1, '364', 'Ana Martínez', 'ana@email.com', '300-111-2222', 'Mesa 3', 25000.00, 2500.00, 27500.00, 'pendiente', '2025-11-17 22:55:17', '2025-11-17 22:55:17', '2025-11-17 22:55:17'),
-(12, 1, '422', 'Luis Rodríguez', 'luis@email.com', '300-333-4444', 'Mesa 7', 18000.00, 1800.00, 19800.00, 'procesando', '2025-11-17 22:40:17', '2025-11-17 22:55:17', '2025-11-17 22:55:17'),
-(13, 1, '17', 'Sofia Herrera', 'sofia@email.com', '300-777-8888', 'Mesa 1', 32000.00, 3200.00, 35200.00, '', '2025-11-17 22:50:17', '2025-11-17 22:55:17', '2025-11-17 22:55:17');
+INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `cliente_email`, `cliente_telefono`, `direccion_entrega`, `notas`, `metodo_pago`, `mesa`, `subtotal`, `costo_envio`, `impuestos`, `total`, `estado`, `fecha_pedido`, `created_at`, `updated_at`) VALUES
+(1, 1, 'PED-001', 'Juan Pérez', 'juan@email.com', '300-123-4567', NULL, NULL, NULL, 'Mesa 5', 32.00, 0.00, 3.36, 35.36, 'completado', '2024-01-15 14:30:00', '2025-11-16 22:51:14', '2025-11-17 22:55:17'),
+(2, 1, 'PED-002-2', 'María García', 'maria@email.com', '300-987-6543', NULL, NULL, NULL, 'Mesa 2', 24.00, 0.00, 2.52, 26.52, 'completado', '2024-01-16 19:45:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
+(3, 2, 'PED-003-3', 'Carlos López', 'carlos@email.com', '300-555-1234', NULL, NULL, NULL, 'Mesa 8', 42.50, 0.00, 4.46, 46.96, 'completado', '2024-01-15 20:15:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
+(4, 2, 'PED-004-4', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, NULL, NULL, NULL, 28.00, 0.00, 2.94, 30.94, 'procesando', '2024-01-17 13:20:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
+(5, 4, 'PED-005-5', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, NULL, NULL, NULL, 65.00, 0.00, 6.83, 71.83, 'completado', '2024-01-16 21:00:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
+(6, 1, 'PED-001-6', 'Juan Pérez', 'juan@email.com', '666-111-222', NULL, NULL, NULL, NULL, 32.00, 0.00, 3.36, 35.36, 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
+(7, 1, 'PED-002-7', 'María García', 'maria@email.com', '666-333-444', NULL, NULL, NULL, NULL, 24.00, 0.00, 2.52, 26.52, 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
+(8, 2, 'PED-003-8', 'Carlos López', 'carlos@email.com', '666-555-666', NULL, NULL, NULL, NULL, 42.50, 0.00, 4.46, 46.96, 'completado', '2025-11-15 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
+(9, 2, 'PED-004-9', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, NULL, NULL, NULL, 28.00, 0.00, 2.94, 30.94, 'procesando', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
+(10, 4, 'PED-005-10', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, NULL, NULL, NULL, 65.00, 0.00, 6.83, 71.83, 'completado', '2025-11-14 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
+(11, 1, '364-11', 'Ana Martínez', 'ana@email.com', '300-111-2222', NULL, NULL, NULL, 'Mesa 3', 25000.00, 0.00, 2500.00, 27500.00, 'pendiente', '2025-11-17 22:55:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29'),
+(12, 1, '422-12', 'Luis Rodríguez', 'luis@email.com', '300-333-4444', NULL, NULL, NULL, 'Mesa 7', 18000.00, 0.00, 1800.00, 19800.00, 'procesando', '2025-11-17 22:40:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29'),
+(13, 1, '17-13', 'Sofia Herrera', 'sofia@email.com', '300-777-8888', NULL, NULL, NULL, 'Mesa 1', 32000.00, 0.00, 3200.00, 35200.00, '', '2025-11-17 22:50:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29'),
+(14, 1, 'galvis-0008', 'asdasd', NULL, '234234', 'asdasd', 'asdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'cancelado', '2025-11-19 01:29:04', '2025-11-18 20:29:04', '2025-11-19 01:36:27'),
+(15, 1, 'galvis-0009', '4234', NULL, '3242', 'asdasd', 'asdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, '', '2025-11-19 01:30:04', '2025-11-18 20:30:04', '2025-11-19 01:36:36'),
+(16, 1, 'galvis-0010', 'asdasd', NULL, 'dasd', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, '', '2025-11-19 01:30:22', '2025-11-18 20:30:22', '2025-11-19 01:36:31'),
+(17, 1, 'galvis-0011', 'dasda', NULL, '324234', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-19 01:33:00', '2025-11-18 20:33:00', '2025-11-19 01:36:49'),
+(18, 1, 'galvis-0012', 'asdasd', NULL, 'dasd', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, '', '2025-11-19 01:39:02', '2025-11-18 20:39:02', '2025-11-19 01:39:39'),
+(19, 1, 'galvis-0013', 'sdasda', NULL, 'asda', 'asdasd', 'sdasd', 'efectivo', NULL, 55.50, 3.00, 0.00, 58.50, 'cancelado', '2025-11-19 01:39:10', '2025-11-18 20:39:10', '2025-11-19 01:39:31'),
+(20, 1, 'galvis-0014', 'asdasd', NULL, 'sdasd', 'asda', 'asdasdasd', 'efectivo', NULL, 1232212.00, 3.00, 0.00, 1232215.00, '', '2025-11-19 01:39:20', '2025-11-18 20:39:20', '2025-11-19 01:39:37'),
+(21, 1, 'galvis-0015', 'asdasd', NULL, '21341241234', 'asd', 'asdasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, '', '2025-11-19 02:35:19', '2025-11-18 21:35:19', '2025-11-19 02:35:35'),
+(22, 1, 'galvis-0016', 'aasdasd', NULL, '23234234', 'asdasdasd', 'asdasd', 'efectivo', NULL, 203.50, 3.00, 0.00, 206.50, '', '2025-11-19 02:38:33', '2025-11-18 21:38:33', '2025-11-19 02:39:10'),
+(23, 1, 'galvis-0017', 'asdasd', NULL, '23423423', 'asdasdasd', 'asdasdasd', 'efectivo', NULL, 74.00, 3.00, 0.00, 77.00, 'enviado', '2025-11-19 02:40:51', '2025-11-18 21:40:51', '2025-11-19 02:41:07');
 
 -- --------------------------------------------------------
 
@@ -387,7 +401,20 @@ INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `preci
 (13, 5, 9, 1, 22.00, 22.00, NULL, '2025-11-16 22:51:14'),
 (14, 1, 1, 1, 18.50, 18.50, NULL, '2025-11-16 23:34:46'),
 (16, 1, 2, 1, 8.00, 8.00, NULL, '2025-11-16 23:34:46'),
-(17, 2, 1, 1, 18.50, 18.50, NULL, '2025-11-16 23:34:46');
+(17, 2, 1, 1, 18.50, 18.50, NULL, '2025-11-16 23:34:46'),
+(19, 14, 1, 2, 18.50, 37.00, NULL, '2025-11-18 20:29:04'),
+(20, 15, 1, 1, 18.50, 18.50, NULL, '2025-11-18 20:30:04'),
+(21, 15, 10, 1, 18.50, 18.50, NULL, '2025-11-18 20:30:04'),
+(22, 16, 1, 1, 18.50, 18.50, NULL, '2025-11-18 20:30:22'),
+(23, 17, 1, 1, 18.50, 18.50, NULL, '2025-11-18 20:33:00'),
+(24, 18, 1, 1, 18.50, 18.50, NULL, '2025-11-18 20:39:02'),
+(25, 19, 10, 3, 18.50, 55.50, NULL, '2025-11-18 20:39:10'),
+(26, 20, 19, 1, 1212212.00, 1212212.00, NULL, '2025-11-18 20:39:20'),
+(27, 20, 20, 1, 20000.00, 20000.00, NULL, '2025-11-18 20:39:20'),
+(28, 21, 1, 2, 18.50, 37.00, NULL, '2025-11-18 21:35:19'),
+(29, 22, 10, 6, 18.50, 111.00, NULL, '2025-11-18 21:38:33'),
+(30, 22, 1, 5, 18.50, 92.50, NULL, '2025-11-18 21:38:33'),
+(31, 23, 1, 4, 18.50, 74.00, NULL, '2025-11-18 21:40:51');
 
 -- --------------------------------------------------------
 
@@ -669,6 +696,7 @@ ALTER TABLE `pagos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_numero_pedido` (`numero_pedido`),
   ADD KEY `idx_pedidos_empresa` (`empresa_id`),
   ADD KEY `idx_pedidos_fecha` (`fecha_pedido`),
   ADD KEY `idx_pedidos_estado` (`estado`);
@@ -793,13 +821,13 @@ ALTER TABLE `pagos`
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `pedido_items`
 --
 ALTER TABLE `pedido_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `planes`
