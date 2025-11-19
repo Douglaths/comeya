@@ -53,6 +53,10 @@ class Carrito {
         return match ? match[1] : 'default';
     }
 
+    getRestauranteUrl() {
+        return window.location.pathname;
+    }
+
     getRestauranteNombre() {
         const titleElement = document.querySelector('.restaurant-name');
         return titleElement ? titleElement.textContent.trim() : 'Restaurante';
@@ -69,6 +73,7 @@ class Carrito {
                 this.items = data.items || [];
                 this.restauranteId = data.restauranteId;
                 this.restauranteNombre = data.restauranteNombre;
+                this.restauranteUrl = data.restauranteUrl;
             } else {
                 // Limpiar carrito si es de otro restaurante
                 this.limpiarCarrito();
@@ -80,6 +85,7 @@ class Carrito {
         const data = {
             restauranteId: this.restauranteId,
             restauranteNombre: this.restauranteNombre,
+            restauranteUrl: this.getRestauranteUrl(),
             items: this.items
         };
         localStorage.setItem('carrito', JSON.stringify(data));
@@ -267,17 +273,7 @@ function goToConfirm() {
         return;
     }
     
-    // Guardar datos del pedido en sessionStorage para la página de confirmación
-    sessionStorage.setItem('pedidoData', JSON.stringify({
-        items: carrito.items,
-        restaurante: {
-            id: carrito.restauranteId,
-            nombre: carrito.restauranteNombre
-        },
-        total: carrito.calcularTotal()
-    }));
-    
-    window.location.href = '/restaurantes/confirmar-pedido';
+    window.location.href = 'restaurantes/confirmar-pedido';
 }
 
 // Inicializar carrito cuando se carga la página

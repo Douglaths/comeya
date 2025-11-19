@@ -17,6 +17,9 @@ $routes->post('carrito/eliminar', 'Carrito::eliminar');
 $routes->get('carrito/obtener', 'Carrito::obtener');
 $routes->post('carrito/limpiar', 'Carrito::limpiar');
 $routes->post('carrito/confirmar-limpieza', 'Carrito::confirmarLimpieza');
+
+// Rutas de Pedidos
+$routes->post('pedidos/crear', 'Pedidos::crear');
 $routes->get('/login', 'Login::index');
 $routes->get('uploads/(:any)', function($filename) {
     $filepath = FCPATH . 'uploads/' . $filename;

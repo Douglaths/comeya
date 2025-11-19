@@ -37,7 +37,7 @@
                                         <option value="">Todos los estados</option>
                                         <option value="pendiente" <?= $estado_filtro == 'pendiente' ? 'selected' : '' ?>>Pendiente</option>
                                         <option value="procesando" <?= $estado_filtro == 'procesando' ? 'selected' : '' ?>>En preparación</option>
-                                        <option value="listo" <?= $estado_filtro == 'listo' ? 'selected' : '' ?>>Listo</option>
+                                        <option value="enviado" <?= $estado_filtro == 'enviado' ? 'selected' : '' ?>>Enviado</option>
                                         <option value="completado" <?= $estado_filtro == 'completado' ? 'selected' : '' ?>>Entregado</option>
                                         <option value="cancelado" <?= $estado_filtro == 'cancelado' ? 'selected' : '' ?>>Cancelado</option>
                                     </select>
@@ -57,16 +57,29 @@
                     </div>
                 </div>
 
-                <!-- Lista de Pedidos -->
+                <!-- Pedidos Activos -->
                 <div class="col-12">
-                    <?php if (!empty($pedidos)): ?>
-                        <div class="row">
-                            <?php foreach ($pedidos as $pedido): ?>
+                    <?php 
+                    // Debug: mostrar todos los estados
+                    $estadosEncontrados = array_unique(array_column($pedidos, 'estado'));
+                    
+                    $pedidosActivos = array_filter($pedidos, function($p) { 
+                        return in_array($p['estado'], ['pendiente', 'procesando']); 
+                    });
+                    $pedidosHistorial = array_filter($pedidos, function($p) { 
+                        return in_array($p['estado'], ['listo', 'enviado', 'completado', 'cancelado']); 
+                    });
+                    ?>
+                    
+                    <?php if (!empty($pedidosActivos)): ?>
+                        <h5 class="mb-3"><i class="fas fa-clock text-warning"></i> Pedidos Activos</h5>
+                        <div class="row mb-5">
+                            <?php foreach ($pedidosActivos as $pedido): ?>
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-3">
                                     <div class="card pedido-card h-100 <?= 
                                         $pedido['estado'] == 'pendiente' ? 'border-warning' : 
                                         ($pedido['estado'] == 'procesando' ? 'border-info' : 
-                                        ($pedido['estado'] == 'listo' ? 'border-success' : 
+                                        ($pedido['estado'] == 'enviado' ? 'border-success' : 
                                         ($pedido['estado'] == 'completado' ? 'border-secondary' : 'border-danger')))
                                     ?>">
                                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -74,7 +87,7 @@
                                             <span class="badge <?= 
                                                 $pedido['estado'] == 'pendiente' ? 'bg-warning' : 
                                                 ($pedido['estado'] == 'procesando' ? 'bg-info' : 
-                                                ($pedido['estado'] == 'listo' ? 'bg-success' : 
+                                                ($pedido['estado'] == 'enviado' ? 'bg-success' : 
                                                 ($pedido['estado'] == 'completado' ? 'bg-secondary' : 'bg-danger')))
                                             ?>">
                                                 <?= ucfirst($pedido['estado']) ?>
@@ -114,10 +127,10 @@
                                                                 Preparar
                                                             </button>
                                                         <?php elseif ($pedido['estado'] == 'procesando'): ?>
-                                                            <button class="btn btn-success btn-sm" onclick="cambiarEstado(<?= $pedido['id'] ?>, 'listo')">
-                                                                Listo
+                                                            <button class="btn btn-success btn-sm" onclick="cambiarEstado(<?= $pedido['id'] ?>, 'enviado')">
+                                                                Enviar
                                                             </button>
-                                                        <?php elseif ($pedido['estado'] == 'listo'): ?>
+                                                        <?php elseif ($pedido['estado'] == 'enviado'): ?>
                                                             <button class="btn btn-secondary btn-sm" onclick="cambiarEstado(<?= $pedido['id'] ?>, 'completado')">
                                                                 Entregar
                                                             </button>
@@ -138,12 +151,70 @@
                             <?php endforeach; ?>
                         </div>
                     <?php else: ?>
-                        <div class="card">
-                            <div class="card-body text-center py-5">
-                                <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
-                                <h5>No hay pedidos</h5>
-                                <p class="text-muted">No se encontraron pedidos para los filtros seleccionados</p>
+                        <div class="card mb-4">
+                            <div class="card-body text-center py-4">
+                                <i class="fas fa-clock fa-2x text-muted mb-2"></i>
+                                <h6>No hay pedidos activos</h6>
+                                <p class="text-muted small mb-0">Los nuevos pedidos aparecerán aquí</p>
                             </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Historial de Pedidos -->
+                    <?php if (!empty($pedidosHistorial)): ?>
+                        <h5 class="mb-3 mt-4"><i class="fas fa-history text-secondary"></i> Historial</h5>
+                        <div class="row">
+                            <?php foreach ($pedidosHistorial as $pedido): ?>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-3">
+                                    <div class="card pedido-card h-100 <?= 
+                                        $pedido['estado'] == 'listo' ? 'border-success' : 
+                                        ($pedido['estado'] == 'enviado' ? 'border-success' : 
+                                        ($pedido['estado'] == 'completado' ? 'border-secondary' : 'border-danger'))
+                                    ?> opacity-75">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0"><?= esc($pedido['numero_pedido']) ?></h6>
+                                            <span class="badge <?= 
+                                                $pedido['estado'] == 'listo' ? 'bg-success' : 
+                                                ($pedido['estado'] == 'enviado' ? 'bg-success' : 
+                                                ($pedido['estado'] == 'completado' ? 'bg-secondary' : 'bg-danger'))
+                                            ?>">
+                                                <?= ucfirst($pedido['estado']) ?>
+                                            </span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <small class="text-muted">Hora</small>
+                                                    <div><strong><?= date('H:i', strtotime($pedido['fecha_pedido'])) ?></strong></div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <small class="text-muted">Total</small>
+                                                    <div><strong>$<?= number_format($pedido['total'], 0) ?></strong></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <?php if ($pedido['cliente_nombre']): ?>
+                                                <div class="mb-3">
+                                                    <small class="text-muted">Cliente</small>
+                                                    <div><?= esc($pedido['cliente_nombre']) ?></div>
+                                                    <?php if ($pedido['cliente_telefono']): ?>
+                                                        <small class="text-muted"><?= esc($pedido['cliente_telefono']) ?></small>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            
+                                            <div class="d-grid">
+                                                <button class="btn btn-outline-secondary btn-sm" onclick="verPedido(<?= $pedido['id'] ?>)">
+                                                    Ver Detalles
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-muted small">
+                                            <?= date('d/m/Y H:i', strtotime($pedido['fecha_pedido'])) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
                 </div>

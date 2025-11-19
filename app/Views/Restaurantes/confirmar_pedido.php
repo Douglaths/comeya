@@ -24,22 +24,31 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const pedidoData = sessionStorage.getItem('pedidoData');
+    const carritoData = localStorage.getItem('carrito');
     const container = document.getElementById('pedidoContainer');
     
-    if (!pedidoData) {
+    if (!carritoData) {
         container.innerHTML = `
             <div class="text-center py-5">
                 <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
                 <h4 class="mt-3">No hay información del pedido</h4>
                 <p class="text-muted">Regresa al restaurante para agregar productos</p>
-                <a href="/" class="btn btn-primary">Volver al inicio</a>
+                <a href="<?= base_url('/') ?>" class="btn btn-primary">Volver al inicio</a>
             </div>
         `;
         return;
     }
     
-    const pedido = JSON.parse(pedidoData);
+    const carrito = JSON.parse(carritoData);
+    const restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
+    const pedido = {
+        items: carrito.items,
+        restaurante: {
+            id: carrito.restauranteId,
+            nombre: carrito.restauranteNombre
+        },
+        total: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0)
+    };
     
     container.innerHTML = `
         <div class="mb-4">
@@ -170,31 +179,54 @@ document.addEventListener('DOMContentLoaded', function() {
             totalFinal: pedido.total + 3
         };
         
-        // Simular envío del pedido
+        // Enviar pedido al servidor
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Procesando...';
         submitBtn.disabled = true;
         
-        setTimeout(() => {
-            // Limpiar carrito
-            localStorage.removeItem('carrito');
-            sessionStorage.removeItem('pedidoData');
-            
-            // Mostrar confirmación
-            container.innerHTML = `
-                <div class="text-center py-5">
-                    <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
-                    <h3 class="mt-3 text-success">¡Pedido confirmado!</h3>
-                    <p class="text-muted">Tu pedido ha sido enviado al restaurante</p>
-                    <p class="text-muted">Tiempo estimado de entrega: 30-45 minutos</p>
-                    <div class="mt-4">
-                        <a href="/" class="btn btn-primary me-2">Volver al inicio</a>
-                        <button class="btn btn-outline-primary" onclick="window.print()">Imprimir recibo</button>
+        fetch('<?= base_url('pedidos/crear') ?>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pedidoCompleto)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Limpiar carrito
+                localStorage.removeItem('carrito');
+                
+                // Mostrar confirmación con número de pedido
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                        <h3 class="mt-3 text-success">¡Pedido confirmado!</h3>
+                        <div class="alert alert-info mt-3">
+                            <h5 class="mb-0">Número de pedido: <strong>#${data.numeroPedido}</strong></h5>
+                            <small>Guarda este número para hacer seguimiento</small>
+                        </div>
+                        <p class="text-muted">Tu pedido ha sido enviado al restaurante</p>
+                        <p class="text-muted">Tiempo estimado de entrega: 30-45 minutos</p>
+                        <div class="mt-4">
+                            <a href="${restauranteUrl}" class="btn btn-primary me-2">Volver al restaurante</a>
+                            <button class="btn btn-outline-primary" onclick="window.print()">Imprimir recibo</button>
+                        </div>
                     </div>
-                </div>
-            `;
-        }, 2000);
+                `;
+            } else {
+                alert('Error al procesar el pedido: ' + data.message);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar el pedido');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
     });
 });
 </script>
