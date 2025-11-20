@@ -20,6 +20,10 @@ $routes->post('carrito/confirmar-limpieza', 'Carrito::confirmarLimpieza');
 
 // Rutas de Pedidos
 $routes->post('pedidos/crear', 'Pedidos::crear');
+
+// Rutas de Notificaciones
+$routes->get('notificaciones/stream', 'Notificaciones::stream');
+$routes->get('notificaciones/check', 'Notificaciones::checkNuevosPedidos');
 $routes->get('/login', 'Login::index');
 $routes->get('uploads/(:any)', function($filename) {
     $filepath = FCPATH . 'uploads/' . $filename;

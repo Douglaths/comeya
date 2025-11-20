@@ -76,7 +76,7 @@
                         <div class="row mb-5">
                             <?php foreach ($pedidosActivos as $pedido): ?>
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-3">
-                                    <div class="card pedido-card h-100 <?= 
+                                    <div class="card pedido-card h-100" data-pedido-id="<?= $pedido['id'] ?>" <?= 
                                         $pedido['estado'] == 'pendiente' ? 'border-warning' : 
                                         ($pedido['estado'] == 'procesando' ? 'border-info' : 
                                         ($pedido['estado'] == 'enviado' ? 'border-success' : 
@@ -224,13 +224,75 @@
 
 <script>
 let autoRefreshInterval;
+let ultimoPedidoId = 0;
+
+// Obtener el ID del último pedido al cargar
+const pedidos = document.querySelectorAll('.pedido-card');
+if (pedidos.length > 0) {
+    const ultimoCard = pedidos[0];
+    ultimoPedidoId = parseInt(ultimoCard.dataset.pedidoId) || 0;
+}
+
+// Función para verificar nuevos pedidos
+function checkNuevosPedidos() {
+    fetch(`<?= base_url('notificaciones/check') ?>?ultimo_id=${ultimoPedidoId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.count > 0) {
+                // Mostrar notificación
+                mostrarNotificacion(`${data.count} nuevo(s) pedido(s) recibido(s)`);
+                
+                // Actualizar último ID
+                if (data.pedidos.length > 0) {
+                    ultimoPedidoId = Math.max(...data.pedidos.map(p => p.id));
+                }
+                
+                // Recargar página después de 2 segundos
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            }
+        })
+        .catch(error => console.error('Error checking pedidos:', error));
+}
+
+// Función para mostrar notificaciones
+function mostrarNotificacion(mensaje) {
+    // Crear notificación visual
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = mensaje;
+    document.body.appendChild(notification);
+    
+    // Reproducir sonido (opcional)
+    try {
+        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+        audio.play();
+    } catch(e) {}
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 4000);
+}
 
 // Auto-refresh
 document.getElementById('autoRefresh').addEventListener('change', function() {
     if (this.checked) {
         autoRefreshInterval = setInterval(() => {
-            location.reload();
-        }, 30000); // 30 segundos
+            checkNuevosPedidos();
+        }, 10000); // 10 segundos
     } else {
         clearInterval(autoRefreshInterval);
     }
@@ -239,9 +301,19 @@ document.getElementById('autoRefresh').addEventListener('change', function() {
 // Iniciar auto-refresh por defecto
 if (document.getElementById('autoRefresh').checked) {
     autoRefreshInterval = setInterval(() => {
-        location.reload();
-    }, 30000);
+        checkNuevosPedidos();
+    }, 10000);
 }
+
+// CSS para animación
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+`;
+document.head.appendChild(style);
 
 function verPedido(id) {
     fetch('<?= base_url('admin/pedidos/ver') ?>/' + id)

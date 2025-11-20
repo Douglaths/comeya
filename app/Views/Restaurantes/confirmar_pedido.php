@@ -1,277 +1,477 @@
-<?= $this->include('templates/header') ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Pedido</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-orange: #ff5722;
+            --primary-red: #d32323;
+            --text-dark: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f8f9fa;
+        }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-white py-3">
-                    <h2 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Confirmar Pedido</h2>
+        .view-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .confirm-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-red);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .back-link:hover {
+            color: #b91e1e;
+        }
+
+        .confirm-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .confirm-content {
+            padding: 20px;
+        }
+
+        .summary-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .summary-item-name {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .summary-item-quantity {
+            color: #999;
+            min-width: 30px;
+        }
+
+        .summary-item-price {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-weight: 700;
+        }
+
+        .summary-total-label {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .summary-total-price {
+            color: var(--primary-orange);
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-confirm:hover {
+            background-color: #f4511e;
+        }
+
+        .btn-confirm:active {
+            transform: scale(0.98);
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .summary-box {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .summary-box:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        /* Animación del check como SweetAlert */
+        @keyframes checkmark {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes drawCheck {
+            0% {
+                stroke-dashoffset: 100;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .success-icon {
+            animation: checkmark 0.6s ease-in-out;
+            position: relative;
+        }
+
+        .checkmark-svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .checkmark-path {
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawCheck 0.8s ease-in-out 0.3s forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="view-container">
+        <div class="confirm-header">
+            <a class="back-link" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+                Volver al menú
+            </a>
+            <h2 class="confirm-title">Confirmar Pedido</h2>
+        </div>
+
+        <div class="confirm-content" id="pedidoContainer">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
                 </div>
-                <div class="card-body">
-                    <div id="pedidoContainer">
-                        <div class="text-center py-5">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Cargando...</span>
-                            </div>
-                            <p class="mt-3 text-muted">Cargando información del pedido...</p>
-                        </div>
-                    </div>
-                </div>
+                <p class="mt-3 text-muted">Cargando información del pedido...</p>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const carritoData = localStorage.getItem('carrito');
-    const container = document.getElementById('pedidoContainer');
-    
-    if (!carritoData) {
-        container.innerHTML = `
-            <div class="text-center py-5">
-                <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
-                <h4 class="mt-3">No hay información del pedido</h4>
-                <p class="text-muted">Regresa al restaurante para agregar productos</p>
-                <a href="<?= base_url('/') ?>" class="btn btn-primary">Volver al inicio</a>
-            </div>
-        `;
-        return;
-    }
-    
-    const carrito = JSON.parse(carritoData);
-    const restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
-    const pedido = {
-        items: carrito.items,
-        restaurante: {
-            id: carrito.restauranteId,
-            nombre: carrito.restauranteNombre
-        },
-        total: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0)
-    };
-    
-    container.innerHTML = `
-        <div class="mb-4">
-            <h4 class="text-primary"><i class="fas fa-store me-2"></i>${pedido.restaurante.nombre}</h4>
-            <hr>
-        </div>
-        
-        <div class="mb-4">
-            <h5 class="mb-3">Productos seleccionados:</h5>
-            <div class="list-group">
-                ${pedido.items.map(item => `
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <img src="${item.imagen}" alt="${item.nombre}" 
-                                 class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
-                            <div>
-                                <h6 class="mb-1">${item.nombre}</h6>
-                                <small class="text-muted">Cantidad: ${item.cantidad}</small>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <div class="fw-bold">$${(item.precio * item.cantidad).toFixed(2)}</div>
-                            <small class="text-muted">$${item.precio.toFixed(2)} c/u</small>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-        
-        <div class="mb-4">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>Subtotal:</strong>
-                        </div>
-                        <div class="col-6 text-end">
-                            <strong>$${pedido.total.toFixed(2)}</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            Envío:
-                        </div>
-                        <div class="col-6 text-end">
-                            $3.00
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-6">
-                            <h5 class="mb-0">Total:</h5>
-                        </div>
-                        <div class="col-6 text-end">
-                            <h5 class="mb-0 text-primary">$${(pedido.total + 3).toFixed(2)}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <form id="pedidoForm">
-            <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección de entrega *</label>
-                <textarea class="form-control" id="direccion" name="direccion" rows="2" 
-                          placeholder="Ingresa tu dirección completa" required></textarea>
-            </div>
+    <script>
+        function goBack() {
+            const carritoData = localStorage.getItem('carrito');
+            if (carritoData) {
+                const carrito = JSON.parse(carritoData);
+                const restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
+                window.location.href = restauranteUrl;
+            } else {
+                history.back();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const carritoData = localStorage.getItem('carrito');
+            const container = document.getElementById('pedidoContainer');
             
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="telefono" class="form-label">Teléfono *</label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" 
-                           placeholder="Ej: +1234567890" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="nombre" class="form-label">Nombre completo *</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" 
-                           placeholder="Tu nombre completo" required>
-                </div>
-            </div>
-            
-            <div class="mb-3">
-                <label for="notas" class="form-label">Notas adicionales</label>
-                <textarea class="form-control" id="notas" name="notas" rows="2" 
-                          placeholder="Instrucciones especiales para tu pedido (opcional)"></textarea>
-            </div>
-            
-            <div class="mb-4">
-                <h6>Método de pago:</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="metodoPago" id="efectivo" value="efectivo" checked>
-                    <label class="form-check-label" for="efectivo">
-                        <i class="fas fa-money-bill-wave me-2"></i>Efectivo
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="metodoPago" id="tarjeta" value="tarjeta">
-                    <label class="form-check-label" for="tarjeta">
-                        <i class="fas fa-credit-card me-2"></i>Tarjeta de crédito/débito
-                    </label>
-                </div>
-            </div>
-            
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="fas fa-check me-2"></i>Confirmar Pedido - $${(pedido.total + 3).toFixed(2)}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" onclick="history.back()">
-                    <i class="fas fa-arrow-left me-2"></i>Volver al menú
-                </button>
-            </div>
-        </form>
-    `;
-    
-    // Manejar envío del formulario
-    document.getElementById('pedidoForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const pedidoCompleto = {
-            ...pedido,
-            direccion: formData.get('direccion'),
-            telefono: formData.get('telefono'),
-            nombre: formData.get('nombre'),
-            notas: formData.get('notas'),
-            metodoPago: formData.get('metodoPago'),
-            envio: 3.00,
-            totalFinal: pedido.total + 3
-        };
-        
-        // Enviar pedido al servidor
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Procesando...';
-        submitBtn.disabled = true;
-        
-        fetch('<?= base_url('pedidos/crear') ?>', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(pedidoCompleto)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Limpiar carrito
-                localStorage.removeItem('carrito');
-                
-                // Mostrar confirmación con número de pedido
+            if (!carritoData) {
                 container.innerHTML = `
                     <div class="text-center py-5">
-                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
-                        <h3 class="mt-3 text-success">¡Pedido confirmado!</h3>
-                        <div class="alert alert-info mt-3">
-                            <h5 class="mb-0">Número de pedido: <strong>#${data.numeroPedido}</strong></h5>
-                            <small>Guarda este número para hacer seguimiento</small>
-                        </div>
-                        <p class="text-muted">Tu pedido ha sido enviado al restaurante</p>
-                        <p class="text-muted">Tiempo estimado de entrega: 30-45 minutos</p>
-                        <div class="mt-4">
-                            <a href="${restauranteUrl}" class="btn btn-primary me-2">Volver al restaurante</a>
-                            <button class="btn btn-outline-primary" onclick="window.print()">Imprimir recibo</button>
-                        </div>
+                        <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">No hay información del pedido</h4>
+                        <p class="text-muted">Regresa al restaurante para agregar productos</p>
+                        <a href="<?= base_url('/') ?>" class="btn btn-primary">Volver al inicio</a>
                     </div>
                 `;
-            } else {
-                alert('Error al procesar el pedido: ' + data.message);
+                return;
+            }
+            
+            const carrito = JSON.parse(carritoData);
+            const restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
+            const pedido = {
+                items: carrito.items,
+                restaurante: {
+                    id: carrito.restauranteId,
+                    nombre: carrito.restauranteNombre
+                },
+                total: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0)
+            };
+            
+            container.innerHTML = `
+                <!-- Resumen del Pedido -->
+                <div class="summary-box">
+                    <h3 class="summary-title">Resumen del pedido</h3>
+                    ${pedido.items.map(item => `
+                        <div class="summary-item">
+                            <span class="summary-item-name">
+                                <span>${item.nombre}</span>
+                                <span class="summary-item-quantity">x${item.cantidad}</span>
+                            </span>
+                            <span class="summary-item-price">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                    <div class="summary-total">
+                        <span class="summary-total-label">Total</span>
+                        <span class="summary-total-price">$${(pedido.total + 3).toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <!-- Información del Pedido -->
+                <form id="orderForm">
+                    <div class="summary-box">
+                        <h3 class="summary-title">Información del pedido</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Nombre completo *</label>
+                            <input type="text" class="form-control" placeholder="Tu nombre completo" id="customerName" name="nombre_cliente" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Teléfono *</label>
+                            <input type="tel" class="form-control" placeholder="Ej: +1234567890" id="customerPhone" name="telefono_cliente" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Dirección de entrega *</label>
+                            <textarea class="form-control" placeholder="Ingresa tu dirección completa" id="customerAddress" name="direccion_entrega" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Notas especiales (opcional)</label>
+                            <textarea class="form-control" placeholder="Alergias, preferencias, etc." id="specialNotes" name="notas_especiales"></textarea>
+                        </div>
+                        
+                        <input type="hidden" name="empresa_id" value="${pedido.restaurante.id}">
+                        <input type="hidden" name="total" value="${pedido.total + 3}">
+                    </div>
+
+                    <button type="button" class="btn-confirm" onclick="confirmOrder()">Confirmar Pedido - $${(pedido.total + 3).toFixed(2)}</button>
+                </form>
+            `;
+        });
+
+        function confirmOrder() {
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const customerAddress = document.getElementById('customerAddress').value;
+            const specialNotes = document.getElementById('specialNotes').value;
+
+            if (!customerName || !customerPhone || !customerAddress) {
+                alert('Por favor completa todos los campos obligatorios');
+                return;
+            }
+
+            const carritoData = localStorage.getItem('carrito');
+            const carrito = JSON.parse(carritoData);
+            const pedido = {
+                items: carrito.items,
+                restaurante: {
+                    id: carrito.restauranteId,
+                    nombre: carrito.restauranteNombre
+                },
+                total: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0),
+                nombre: customerName,
+                telefono: customerPhone,
+                direccion: customerAddress,
+                notas: specialNotes,
+                metodoPago: 'efectivo',
+                envio: 3.00,
+                totalFinal: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0) + 3
+            };
+
+            // Enviar pedido al servidor
+            const submitBtn = document.querySelector('.btn-confirm');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Procesando...';
+            submitBtn.disabled = true;
+            
+            fetch('<?= base_url('pedidos/crear') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pedido)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Limpiar carrito
+                    localStorage.removeItem('carrito');
+                    
+                    // Cambiar el contenido a la vista de comprobante
+                    document.querySelector('.confirm-title').textContent = '¡Pedido Confirmado!';
+                    document.querySelector('.back-link').style.display = 'none';
+                    
+                    document.querySelector('#pedidoContainer').innerHTML = `
+                        <div style="text-align: center; padding: 20px 0;">
+                            <div class="success-icon" style="width: 80px; height: 80px; background-color: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                                <svg class="checkmark-svg" viewBox="0 0 52 52">
+                                    <path class="checkmark-path" d="M14,27 L22,35 L38,19" />
+                                </svg>
+                            </div>
+                            <p style="color: #666; margin-bottom: 30px;">Tu pedido ha sido recibido correctamente</p>
+                        </div>
+
+                        <div style="background: #e7f3ff; border: 2px solid #007bff; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0;">
+                            <div style="color: #666; font-size: 0.9rem; margin-bottom: 8px;">Número de pedido</div>
+                            <div style="font-size: 2rem; font-weight: 700; color: #007bff; font-family: monospace;">#${data.numeroPedido}</div>
+                        </div>
+
+                        <div class="summary-box">
+                            <h3 class="summary-title">Detalles del pedido</h3>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
+                                <span>Restaurante</span>
+                                <span style="font-weight: 600;">${pedido.restaurante.nombre}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
+                                <span>Total</span>
+                                <span style="font-weight: 700;">$${pedido.totalFinal.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                <span>Fecha</span>
+                                <span>${new Date().toLocaleDateString('es-ES')}</span>
+                            </div>
+                        </div>
+
+                        <p style="color: #666; font-size: 0.9rem; text-align: center; margin: 20px 0;">Guarda tu número de pedido. El personal del restaurante lo usará para identificar tu orden.</p>
+
+                        <button class="btn-confirm" onclick="newOrder()">Hacer otro pedido</button>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <a href="${pedido.restaurante.id}" style="color: #666; text-decoration: none;">Volver al restaurante</a>
+                        </div>
+                    `;
+                } else {
+                    alert('Error al procesar el pedido: ' + data.message);
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al procesar el pedido');
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
+            });
+        }
+
+        function newOrder() {
+            const carritoData = localStorage.getItem('carrito');
+            if (carritoData) {
+                const carrito = JSON.parse(carritoData);
+                window.location.href = carrito.restauranteUrl || carrito.restauranteId;
+            } else {
+                // Si no hay datos del carrito, usar el pedido actual
+                const pedidoData = document.querySelector('#pedidoContainer').innerHTML;
+                if (pedidoData.includes('restaurante')) {
+                    // Extraer ID del restaurante del contenido
+                    const match = pedidoData.match(/restaurante.*?id.*?(\w+)/i);
+                    if (match) {
+                        window.location.href = match[1];
+                        return;
+                    }
+                }
+                window.location.href = '<?= base_url('/') ?>';
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al procesar el pedido');
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        });
-    });
-});
-</script>
-
-<style>
-.card {
-    border: none;
-    border-radius: 12px;
-}
-
-.card-header {
-    border-bottom: 1px solid #eee;
-    border-radius: 12px 12px 0 0 !important;
-}
-
-.list-group-item {
-    border: 1px solid #f0f0f0;
-    margin-bottom: 8px;
-    border-radius: 8px;
-}
-
-.form-control, .form-select {
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.btn {
-    border-radius: 8px;
-    font-weight: 500;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-</style>
-
-<?= $this->include('templates/footer') ?>
+        }
+    </script>
+</body>
+</html>
