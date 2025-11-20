@@ -394,6 +394,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Guardar URL del restaurante antes de limpiar
+                    window.restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
+                    
                     // Limpiar carrito
                     localStorage.removeItem('carrito');
                     
@@ -434,9 +437,9 @@
 
                         <p style="color: #666; font-size: 0.9rem; text-align: center; margin: 20px 0;">Guarda tu número de pedido. El personal del restaurante lo usará para identificar tu orden.</p>
 
-                        <button class="btn-confirm" onclick="newOrder()">Hacer otro pedido</button>
+                        <button class="btn-confirm" onclick="volverRestaurante()">Hacer otro pedido</button>
                         <div style="text-align: center; margin-top: 15px;">
-                            <a href="${pedido.restaurante.id}" style="color: #666; text-decoration: none;">Volver al restaurante</a>
+                            <a href="javascript:volverRestaurante()" style="color: #666; text-decoration: none;">Volver al restaurante</a>
                         </div>
                     `;
                 } else {
@@ -453,22 +456,11 @@
             });
         }
 
-        function newOrder() {
-            const carritoData = localStorage.getItem('carrito');
-            if (carritoData) {
-                const carrito = JSON.parse(carritoData);
-                window.location.href = carrito.restauranteUrl || carrito.restauranteId;
+        function volverRestaurante() {
+            // Usar la URL guardada en la variable global
+            if (window.restauranteUrl) {
+                window.location.href = window.restauranteUrl;
             } else {
-                // Si no hay datos del carrito, usar el pedido actual
-                const pedidoData = document.querySelector('#pedidoContainer').innerHTML;
-                if (pedidoData.includes('restaurante')) {
-                    // Extraer ID del restaurante del contenido
-                    const match = pedidoData.match(/restaurante.*?id.*?(\w+)/i);
-                    if (match) {
-                        window.location.href = match[1];
-                        return;
-                    }
-                }
                 window.location.href = '<?= base_url('/') ?>';
             }
         }
