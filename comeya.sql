@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2025 at 04:20 AM
+-- Generation Time: Nov 23, 2025 at 08:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -115,7 +115,8 @@ INSERT INTO `categorias` (`id`, `empresa_id`, `nombre`, `descripcion`, `orden`, 
 (9, 2, 'Pasta', 'Categoría Pasta', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
 (10, 4, 'Mariscos', 'Categoría Mariscos', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
 (11, 4, 'Entrantes', 'Categoría Entrantes', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
-(12, 4, 'Platos principales', 'Categoría Platos principales', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45');
+(12, 4, 'Platos principales', 'Categoría Platos principales', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
+(13, 2, 'Pizza de gato', 'son pizzas pero con carne de gato', 3, 1, '2025-11-23 01:29:33', '2025-11-23 01:29:33');
 
 -- --------------------------------------------------------
 
@@ -144,6 +145,28 @@ INSERT INTO `codigos_referidos` (`id`, `codigo`, `descripcion`, `descuento_porce
 (1, 'PARTNER2024', 'Código para partners estratégicos', 20, 100, 0, '2024-12-31', 1, '2025-11-17 05:22:37', '2025-11-17 05:22:37'),
 (2, 'WELCOME10', 'Descuento de bienvenida', 10, NULL, 0, NULL, 1, '2025-11-17 05:22:37', '2025-11-17 05:22:37'),
 (3, 'PROMO50', 'Promoción especial 50% descuento', 50, 50, 0, '2024-06-30', 1, '2025-11-17 05:22:37', '2025-11-17 05:22:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `destacados`
+--
+
+CREATE TABLE `destacados` (
+  `id` int(11) NOT NULL,
+  `empresa_id` int(11) NOT NULL,
+  `producto_id` int(11) DEFAULT NULL,
+  `tipo` enum('producto','combo','promocion') NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  `precio_original` decimal(10,2) DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT 1,
+  `orden` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -209,7 +232,7 @@ CREATE TABLE `empresas` (
 --
 
 INSERT INTO `empresas` (`id`, `nombre`, `email`, `telefono`, `direccion`, `descripcion`, `ciudad`, `categoria_comida`, `promociones`, `envio_gratis`, `descuento_activo`, `oferta_2x1`, `plan`, `estado`, `fecha_trial_fin`, `limite_productos`, `activo`, `destacado`, `codigo_referido`, `configuracion_notificaciones`, `fecha_alta`, `created_at`, `updated_at`) VALUES
-(1, 'galvis', 'contacto@elbuensabor.com', '3163127002', 'Calle 123 #45-67, Bogotá', 'Especialistas en carnes a la brasa y parrilla argentina con los mejores cortes', 'Madrid', 'Parrilla', NULL, 1, 1, 0, 'premium', 'activo', NULL, 500, 1, 1, NULL, '{\"email_pedidos\":true,\"whatsapp_pedidos\":true,\"email_reportes\":true}', '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
+(1, 'Galvis Café', 'admin@galvis.com', '3163127002', 'Calle 123 #45-67, Bogotá', 'Especialistas en carnes a la brasa y parrilla argentina con los mejores cortes', 'Madrid', 'Parrilla', NULL, 1, 1, 0, 'premium', 'activo', NULL, 500, 1, 1, NULL, '{\"email_pedidos\":true,\"whatsapp_pedidos\":true,\"email_reportes\":true}', '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-22 20:09:34'),
 (2, 'Pizzería Don Mario', 'info@donmario.com', '555-0002', 'Avenida Central 456', 'Pizza artesanal al horno de leña con recetas tradicionales napolitanas', 'Barcelona', 'Italiana', NULL, 0, 0, 1, 'basico', 'activo', NULL, 50, 1, 1, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
 (3, 'Café Central', 'hola@cafecentral.com', '555-0003', 'Plaza Mayor 789', 'Café de especialidad con ambiente acogedor y repostería artesanal', 'Valencia', 'Café', NULL, 1, 0, 0, 'basico', 'inactivo', NULL, 50, 0, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
 (4, 'Mariscos La Costa', 'ventas@lacosta.com', '555-0004', 'Malecón 321', 'Mariscos frescos del día preparados con técnicas tradicionales', 'Sevilla', 'Mariscos', NULL, 0, 1, 0, 'enterprise', 'trial', '2025-12-01', 50, 1, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
@@ -364,7 +387,20 @@ INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `c
 (20, 1, 'galvis-0014', 'asdasd', NULL, 'sdasd', 'asda', 'asdasdasd', 'efectivo', NULL, 1232212.00, 3.00, 0.00, 1232215.00, '', '2025-11-19 01:39:20', '2025-11-18 20:39:20', '2025-11-19 01:39:37'),
 (21, 1, 'galvis-0015', 'asdasd', NULL, '21341241234', 'asd', 'asdasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, '', '2025-11-19 02:35:19', '2025-11-18 21:35:19', '2025-11-19 02:35:35'),
 (22, 1, 'galvis-0016', 'aasdasd', NULL, '23234234', 'asdasdasd', 'asdasd', 'efectivo', NULL, 203.50, 3.00, 0.00, 206.50, '', '2025-11-19 02:38:33', '2025-11-18 21:38:33', '2025-11-19 02:39:10'),
-(23, 1, 'galvis-0017', 'asdasd', NULL, '23423423', 'asdasdasd', 'asdasdasd', 'efectivo', NULL, 74.00, 3.00, 0.00, 77.00, 'enviado', '2025-11-19 02:40:51', '2025-11-18 21:40:51', '2025-11-19 02:41:07');
+(23, 1, 'galvis-0017', 'asdasd', NULL, '23423423', 'asdasdasd', 'asdasdasd', 'efectivo', NULL, 74.00, 3.00, 0.00, 77.00, 'enviado', '2025-11-19 02:40:51', '2025-11-18 21:40:51', '2025-11-19 02:41:07'),
+(24, 1, 'galvis-0018', 'asdasd', NULL, '324234', 'sdasdsa', 'dasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'enviado', '2025-11-20 04:39:14', '2025-11-19 23:39:14', '2025-11-20 04:39:35'),
+(25, 1, 'galvis-0019', 'asdasd', NULL, '324234', 'asdasd', 'asdasd', 'efectivo', NULL, 55.50, 3.00, 0.00, 58.50, 'cancelado', '2025-11-20 04:42:03', '2025-11-19 23:42:03', '2025-11-20 04:44:54'),
+(26, 1, 'galvis-0020', 'sadasd', NULL, '345435', 'sadasda', 'aasdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'enviado', '2025-11-20 04:43:43', '2025-11-19 23:43:43', '2025-11-20 04:44:56'),
+(27, 1, 'galvis-0021', 'asdasd', NULL, '23423', 'sdasd', '23423', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'enviado', '2025-11-20 04:44:32', '2025-11-19 23:44:32', '2025-11-20 04:44:52'),
+(28, 1, 'galvis-0022', 'asdasd', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-20 04:45:21', '2025-11-19 23:45:21', '2025-11-20 05:22:24'),
+(29, 1, 'galvis-0023', 'asdasd', NULL, '324', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-20 04:47:15', '2025-11-19 23:47:15', '2025-11-20 05:22:19'),
+(30, 1, 'galvis-0024', 'sadasd', NULL, '23424323', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-20 04:47:26', '2025-11-19 23:47:26', '2025-11-20 05:22:22'),
+(31, 1, 'galvis-0025', 'sdcsadf', NULL, '345345345', 'dfsdfsdf', 'sdfsdfdsf', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'pendiente', '2025-11-20 05:25:43', '2025-11-20 00:25:43', '2025-11-20 00:25:43'),
+(32, 1, 'galvis-0026', 'asdas', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'pendiente', '2025-11-20 05:26:52', '2025-11-20 00:26:52', '2025-11-20 00:26:52'),
+(33, 1, 'galvis-0027', 'asdsa', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 8.00, 3.00, 0.00, 11.00, 'pendiente', '2025-11-20 19:40:27', '2025-11-20 14:40:27', '2025-11-20 14:40:27'),
+(34, 1, 'galvis-0028', 'asdasd', NULL, '3234234', 'sfdads', 'asdasd', 'efectivo', NULL, 1212246.50, 3.00, 0.00, 1212249.50, 'enviado', '2025-11-22 00:41:09', '2025-11-21 19:41:09', '2025-11-22 00:41:26'),
+(35, 2, 'pizzer-0005', 'asdasd', NULL, '2342342342', 'asdasd', 'asdasdasd', 'efectivo', NULL, 65.00, 3.00, 0.00, 68.00, 'enviado', '2025-11-23 01:28:52', '2025-11-22 20:28:52', '2025-11-23 01:29:09'),
+(36, 2, 'pizzer-0006', 'asda', NULL, '23234234', 'asdasd', 'asdasd', 'efectivo', NULL, 100000.00, 3.00, 0.00, 100003.00, 'enviado', '2025-11-23 03:03:45', '2025-11-22 22:03:45', '2025-11-23 03:04:34');
 
 -- --------------------------------------------------------
 
@@ -414,7 +450,28 @@ INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `preci
 (28, 21, 1, 2, 18.50, 37.00, NULL, '2025-11-18 21:35:19'),
 (29, 22, 10, 6, 18.50, 111.00, NULL, '2025-11-18 21:38:33'),
 (30, 22, 1, 5, 18.50, 92.50, NULL, '2025-11-18 21:38:33'),
-(31, 23, 1, 4, 18.50, 74.00, NULL, '2025-11-18 21:40:51');
+(31, 23, 1, 4, 18.50, 74.00, NULL, '2025-11-18 21:40:51'),
+(32, 24, 1, 1, 18.50, 18.50, NULL, '2025-11-19 23:39:14'),
+(33, 24, 10, 1, 18.50, 18.50, NULL, '2025-11-19 23:39:14'),
+(34, 25, 1, 1, 18.50, 18.50, NULL, '2025-11-19 23:42:03'),
+(35, 25, 10, 2, 18.50, 37.00, NULL, '2025-11-19 23:42:03'),
+(36, 26, 1, 1, 18.50, 18.50, NULL, '2025-11-19 23:43:43'),
+(37, 27, 1, 1, 18.50, 18.50, NULL, '2025-11-19 23:44:32'),
+(38, 27, 10, 1, 18.50, 18.50, NULL, '2025-11-19 23:44:32'),
+(39, 28, 1, 1, 18.50, 18.50, NULL, '2025-11-19 23:45:21'),
+(40, 29, 1, 1, 18.50, 18.50, NULL, '2025-11-19 23:47:15'),
+(41, 30, 10, 1, 18.50, 18.50, NULL, '2025-11-19 23:47:26'),
+(42, 31, 1, 1, 18.50, 18.50, NULL, '2025-11-20 00:25:43'),
+(43, 32, 1, 1, 18.50, 18.50, NULL, '2025-11-20 00:26:52'),
+(44, 33, 2, 1, 8.00, 8.00, NULL, '2025-11-20 14:40:27'),
+(45, 34, 19, 1, 1212212.00, 1212212.00, NULL, '2025-11-21 19:41:09'),
+(46, 34, 11, 1, 8.00, 8.00, NULL, '2025-11-21 19:41:09'),
+(47, 34, 10, 1, 18.50, 18.50, NULL, '2025-11-21 19:41:09'),
+(48, 34, 2, 1, 8.00, 8.00, NULL, '2025-11-21 19:41:09'),
+(49, 35, 4, 2, 12.00, 24.00, NULL, '2025-11-22 20:28:52'),
+(50, 35, 5, 2, 14.50, 29.00, NULL, '2025-11-22 20:28:52'),
+(51, 35, 13, 1, 12.00, 12.00, NULL, '2025-11-22 20:28:52'),
+(52, 36, 21, 1, 100000.00, 100000.00, NULL, '2025-11-22 22:03:45');
 
 -- --------------------------------------------------------
 
@@ -459,6 +516,7 @@ CREATE TABLE `productos` (
   `imagen` varchar(500) DEFAULT NULL,
   `categoria` varchar(100) DEFAULT NULL,
   `activo` tinyint(1) DEFAULT 1,
+  `destacado` tinyint(1) DEFAULT 0,
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -467,25 +525,26 @@ CREATE TABLE `productos` (
 -- Dumping data for table `productos`
 --
 
-INSERT INTO `productos` (`id`, `empresa_id`, `categoria_id`, `nombre`, `descripcion`, `precio`, `imagen`, `categoria`, `activo`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447556_ec48ce2325d413782992.jpg', 'Platos principales', 1, '2025-11-16 22:51:14', '2025-11-18 06:32:36'),
-(2, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447575_cba6c52f931fe6f2b16c.jpg', 'Entrantes', 1, '2025-11-16 22:51:14', '2025-11-18 06:32:55'),
-(4, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, NULL, 'Pizzas', 1, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
-(5, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, NULL, 'Pizzas', 1, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
-(6, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, NULL, 'Pasta', 1, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
-(7, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
-(8, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
-(9, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
-(10, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447565_871b1063428fa6677434.jpeg', 'Platos principales', 1, '2025-11-16 23:34:46', '2025-11-18 06:32:45'),
-(11, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447585_88667ffb3952ae2bf490.jpg', 'Entrantes', 1, '2025-11-16 23:34:46', '2025-11-18 06:33:05'),
-(13, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, NULL, 'Pizzas', 1, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(14, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, NULL, 'Pizzas', 1, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(15, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, NULL, 'Pasta', 1, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(16, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(17, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(18, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(19, 1, 2, 'PROGRAMACION dkajshdahsdiahdiajsdñakjsdlkajsd{lakjdslakdasdasdads', 'asdasdasdxcbdbzdbzdhb5r6u457435i7623iu095834tj938jt9824jwewe\r\n\r\nwer\r\nwer\r\nwe\r\nrw\r\nere\r\nwr\r\n', 1212212.00, '1763437426_c75eb5b32759b1bb1793.jpeg', NULL, 1, '2025-11-18 03:38:28', '2025-11-18 06:44:57'),
-(20, 1, 2, 'Torta fria de arequipe', 'torta fria que viene decorada con arequipe, deliciosa', 20000.00, '1763446907_24cc91e68b0fe6cf53d6.jpg', NULL, 1, '2025-11-18 06:21:47', '2025-11-18 06:44:58');
+INSERT INTO `productos` (`id`, `empresa_id`, `categoria_id`, `nombre`, `descripcion`, `precio`, `imagen`, `categoria`, `activo`, `destacado`, `created_at`, `updated_at`) VALUES
+(1, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447556_ec48ce2325d413782992.jpg', 'Platos principales', 1, 1, '2025-11-16 22:51:14', '2025-11-20 22:18:21'),
+(2, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447575_cba6c52f931fe6f2b16c.jpg', 'Entrantes', 1, 1, '2025-11-16 22:51:14', '2025-11-20 22:18:24'),
+(4, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, NULL, 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-23 01:28:35'),
+(5, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, NULL, 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-23 01:28:36'),
+(6, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, NULL, 'Pasta', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
+(7, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
+(8, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
+(9, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
+(10, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447565_871b1063428fa6677434.jpeg', 'Platos principales', 1, 1, '2025-11-16 23:34:46', '2025-11-20 22:18:22'),
+(11, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447585_88667ffb3952ae2bf490.jpg', 'Entrantes', 1, 1, '2025-11-16 23:34:46', '2025-11-20 22:18:25'),
+(13, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, NULL, 'Pizzas', 1, 1, '2025-11-16 23:34:46', '2025-11-23 01:28:37'),
+(14, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, NULL, 'Pizzas', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
+(15, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, NULL, 'Pasta', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
+(16, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
+(17, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
+(18, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
+(19, 1, 2, 'PROGRAMACION dkajshdahsdiahdiajsdñakjsdlkajsd{lakjdslakdasdasdads', 'asdasdasdxcbdbzdbzdhb5r6u457435i7623iu095834tj938jt9824jwewe\r\n\r\nwer\r\nwer\r\nwe\r\nrw\r\nere\r\nwr\r\n', 1212212.00, '1763437426_c75eb5b32759b1bb1793.jpeg', NULL, 1, 1, '2025-11-18 03:38:28', '2025-11-20 20:51:08'),
+(20, 1, 2, 'Torta fria de arequipe', 'torta fria que viene decorada con arequipe, deliciosa', 20000.00, '1763446907_24cc91e68b0fe6cf53d6.jpg', NULL, 1, 1, '2025-11-18 06:21:47', '2025-11-20 22:18:19'),
+(21, 2, 13, 'gato suizo en pizza', 'es pizza pero con gato suizo', 100000.00, '1763866912_4b6177902e566245b166.png', NULL, 1, 0, '2025-11-23 03:01:52', '2025-11-23 03:01:52');
 
 -- --------------------------------------------------------
 
@@ -653,6 +712,14 @@ ALTER TABLE `codigos_referidos`
   ADD UNIQUE KEY `codigo` (`codigo`);
 
 --
+-- Indexes for table `destacados`
+--
+ALTER TABLE `destacados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `empresa_id` (`empresa_id`),
+  ADD KEY `producto_id` (`producto_id`);
+
+--
 -- Indexes for table `email_campanas`
 --
 ALTER TABLE `email_campanas`
@@ -779,13 +846,19 @@ ALTER TABLE `campanas`
 -- AUTO_INCREMENT for table `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `codigos_referidos`
 --
 ALTER TABLE `codigos_referidos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `destacados`
+--
+ALTER TABLE `destacados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `email_campanas`
@@ -821,13 +894,13 @@ ALTER TABLE `pagos`
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `pedido_items`
 --
 ALTER TABLE `pedido_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `planes`
@@ -839,7 +912,7 @@ ALTER TABLE `planes`
 -- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `promociones`
@@ -874,6 +947,13 @@ ALTER TABLE `visitas`
 --
 ALTER TABLE `categorias`
   ADD CONSTRAINT `categorias_ibfk_1` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `destacados`
+--
+ALTER TABLE `destacados`
+  ADD CONSTRAINT `destacados_ibfk_1` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `destacados_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `facturas`

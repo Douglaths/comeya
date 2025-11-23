@@ -25,6 +25,8 @@ $routes->post('pedidos/crear', 'Pedidos::crear');
 $routes->get('notificaciones/stream', 'Notificaciones::stream');
 $routes->get('notificaciones/check', 'Notificaciones::checkNuevosPedidos');
 $routes->get('/login', 'Login::index');
+$routes->post('/login/authenticate', 'Login::authenticate');
+$routes->get('/logout', 'Login::logout');
 $routes->get('uploads/(:any)', function($filename) {
     $filepath = FCPATH . 'uploads/' . $filename;
     if (file_exists($filepath)) {
@@ -44,6 +46,7 @@ $routes->post('admin/productos/store', 'Admin::storeProducto');
 $routes->get('admin/productos/editar/(:num)', 'Admin::editarProducto/$1');
 $routes->post('admin/productos/update/(:num)', 'Admin::updateProducto/$1');
 $routes->post('admin/productos/toggle/(:num)', 'Admin::toggleProducto/$1');
+$routes->post('admin/productos/toggle-destacado/(:num)', 'Admin::toggleDestacado/$1');
 $routes->post('admin/productos/eliminar/(:num)', 'Admin::eliminarProducto/$1');
 $routes->get('admin/productos/ver/(:num)', 'Admin::verProducto/$1');
 $routes->get('admin/pedidos', 'Admin::pedidos');

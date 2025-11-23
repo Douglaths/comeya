@@ -110,12 +110,18 @@
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .card-destacado .card-text {
             color: #666;
             font-size: 0.9rem;
             margin-bottom: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .price {
@@ -262,17 +268,77 @@
             right: 10px !important;
         }
 
-        #destacadosCarousel .row {
-            display: flex;
-            align-items: stretch;
+        .destacados-container {
+            position: relative;
         }
 
-        #destacadosCarousel .col-md-4 {
+        .destacados-scroll {
             display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        #destacadosCarousel .card-destacado {
-            min-height: 320px;
+        .destacados-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .destacado-item {
+            flex: 0 0 280px;
+        }
+
+        .destacados-prev, .destacados-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .destacados-prev:hover, .destacados-next:hover {
+            opacity: 1;
+            background-color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .destacados-prev {
+            left: 10px;
+        }
+
+        .destacados-next {
+            right: 10px;
+        }
+
+        .destacados-prev .carousel-control-prev-icon,
+        .destacados-next .carousel-control-next-icon {
+            width: 12px;
+            height: 12px;
+            background-size: 12px;
+            filter: invert(0.3);
+        }
+
+        .card-destacado {
+            width: 280px;
+            height: 350px;
+        }
+        
+        @media (max-width: 768px) {
+            .card-destacado {
+                height: 380px;
+            }
         }
 
         .tab-content {
@@ -420,3 +486,17 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function scrollDestacados(direction) {
+            const container = document.getElementById('destacadosScroll');
+            const scrollAmount = 300;
+            
+            if (direction === 'next') {
+                container.scrollLeft += scrollAmount;
+            } else {
+                container.scrollLeft -= scrollAmount;
+            }
+        }
+        
+
+    </script>

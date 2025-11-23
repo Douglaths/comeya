@@ -2,94 +2,44 @@
 <?= $this->include('Restaurantes/templates/header') ?>
 
     <div class="container">
+        <?php if (isset($destacados) && !empty($destacados)): ?>
         <div class="destacados-title">
             <i class="fas fa-star star-icon"></i>
             Destacados
         </div>
-        <div id="destacadosCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="4000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="card card-destacado">
-                                <span class="badge-destacado">Destacado</span>
-                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&h=300&fit=crop" alt="Provoleta Argentina">
-                                <div class="card-body">
-                                    <h3 class="card-title">Provoleta Argentina</h3>
-                                    <p class="card-text">Queso provolone fundido a la parrilla con orégano y aceite de oliva</p>
-                                    <div class="price">$8.50</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-destacado">
-                                <span class="badge-destacado">Destacado</span>
-                                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500&h=300&fit=crop" alt="Bife de Chorizo Premium">
-                                <div class="card-body">
-                                    <h3 class="card-title">Bife de Chorizo Premium</h3>
-                                    <p class="card-text">Corte argentino 350g, madurado 21 días. El rey de la parrilla</p>
-                                    <div class="price">$24.90</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-destacado">
-                                <span class="badge-destacado">Destacado</span>
-                                <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500&h=300&fit=crop" alt="Ensalada Gourmet">
-                                <div class="card-body">
-                                    <h3 class="card-title">Ensalada Gourmet</h3>
-                                    <p class="card-text">Mix de hojas verdes, queso de cabra, nueces y vinagreta de miel</p>
-                                    <div class="price">$12.90</div>
-                                </div>
+        <div class="destacados-container position-relative">
+            <div class="destacados-scroll" id="destacadosScroll">
+                <?php foreach ($destacados as $destacado): ?>
+                    <div class="destacado-item">
+                        <div class="card card-destacado">
+                            <span class="badge-destacado">Destacado</span>
+                            <img src="<?= $destacado['imagen'] ? base_url('uploads/' . $destacado['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=300&fit=crop' ?>" alt="<?= esc($destacado['nombre']) ?>">
+                            <div class="card-body">
+                                <h3 class="card-title"><?= esc($destacado['nombre']) ?></h3>
+                                <p class="card-text"><?= esc($destacado['descripcion']) ?></p>
+                                <div class="price">$<?= number_format($destacado['precio'], 2) ?></div>
+                                <button class="btn-agregar" 
+                                        data-id="<?= $destacado['id'] ?>"
+                                        data-nombre="<?= esc($destacado['nombre']) ?>"
+                                        data-precio="<?= $destacado['precio'] ?>"
+                                        data-imagen="<?= $destacado['imagen'] ? base_url('uploads/' . $destacado['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop' ?>"
+                                        data-restaurante-id="<?= isset($empresa) ? $empresa['id'] : $nombreRestaurante ?>"
+                                        data-restaurante-nombre="<?= isset($empresa) ? esc($empresa['nombre']) : ucfirst(str_replace('-', ' ', $nombreRestaurante)) ?>">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="card card-destacado">
-                                <span class="badge-destacado">Destacado</span>
-                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=300&fit=crop" alt="Tacos Especiales">
-                                <div class="card-body">
-                                    <h3 class="card-title">Tacos Especiales</h3>
-                                    <p class="card-text">Trio de tacos con carne asada, pollo y carnitas con guacamole</p>
-                                    <div class="price">$16.50</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-destacado">
-                                <span class="badge-destacado">Destacado</span>
-                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&h=300&fit=crop" alt="Pasta Fresca">
-                                <div class="card-body">
-                                    <h3 class="card-title">Pasta Fresca</h3>
-                                    <p class="card-text">Pasta artesanal con salsa de tomate y albahaca fresca</p>
-                                    <div class="price">$14.90</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-destacado">
-                                <span class="badge-destacado">Destacado</span>
-                                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=300&fit=crop" alt="Burger Gourmet">
-                                <div class="card-body">
-                                    <h3 class="card-title">Burger Gourmet</h3>
-                                    <p class="card-text">Hamburguesa artesanal con carne angus y papas fritas</p>
-                                    <div class="price">$18.50</div>
-as                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#destacadosCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <button class="destacados-prev" onclick="scrollDestacados('prev')">
+                <span class="carousel-control-prev-icon"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#destacadosCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <button class="destacados-next" onclick="scrollDestacados('next')">
+                <span class="carousel-control-next-icon"></span>
             </button>
         </div>
+        <?php endif; ?>
 
         <ul class="nav nav-tabs">
             <?php $first = true; foreach ($productosPorCategoria as $categoria => $items): ?>

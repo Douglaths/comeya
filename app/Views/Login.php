@@ -30,16 +30,19 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="text-start mb-3">Iniciar Sesion</h5>
-                                <form>
+                                <?php if (session()->getFlashdata('error')): ?>
+                                    <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+                                <?php endif; ?>
+                                <form action="<?= base_url('login/authenticate') ?>" method="POST">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="user" aria-describedby="user" placeholder="Usuario">
+                                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group">
-                                                <input type="password" class="form-control" id="password" aria-describedby="password" placeholder="Contraseña ">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 d-flex justify-content-between mb-3">
@@ -50,7 +53,7 @@
                                             <a href="#" class="text-dark">¿Olvidaste tu contraseña?</a>
                                         </div>
                                     </div>
-                                    <button class="btn text-white w-100" style="background-color: #ff6b35;">Iniciar Sesión</button>
+                                    <button type="submit" class="btn text-white w-100" style="background-color: #ff6b35;">Iniciar Sesión</button>
                                     
                                 </form>
                             </div>

@@ -17,19 +17,31 @@ class Admin extends BaseController
         $this->empresaModel = new EmpresaModel();
         $this->ventaModel = new VentaModel();
         $this->visitaModel = new VisitaModel();
+        
+        // Check if user is logged in
+        if (!session()->get('logged_in')) {
+            redirect()->to(base_url('login'))->send();
+            exit;
+        }
+    }
+    
+    private function getEmpresaId()
+    {
+        return session()->get('empresa_id') ?? 1;
     }
 
     public function index()
     {
         try {
-            // Obtener pedidos recientes del restaurante (empresa_id = 1 como ejemplo)
+            // Obtener pedidos recientes del restaurante
+            $empresaId = $this->getEmpresaId();
             $pedidoModel = new \App\Models\PedidoModel();
-            $data['pedidos'] = $pedidoModel->where('empresa_id', 1)->orderBy('fecha_pedido', 'DESC')->limit(10)->findAll();
+            $data['pedidos'] = $pedidoModel->where('empresa_id', $empresaId)->orderBy('fecha_pedido', 'DESC')->limit(10)->findAll();
             
             // Estadísticas específicas del restaurante
             $data['estadisticas'] = [
-                'pedidos_hoy' => $pedidoModel->where('empresa_id', 1)->where('DATE(fecha_pedido)', date('Y-m-d'))->countAllResults(),
-                'ventas_hoy' => $this->ventaModel->where('empresa_id', 1)->where('DATE(fecha_venta)', date('Y-m-d'))->selectSum('total')->get()->getRow()->total ?? 0,
+                'pedidos_hoy' => $pedidoModel->where('empresa_id', $empresaId)->where('DATE(fecha_pedido)', date('Y-m-d'))->countAllResults(),
+                'ventas_hoy' => $this->ventaModel->where('empresa_id', $empresaId)->where('DATE(fecha_venta)', date('Y-m-d'))->selectSum('total')->get()->getRow()->total ?? 0,
                 'producto_top' => 'Capuchino',
                 'producto_top_cantidad' => 12
             ];
@@ -52,10 +64,11 @@ class Admin extends BaseController
     {
         $categoriaModel = new \App\Models\CategoriaModel();
         $productoModel = new \App\Models\ProductoModel();
+        $empresaId = $this->getEmpresaId();
         
         $data = [
-            'categorias' => $categoriaModel->where('empresa_id', 1)->orderBy('orden', 'ASC')->findAll(),
-            'productos' => $productoModel->where('empresa_id', 1)->findAll()
+            'categorias' => $categoriaModel->where('empresa_id', $empresaId)->orderBy('orden', 'ASC')->findAll(),
+            'productos' => $productoModel->where('empresa_id', $empresaId)->findAll()
         ];
         
         return view('Admin/menu', $data);
@@ -64,7 +77,8 @@ class Admin extends BaseController
     public function crearProducto()
     {
         $categoriaModel = new \App\Models\CategoriaModel();
-        $data['categorias'] = $categoriaModel->where('empresa_id', 1)->where('activo', 1)->findAll();
+        $empresaId = $this->getEmpresaId();
+        $data['categorias'] = $categoriaModel->where('empresa_id', $empresaId)->where('activo', 1)->findAll();
         
         return view('Admin/crear_producto', $data);
     }
@@ -72,9 +86,10 @@ class Admin extends BaseController
     public function storeProducto()
     {
         $productoModel = new \App\Models\ProductoModel();
+        $empresaId = $this->getEmpresaId();
         
         $data = [
-            'empresa_id' => 1,
+            'empresa_id' => $empresaId,
             'categoria_id' => $this->request->getPost('categoria_id'),
             'nombre' => $this->request->getPost('nombre'),
             'descripcion' => $this->request->getPost('descripcion'),
@@ -115,6 +130,24 @@ class Admin extends BaseController
         return $this->response->setJSON(['success' => false]);
     }
 
+    public function toggleDestacado($id)
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON(['success' => false]);
+        }
+
+        $productoModel = new \App\Models\ProductoModel();
+        $producto = $productoModel->find($id);
+        
+        if ($producto) {
+            $nuevoEstado = isset($producto['destacado']) && $producto['destacado'] ? 0 : 1;
+            $result = $productoModel->update($id, ['destacado' => $nuevoEstado]);
+            return $this->response->setJSON(['success' => $result]);
+        }
+        
+        return $this->response->setJSON(['success' => false]);
+    }
+
     public function crearCategoria()
     {
         return view('Admin/crear_categoria');
@@ -123,12 +156,13 @@ class Admin extends BaseController
     public function storeCategoria()
     {
         $categoriaModel = new \App\Models\CategoriaModel();
+        $empresaId = $this->getEmpresaId();
         
         $data = [
-            'empresa_id' => 1,
+            'empresa_id' => $empresaId,
             'nombre' => $this->request->getPost('nombre'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'orden' => $categoriaModel->where('empresa_id', 1)->countAllResults() + 1,
+            'orden' => $categoriaModel->where('empresa_id', $empresaId)->countAllResults() + 1,
             'activo' => 1
         ];
         
@@ -144,9 +178,10 @@ class Admin extends BaseController
         $productoModel = new \App\Models\ProductoModel();
         $categoriaModel = new \App\Models\CategoriaModel();
         
+        $empresaId = $this->getEmpresaId();
         $data = [
             'producto' => $productoModel->find($id),
-            'categorias' => $categoriaModel->where('empresa_id', 1)->where('activo', 1)->findAll()
+            'categorias' => $categoriaModel->where('empresa_id', $empresaId)->where('activo', 1)->findAll()
         ];
         
         if (!$data['producto']) {
@@ -202,7 +237,8 @@ class Admin extends BaseController
         $fecha = $this->request->getGet('fecha') ?? date('Y-m-d');
         $estado = $this->request->getGet('estado') ?? '';
         
-        $query = $pedidoModel->where('empresa_id', 1);
+        $empresaId = $this->getEmpresaId();
+        $query = $pedidoModel->where('empresa_id', $empresaId);
         
         if ($fecha) {
             $query->where('DATE(fecha_pedido)', $fecha);
@@ -267,11 +303,12 @@ class Admin extends BaseController
         $pagoModel = new \App\Models\PagoModel();
         $planModel = new \App\Models\PlanModel();
         
-        // Obtener información de la empresa (ID 1 como ejemplo)
-        $empresa = $empresaModel->find(1);
+        // Obtener información de la empresa
+        $empresaId = $this->getEmpresaId();
+        $empresa = $empresaModel->find($empresaId);
         
         // Obtener facturas de la empresa
-        $facturas = $facturaModel->where('empresa_id', 1)
+        $facturas = $facturaModel->where('empresa_id', $empresaId)
                                  ->orderBy('fecha_emision', 'DESC')
                                  ->limit(10)
                                  ->findAll();
@@ -279,7 +316,7 @@ class Admin extends BaseController
         // Obtener pagos realizados
         $pagos = $pagoModel->select('pagos.*, facturas.numero as factura_numero')
                           ->join('facturas', 'facturas.id = pagos.factura_id')
-                          ->where('facturas.empresa_id', 1)
+                          ->where('facturas.empresa_id', $empresaId)
                           ->orderBy('pagos.fecha_pago', 'DESC')
                           ->limit(10)
                           ->findAll();
@@ -312,12 +349,18 @@ class Admin extends BaseController
         $usuarioModel = new \App\Models\UsuarioModel();
         $empresaModel = new \App\Models\EmpresaModel();
         
-        // Usuario actual (simulado como ID 1)
-        $usuario = $usuarioModel->find(1);
-        $empresa = $empresaModel->find(1);
+        // Empresa actual
+        $empresaId = $this->getEmpresaId();
+        $empresa = $empresaModel->find($empresaId);
+        
+        // Simular usuario desde empresa
+        $usuario = [
+            'nombre' => $empresa['nombre'],
+            'email' => $empresa['email']
+        ];
         
         // Usuarios de la empresa
-        $usuarios = $usuarioModel->where('empresa_id', 1)->findAll();
+        $usuarios = $usuarioModel->where('empresa_id', $empresaId)->findAll();
         
         // Decodificar notificaciones
         $notificaciones = [];
@@ -347,14 +390,8 @@ class Admin extends BaseController
             return redirect()->back()->with('error', 'Las contraseñas no coinciden');
         }
         
-        // Actualizar contraseña (en producción verificar la actual)
-        $data = ['password' => password_hash($passwordNuevo, PASSWORD_DEFAULT)];
-        
-        if ($usuarioModel->update(1, $data)) {
-            return redirect()->back()->with('success', 'Contraseña actualizada exitosamente');
-        } else {
-            return redirect()->back()->with('error', 'Error al actualizar la contraseña');
-        }
+        // For now, password change is disabled since we use empresa login
+        return redirect()->back()->with('info', 'Cambio de contraseña no disponible en modo empresa');
     }
     
     public function actualizarPerfil()
@@ -362,21 +399,17 @@ class Admin extends BaseController
         $usuarioModel = new \App\Models\UsuarioModel();
         $empresaModel = new \App\Models\EmpresaModel();
         
-        $dataUsuario = [
-            'nombre' => $this->request->getPost('nombre'),
-            'email' => $this->request->getPost('email')
-        ];
-        
         $dataEmpresa = [
             'nombre' => $this->request->getPost('nombre_empresa'),
+            'email' => $this->request->getPost('email'),
             'telefono' => $this->request->getPost('telefono'),
             'direccion' => $this->request->getPost('direccion')
         ];
         
-        $usuarioActualizado = $usuarioModel->update(1, $dataUsuario);
-        $empresaActualizada = $empresaModel->update(1, $dataEmpresa);
+        $empresaId = $this->getEmpresaId();
+        $empresaActualizada = $empresaModel->update($empresaId, $dataEmpresa);
         
-        if ($usuarioActualizado && $empresaActualizada) {
+        if ($empresaActualizada) {
             return redirect()->back()->with('success', 'Perfil actualizado exitosamente');
         } else {
             return redirect()->back()->with('error', 'Error al actualizar el perfil');
@@ -387,8 +420,9 @@ class Admin extends BaseController
     {
         $usuarioModel = new \App\Models\UsuarioModel();
         
+        $empresaId = $this->getEmpresaId();
         $data = [
-            'empresa_id' => 1,
+            'empresa_id' => $empresaId,
             'nombre' => $this->request->getPost('nombre'),
             'email' => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
@@ -414,8 +448,9 @@ class Admin extends BaseController
                 'email_reportes' => $this->request->getPost('email_reportes') ? true : false
             ];
             
+            $empresaId = $this->getEmpresaId();
             $result = $db->table('empresas')
-                         ->where('id', 1)
+                         ->where('id', $empresaId)
                          ->update(['configuracion_notificaciones' => json_encode($notificaciones)]);
             
             return redirect()->to(base_url('admin/configuracion'))->with('success', 'Notificaciones actualizadas exitosamente');

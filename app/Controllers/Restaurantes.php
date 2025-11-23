@@ -51,11 +51,20 @@ class Restaurantes extends BaseController
             $productosPorCategoria[$categoria][] = $producto;
         }
         
+        // Obtener productos destacados
+        $destacados = $db->table('productos')
+            ->where('empresa_id', $empresa['id'])
+            ->where('activo', 1)
+            ->where('destacado', 1)
+            ->get()
+            ->getResultArray();
+        
         $data = [
             'nombreRestaurante' => $nombreRestaurante,
             'empresa' => $empresa,
             'productos' => $productos,
-            'productosPorCategoria' => $productosPorCategoria
+            'productosPorCategoria' => $productosPorCategoria,
+            'destacados' => $destacados
         ];
         
         return view('Restaurantes/restaurantes', $data);

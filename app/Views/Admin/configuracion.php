@@ -23,15 +23,9 @@
                         <div class="card-body">
                             <form action="<?= base_url('admin/actualizar-perfil') ?>" method="POST">
                                 <div class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre Completo</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" 
-                                           value="<?= esc($usuario['nombre'] ?? 'Admin Galvis') ?>" required>
-                                </div>
-                                
-                                <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" 
-                                           value="<?= esc($usuario['email'] ?? 'admin@galvis.com') ?>" required>
+                                           value="<?= esc($empresa['email'] ?? '') ?>" required>
                                 </div>
                                 
                                 <div class="mb-3">
