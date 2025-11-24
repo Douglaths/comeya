@@ -37,7 +37,7 @@ class Pedidos extends BaseController
             'cliente_telefono' => $request->telefono,
             'direccion_entrega' => $request->direccion,
             'notas' => $request->notas ?? '',
-            'metodo_pago' => $request->metodoPago,
+            'medio_pago' => $request->metodoPago,
             'subtotal' => $request->total,
             'costo_envio' => $request->envio,
             'total' => $request->totalFinal,

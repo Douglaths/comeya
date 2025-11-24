@@ -11,7 +11,7 @@
         <div class="container-fluid content-inner mt-5 py-0">
             <div class="row">
                 <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
-                    <h4>Hola, Galvis Café 👋</h4>
+                    <h4>Hola, <?= session()->get('empresa_nombre') ?? 'Restaurante' ?> 👋</h4>
                     <a href="#" class="btn btn-primary">Ver mi menú digital</a>
                 </div>
                 
@@ -83,10 +83,10 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <a href="<?= base_url('admin/pedidos/ver/' . $pedido['id']) ?>" 
-                                                           class="btn btn-sm btn-primary">
+                                                        <button type="button" class="btn btn-sm btn-primary" 
+                                                                onclick="verDetallesPedido(<?= $pedido['id'] ?>)">
                                                             Ver Detalles
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -104,5 +104,162 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal para detalles del pedido -->
+    <div class="modal fade" id="modalDetallesPedido" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles del Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="contenidoDetallesPedido">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function verDetallesPedido(pedidoId) {
+        const modal = new bootstrap.Modal(document.getElementById('modalDetallesPedido'));
+        const contenido = document.getElementById('contenidoDetallesPedido');
+        
+        // Mostrar loading
+        contenido.innerHTML = `
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        `;
+        
+        modal.show();
+        
+        // Cargar detalles del pedido
+        fetch(`<?= base_url('admin/pedidos/ver/') ?>${pedidoId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const pedido = data.pedido;
+                    const items = data.items;
+                    
+                    let itemsHtml = '';
+                    items.forEach(item => {
+                        itemsHtml += `
+                            <tr>
+                                <td>${item.producto_nombre}</td>
+                                <td>${item.cantidad}</td>
+                                <td>$${parseInt(item.precio_unitario).toLocaleString()}</td>
+                                <td>$${parseInt(item.subtotal).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    const fechaPedido = new Date(pedido.fecha_pedido);
+                    const fechaProcesando = pedido.fecha_procesando ? new Date(pedido.fecha_procesando) : null;
+                    const fechaEnviado = pedido.fecha_enviado ? new Date(pedido.fecha_enviado) : null;
+                    const fechaCompletado = pedido.fecha_completado ? new Date(pedido.fecha_completado) : null;
+                    
+                    contenido.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Información del Cliente</h6>
+                                <p><strong>Nombre:</strong> ${pedido.nombre_cliente}</p>
+                                <p><strong>Teléfono:</strong> ${pedido.telefono_cliente}</p>
+                                <p><strong>Dirección:</strong> ${pedido.direccion_cliente || 'No especificada'}</p>
+                                <p><strong>Medio de Pago:</strong> ${pedido.medio_pago === 'efectivo' ? 'Efectivo' : 'Transferencia'}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Información del Pedido</h6>
+                                <p><strong>Número:</strong> ${pedido.numero_pedido}</p>
+                                <p><strong>Estado:</strong> <span class="badge ${
+                                    pedido.estado === 'pendiente' ? 'bg-warning' :
+                                    pedido.estado === 'procesando' ? 'bg-info' :
+                                    pedido.estado === 'enviado' ? 'bg-primary' :
+                                    pedido.estado === 'completado' ? 'bg-success' : 'bg-danger'
+                                }">${pedido.estado.charAt(0).toUpperCase() + pedido.estado.slice(1)}</span></p>
+                                <p><strong>Total:</strong> $${parseInt(pedido.total).toLocaleString()}</p>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h6>Timeline del Pedido</h6>
+                        <div class="timeline mb-3">
+                            <div class="timeline-item ${pedido.estado === 'pendiente' ? 'active' : 'completed'}">
+                                <strong>Pedido Recibido:</strong> ${fechaPedido.toLocaleString()}
+                            </div>
+                            ${fechaProcesando ? `
+                                <div class="timeline-item ${pedido.estado === 'procesando' ? 'active' : 'completed'}">
+                                    <strong>En Preparación:</strong> ${fechaProcesando.toLocaleString()}
+                                </div>
+                            ` : ''}
+                            ${fechaEnviado ? `
+                                <div class="timeline-item ${pedido.estado === 'enviado' ? 'active' : 'completed'}">
+                                    <strong>Enviado:</strong> ${fechaEnviado.toLocaleString()}
+                                </div>
+                            ` : ''}
+                            ${fechaCompletado ? `
+                                <div class="timeline-item completed">
+                                    <strong>Completado:</strong> ${fechaCompletado.toLocaleString()}
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <hr>
+                        
+                        <h6>Productos del Pedido</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unit.</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${itemsHtml}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3">Total:</th>
+                                        <th>$${parseInt(pedido.total).toLocaleString()}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    contenido.innerHTML = '<div class="alert alert-danger">Error al cargar los detalles del pedido</div>';
+                }
+            })
+            .catch(error => {
+                contenido.innerHTML = '<div class="alert alert-danger">Error al cargar los detalles del pedido</div>';
+            });
+    }
+    </script>
+
+    <style>
+    .timeline-item {
+        padding: 8px 0;
+        border-left: 3px solid #dee2e6;
+        padding-left: 15px;
+        margin-bottom: 10px;
+    }
+    .timeline-item.active {
+        border-left-color: #0d6efd;
+        background-color: #f8f9fa;
+    }
+    .timeline-item.completed {
+        border-left-color: #198754;
+    }
+    </style>
 
 <?= $this->include('Admin/templates/footer') ?>

@@ -33,26 +33,52 @@ class Admin extends BaseController
     public function index()
     {
         try {
-            // Obtener pedidos recientes del restaurante
             $empresaId = $this->getEmpresaId();
             $pedidoModel = new \App\Models\PedidoModel();
+            $pedidoItemModel = new \App\Models\PedidoItemModel();
+            $productoModel = new \App\Models\ProductoModel();
+            
+            // Obtener pedidos recientes del restaurante
             $data['pedidos'] = $pedidoModel->where('empresa_id', $empresaId)->orderBy('fecha_pedido', 'DESC')->limit(10)->findAll();
             
-            // Estadísticas específicas del restaurante
+            // Estadísticas del día
+            $pedidosHoy = $pedidoModel->where('empresa_id', $empresaId)->where('DATE(fecha_pedido)', date('Y-m-d'))->countAllResults();
+            
+            // Ventas del día (suma de totales de pedidos)
+            $ventasHoyResult = $pedidoModel->where('empresa_id', $empresaId)
+                                          ->where('DATE(fecha_pedido)', date('Y-m-d'))
+                                          ->selectSum('total')
+                                          ->get()
+                                          ->getRow();
+            $ventasHoy = $ventasHoyResult ? $ventasHoyResult->total : 0;
+            
+            // Producto más vendido hoy
+            $productoTopResult = $pedidoItemModel
+                ->select('productos.nombre, SUM(pedido_items.cantidad) as total_vendido')
+                ->join('pedidos', 'pedidos.id = pedido_items.pedido_id')
+                ->join('productos', 'productos.id = pedido_items.producto_id')
+                ->where('pedidos.empresa_id', $empresaId)
+                ->where('DATE(pedidos.fecha_pedido)', date('Y-m-d'))
+                ->groupBy('pedido_items.producto_id')
+                ->orderBy('total_vendido', 'DESC')
+                ->limit(1)
+                ->get()
+                ->getRowArray();
+            
             $data['estadisticas'] = [
-                'pedidos_hoy' => $pedidoModel->where('empresa_id', $empresaId)->where('DATE(fecha_pedido)', date('Y-m-d'))->countAllResults(),
-                'ventas_hoy' => $this->ventaModel->where('empresa_id', $empresaId)->where('DATE(fecha_venta)', date('Y-m-d'))->selectSum('total')->get()->getRow()->total ?? 0,
-                'producto_top' => 'Capuchino',
-                'producto_top_cantidad' => 12
+                'pedidos_hoy' => $pedidosHoy,
+                'ventas_hoy' => $ventasHoy ?? 0,
+                'producto_top' => $productoTopResult ? $productoTopResult['nombre'] : 'Sin ventas',
+                'producto_top_cantidad' => $productoTopResult ? $productoTopResult['total_vendido'] : 0
             ];
         } catch (\Exception $e) {
             $data = [
                 'pedidos' => [],
                 'estadisticas' => [
-                    'pedidos_hoy' => 8,
-                    'ventas_hoy' => 156000,
-                    'producto_top' => 'Capuchino',
-                    'producto_top_cantidad' => 12
+                    'pedidos_hoy' => 0,
+                    'ventas_hoy' => 0,
+                    'producto_top' => 'Sin datos',
+                    'producto_top_cantidad' => 0
                 ]
             ];
         }
@@ -261,12 +287,13 @@ class Admin extends BaseController
     {
         $pedidoModel = new \App\Models\PedidoModel();
         $pedidoItemModel = new \App\Models\PedidoItemModel();
-        $productoModel = new \App\Models\ProductoModel();
         
-        $pedido = $pedidoModel->find($id);
+        // Verificar que el pedido pertenece a la empresa del usuario
+        $empresaId = $this->getEmpresaId();
+        $pedido = $pedidoModel->where('id', $id)->where('empresa_id', $empresaId)->first();
         
         if (!$pedido) {
-            return $this->response->setJSON(['success' => false]);
+            return $this->response->setJSON(['success' => false, 'message' => 'Pedido no encontrado']);
         }
         
         // Obtener items del pedido con información del producto
@@ -291,7 +318,18 @@ class Admin extends BaseController
         $pedidoModel = new \App\Models\PedidoModel();
         $nuevoEstado = $this->request->getPost('estado');
         
-        $result = $pedidoModel->update($id, ['estado' => $nuevoEstado]);
+        $updateData = ['estado' => $nuevoEstado];
+        
+        // Add timestamp based on status
+        if ($nuevoEstado === 'procesando') {
+            $updateData['fecha_procesando'] = date('Y-m-d H:i:s');
+        } elseif ($nuevoEstado === 'enviado') {
+            $updateData['fecha_enviado'] = date('Y-m-d H:i:s');
+        } elseif ($nuevoEstado === 'completado') {
+            $updateData['fecha_completado'] = date('Y-m-d H:i:s');
+        }
+        
+        $result = $pedidoModel->update($id, $updateData);
         
         return $this->response->setJSON(['success' => $result]);
     }

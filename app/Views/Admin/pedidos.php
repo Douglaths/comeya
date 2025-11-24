@@ -348,14 +348,19 @@ function verPedido(id) {
                                         <div class="col-md-6">
                                             <strong>Cliente:</strong> ${pedido.cliente_nombre || 'No especificado'}<br>
                                             <strong>Teléfono:</strong> ${pedido.cliente_telefono || 'No especificado'}<br>
-                                            <strong>Email:</strong> ${pedido.cliente_email || 'No especificado'}
+                                            <strong>Dirección:</strong> ${pedido.direccion_entrega || 'No especificado'}<br>
+                                            <strong>Medio de pago:</strong> <span class="badge ${pedido.medio_pago === 'transferencia' ? 'bg-warning' : 'bg-success'}">${pedido.medio_pago || 'efectivo'}</span>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>Fecha:</strong> ${new Date(pedido.fecha_pedido).toLocaleString()}<br>
+                                            <strong>Pedido recibido:</strong> ${new Date(pedido.fecha_pedido).toLocaleString()}<br>
+                                            ${pedido.fecha_procesando ? `<strong>Inició preparación:</strong> ${new Date(pedido.fecha_procesando).toLocaleString()}<br>` : ''}
+                                            ${pedido.fecha_enviado ? `<strong>Enviado:</strong> ${new Date(pedido.fecha_enviado).toLocaleString()}<br>` : ''}
+                                            ${pedido.fecha_completado ? `<strong>Completado:</strong> ${new Date(pedido.fecha_completado).toLocaleString()}<br>` : ''}
                                             <strong>Estado:</strong> <span class="badge bg-info">${pedido.estado}</span><br>
                                             <strong>Total:</strong> <span class="h5 text-primary">$${parseFloat(pedido.total).toLocaleString()}</span>
                                         </div>
                                     </div>
+                                    ${pedido.notas ? `<div class="alert alert-info"><strong>Notas:</strong> ${pedido.notas}</div>` : ''}
                                     
                                     <h6>Productos:</h6>
                                     <div class="table-responsive">

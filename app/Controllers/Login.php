@@ -34,6 +34,7 @@ class Login extends BaseController
             if ($password === '12345678') {
                 session()->set([
                     'empresa_id' => $empresa['id'],
+                    'empresa_nombre' => $empresa['nombre'],
                     'user_name' => $empresa['nombre'],
                     'user_email' => $empresa['email'],
                     'logged_in' => true

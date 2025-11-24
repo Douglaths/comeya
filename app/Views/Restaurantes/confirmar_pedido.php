@@ -336,6 +336,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="form-label">Medio de pago *</label>
+                            <select class="form-control" id="medioPago" name="medio_pago" required onchange="toggleTransferenciaMessage()">
+                                <option value="efectivo">Efectivo</option>
+                                <option value="transferencia">Transferencia</option>
+                            </select>
+                            <div id="transferenciaMessage" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 8px;">
+                                <i class="fas fa-info-circle"></i> Debemos confirmar la transferencia para poder proceder con la preparación de tu pedido
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-label">Notas especiales (opcional)</label>
                             <textarea class="form-control" placeholder="Alergias, preferencias, etc." id="specialNotes" name="notas_especiales"></textarea>
                         </div>
@@ -354,6 +365,7 @@
             const customerPhone = document.getElementById('customerPhone').value;
             const customerAddress = document.getElementById('customerAddress').value;
             const specialNotes = document.getElementById('specialNotes').value;
+            const medioPago = document.getElementById('medioPago').value;
 
             if (!customerName || !customerPhone || !customerAddress) {
                 alert('Por favor completa todos los campos obligatorios');
@@ -373,7 +385,7 @@
                 telefono: customerPhone,
                 direccion: customerAddress,
                 notas: specialNotes,
-                metodoPago: 'efectivo',
+                metodoPago: medioPago,
                 envio: 3.00,
                 totalFinal: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0) + 3
             };
@@ -454,6 +466,17 @@
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             });
+        }
+
+        function toggleTransferenciaMessage() {
+            const medioPago = document.getElementById('medioPago').value;
+            const message = document.getElementById('transferenciaMessage');
+            
+            if (medioPago === 'transferencia') {
+                message.style.display = 'block';
+            } else {
+                message.style.display = 'none';
+            }
         }
 
         function volverRestaurante() {
