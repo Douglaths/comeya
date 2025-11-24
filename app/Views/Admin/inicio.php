@@ -41,7 +41,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">🧁 Producto más vendido</h5>
                                     <h2 class="mb-0"><?= $estadisticas['producto_top'] ?? 'Capuchino' ?></h2>
-                                    <small><?= $estadisticas['producto_top_cantidad'] ?? 12 ?> vendidos hoy</small>
+                                    <small><?= $estadisticas['producto_top_cantidad'] ?? 12 ?> vendidos este mes</small>
                                 </div>
                             </div>
                         </div>

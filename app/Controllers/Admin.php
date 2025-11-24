@@ -52,13 +52,13 @@ class Admin extends BaseController
                                           ->getRow();
             $ventasHoy = $ventasHoyResult ? $ventasHoyResult->total : 0;
             
-            // Producto más vendido hoy
+            // Producto más vendido del último mes
             $productoTopResult = $pedidoItemModel
                 ->select('productos.nombre, SUM(pedido_items.cantidad) as total_vendido')
                 ->join('pedidos', 'pedidos.id = pedido_items.pedido_id')
                 ->join('productos', 'productos.id = pedido_items.producto_id')
                 ->where('pedidos.empresa_id', $empresaId)
-                ->where('DATE(pedidos.fecha_pedido)', date('Y-m-d'))
+                ->where('pedidos.fecha_pedido >=', date('Y-m-d', strtotime('-1 month')))
                 ->groupBy('pedido_items.producto_id')
                 ->orderBy('total_vendido', 'DESC')
                 ->limit(1)
