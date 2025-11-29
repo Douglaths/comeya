@@ -34,10 +34,17 @@ class Empresas extends BaseController
             $builder = $builder->like('ciudad', $filtros['ciudad']);
         }
 
+        // Contar solicitudes pendientes
+        $db = \Config\Database::connect();
+        $solicitudesPendientes = $db->table('solicitudes_registro')
+                                   ->where('estado', 'pendiente')
+                                   ->countAllResults();
+
         $data = [
             'empresas' => $builder->findAll(),
             'filtros' => $filtros,
-            'ciudades' => $this->empresaModel->select('ciudad')->distinct()->findAll()
+            'ciudades' => $this->empresaModel->select('ciudad')->distinct()->findAll(),
+            'solicitudes_pendientes' => $solicitudesPendientes
         ];
 
         return view('dashboard/empresas/index', $data);
@@ -183,5 +190,83 @@ class Empresas extends BaseController
         ];
 
         return $limites[$plan] ?? 25;
+    }
+
+    public function solicitudes()
+    {
+        $db = \Config\Database::connect();
+        $solicitudes = $db->table('solicitudes_registro')
+                         ->orderBy('fecha_solicitud', 'DESC')
+                         ->get()
+                         ->getResultArray();
+
+        $data = ['solicitudes' => $solicitudes];
+        return view('dashboard/empresas/solicitudes', $data);
+    }
+
+    public function aprobarSolicitud($id)
+    {
+        $db = \Config\Database::connect();
+        $solicitud = $db->table('solicitudes_registro')->where('id', $id)->get()->getRowArray();
+        
+        if (!$solicitud) {
+            return redirect()->back()->with('error', 'Solicitud no encontrada');
+        }
+
+        $db->transStart();
+
+        try {
+            // Crear empresa
+            $empresaData = [
+                'nombre' => $solicitud['nombre_empresa'],
+                'email' => $solicitud['email'],
+                'telefono' => $solicitud['telefono'],
+                'direccion' => $solicitud['direccion'],
+                'plan' => 'basico',
+                'estado' => 'activo',
+                'limite_productos' => 25
+            ];
+
+            $empresaId = $this->empresaModel->insert($empresaData);
+
+            // Actualizar solicitud
+            $db->table('solicitudes_registro')
+               ->where('id', $id)
+               ->update([
+                   'estado' => 'aprobada',
+                   'fecha_respuesta' => date('Y-m-d H:i:s')
+               ]);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                throw new \Exception('Error al aprobar la solicitud');
+            }
+
+            return redirect()->back()->with('success', 'Solicitud aprobada y empresa creada exitosamente');
+
+        } catch (\Exception $e) {
+            $db->transRollback();
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
+    public function rechazarSolicitud($id)
+    {
+        $db = \Config\Database::connect();
+        
+        $result = $db->table('solicitudes_registro')
+                    ->where('id', $id)
+                    ->update([
+                        'estado' => 'rechazada',
+                        'fecha_respuesta' => date('Y-m-d H:i:s'),
+                        'notas_admin' => $this->request->getPost('notas')
+                    ]);
+
+        if ($result) {
+            return redirect()->back()->with('success', 'Solicitud rechazada');
+        } else {
+            return redirect()->back()->with('error', 'Error al rechazar la solicitud');
+        }
     }
 }

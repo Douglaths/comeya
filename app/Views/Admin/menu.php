@@ -49,7 +49,7 @@
                                             <?php foreach ($productos as $producto): ?>
                                                 <tr>
                                                     <td>
-                                                        <img src="<?= $producto['imagen'] ? base_url('public/uploads/' . $producto['imagen']) : 'https://via.placeholder.com/50x50?text=Sin+Imagen' ?>" 
+                                                        <img src="<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://via.placeholder.com/50x50?text=Sin+Imagen' ?>" 
                                                              alt="<?= esc($producto['nombre']) ?>" 
                                                              class="rounded" 
                                                              style="width: 50px; height: 50px; object-fit: cover;">
@@ -123,7 +123,7 @@
                                         <?php foreach ($productosCategoria as $producto): ?>
                                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3">
                                                 <div class="card h-100">
-                                                    <img src="<?= $producto['imagen'] ? base_url('public/uploads/' . $producto['imagen']) : 'https://via.placeholder.com/200x200?text=Sin+Imagen' ?>" 
+                                                    <img src="<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://via.placeholder.com/200x200?text=Sin+Imagen' ?>" 
                                                          class="card-img-top" 
                                                          alt="<?= esc($producto['nombre']) ?>"
                                                          style="height: 200px; object-fit: cover;">
@@ -243,7 +243,7 @@ function verProducto(id) {
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <img src="${producto.imagen ? '<?= base_url('public/uploads/') ?>' + producto.imagen : 'https://via.placeholder.com/300x300?text=Sin+Imagen'}" 
+                                            <img src="${producto.imagen ? '<?= base_url('uploads/') ?>' + producto.imagen : 'https://via.placeholder.com/300x300?text=Sin+Imagen'}" 
                                                  class="img-fluid rounded" alt="${producto.nombre}">
                                         </div>
                                         <div class="col-md-6">

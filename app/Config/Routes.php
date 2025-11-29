@@ -27,6 +27,8 @@ $routes->get('notificaciones/check', 'Notificaciones::checkNuevosPedidos');
 $routes->get('/login', 'Login::index');
 $routes->post('/login/authenticate', 'Login::authenticate');
 $routes->get('/logout', 'Login::logout');
+$routes->get('/registro', 'Registro::index');
+$routes->post('/registro/solicitar', 'Registro::solicitar');
 $routes->get('uploads/(:any)', function($filename) {
     $filepath = FCPATH . 'uploads/' . $filename;
     if (file_exists($filepath)) {
@@ -73,6 +75,9 @@ $routes->get('/superadmin/empresas/crear', 'Empresas::crear');
 $routes->post('/superadmin/empresas/store', 'Empresas::store');
 $routes->get('/superadmin/empresas/inactivas', 'Empresas::inactivas');
 $routes->get('/superadmin/empresas/trial', 'Empresas::trial');
+$routes->get('/superadmin/empresas/solicitudes', 'Empresas::solicitudes');
+$routes->get('/superadmin/empresas/aprobar-solicitud/(:num)', 'Empresas::aprobarSolicitud/$1');
+$routes->post('/superadmin/empresas/rechazar-solicitud/(:num)', 'Empresas::rechazarSolicitud/$1');
 $routes->get('/superadmin/empresas/impersonar/(:num)', 'Empresas::impersonar/$1');
 $routes->post('/superadmin/empresas/cambiar-estado/(:num)', 'Empresas::cambiarEstado/$1');
 $routes->post('/superadmin/empresas/cambiar-plan/(:num)', 'Empresas::cambiarPlan/$1');

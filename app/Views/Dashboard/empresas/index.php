@@ -14,9 +14,19 @@
                 <div class="row">
                     <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
                         <h4>Gestión de Empresas</h4>
-                        <a href="<?= base_url('superadmin/empresas/crear') ?>" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Nueva Empresa
-                        </a>
+                        <div>
+                            <a href="<?= base_url('superadmin/empresas/solicitudes') ?>" class="btn btn-warning me-2 position-relative">
+                                <i class="fas fa-clock"></i> Solicitudes
+                                <?php if ($solicitudes_pendientes > 0): ?>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        <?= $solicitudes_pendientes ?>
+                                    </span>
+                                <?php endif; ?>
+                            </a>
+                            <a href="<?= base_url('superadmin/empresas/crear') ?>" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Nueva Empresa
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Filtros -->

@@ -56,6 +56,11 @@
                                     <button type="submit" class="btn text-white w-100" style="background-color: #ff6b35;">Iniciar Sesión</button>
                                     
                                 </form>
+                                
+                                <div class="text-center mt-3">
+                                    <p class="text-muted">¿No tienes cuenta?</p>
+                                    <a href="<?= base_url('registro') ?>" class="btn btn-outline-secondary w-100">Solicitar Registro</a>
+                                </div>
                             </div>
                         </div>
                         <div class="auth-img">
