@@ -264,7 +264,7 @@
                                     <img src="<?= session()->get('user_photo') ? base_url('uploads/' . session()->get('user_photo')) : base_url('public/assets/images/avatars/01.png') ?>" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
                                     <div class="caption ms-3 d-none d-md-block ">
                                         <h6 class="mb-0 caption-title"><?= esc(session()->get('user_name')) ?></h6>
-                                        <p class="mb-0 caption-sub-title"><?= esc(session()->get('user_role')) ?></p>
+                                        <p class="mb-0 caption-sub-title"><?= esc(session()->get('user_role')) ?: 'Administrador' ?></p>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

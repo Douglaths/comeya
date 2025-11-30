@@ -48,8 +48,22 @@ class Login extends BaseController
                     ->select('nombre, email, foto_perfil, rol')
                     ->where('empresa_id', $empresa['id'])
                     ->where('activo', 1)
+                    ->orderBy('id', 'ASC')
                     ->get()
                     ->getRowArray();
+                
+                // Convertir rol de base de datos a nombre legible
+                $roleMap = [
+                    'administrador' => 'Administrador',
+                    'admin_empresa' => 'Administrador',
+                    'empleado' => 'Empleado',
+                    'gerente' => 'Gerente'
+                ];
+                
+                $userRole = 'Administrador';
+                if ($usuario && !empty($usuario['rol'])) {
+                    $userRole = $roleMap[$usuario['rol']] ?? 'Administrador';
+                }
                 
                 session()->set([
                     'empresa_id' => $empresa['id'],
@@ -57,7 +71,7 @@ class Login extends BaseController
                     'user_name' => $usuario ? $usuario['nombre'] : $empresa['nombre'],
                     'user_email' => $usuario ? $usuario['email'] : $empresa['email'],
                     'user_photo' => $usuario ? $usuario['foto_perfil'] : null,
-                    'user_role' => $usuario ? ucfirst($usuario['rol']) : 'Administrador',
+                    'user_role' => $userRole,
                     'logged_in' => true
                 ]);
                 
