@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2025 at 08:38 AM
+-- Generation Time: Nov 30, 2025 at 07:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -224,21 +224,22 @@ CREATE TABLE `empresas` (
   `configuracion_notificaciones` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`configuracion_notificaciones`)),
   `fecha_alta` datetime DEFAULT current_timestamp(),
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `empresas`
 --
 
-INSERT INTO `empresas` (`id`, `nombre`, `email`, `telefono`, `direccion`, `descripcion`, `ciudad`, `categoria_comida`, `promociones`, `envio_gratis`, `descuento_activo`, `oferta_2x1`, `plan`, `estado`, `fecha_trial_fin`, `limite_productos`, `activo`, `destacado`, `codigo_referido`, `configuracion_notificaciones`, `fecha_alta`, `created_at`, `updated_at`) VALUES
-(1, 'Galvis Café', 'admin@galvis.com', '3163127002', 'Calle 123 #45-67, Bogotá', 'Especialistas en carnes a la brasa y parrilla argentina con los mejores cortes', 'Madrid', 'Parrilla', NULL, 1, 1, 0, 'premium', 'activo', NULL, 500, 1, 1, NULL, '{\"email_pedidos\":true,\"whatsapp_pedidos\":true,\"email_reportes\":true}', '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-22 20:09:34'),
-(2, 'Pizzería Don Mario', 'info@donmario.com', '555-0002', 'Avenida Central 456', 'Pizza artesanal al horno de leña con recetas tradicionales napolitanas', 'Barcelona', 'Italiana', NULL, 0, 0, 1, 'basico', 'activo', NULL, 50, 1, 1, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
-(3, 'Café Central', 'hola@cafecentral.com', '555-0003', 'Plaza Mayor 789', 'Café de especialidad con ambiente acogedor y repostería artesanal', 'Valencia', 'Café', NULL, 1, 0, 0, 'basico', 'inactivo', NULL, 50, 0, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
-(4, 'Mariscos La Costa', 'ventas@lacosta.com', '555-0004', 'Malecón 321', 'Mariscos frescos del día preparados con técnicas tradicionales', 'Sevilla', 'Mariscos', NULL, 0, 1, 0, 'enterprise', 'trial', '2025-12-01', 50, 1, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47'),
-(5, 'Burger King Express', 'admin@burgerexpress.com', '555-0005', 'Gran Vía 25', 'Hamburguesas gourmet con ingredientes premium y papas artesanales', 'Madrid', 'Hamburguesas', NULL, 1, 0, 1, 'premium', 'activo', NULL, 100, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47'),
-(6, 'Sushi Zen', 'contacto@sushizen.com', '555-0006', 'Paseo de Gracia 88', 'Auténtica cocina japonesa con los mejores ingredientes frescos', 'Barcelona', 'Japonesa', NULL, 0, 1, 0, 'basico', 'trial', '2025-11-23', 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47'),
-(7, 'Taco Loco', 'info@tacoloco.com', '555-0007', 'Calle Sierpes 15', 'Comida mexicana auténtica con sabores tradicionales y picantes', 'Sevilla', 'Mexicana', NULL, 0, 0, 1, 'basico', 'suspendido', NULL, 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47');
+INSERT INTO `empresas` (`id`, `nombre`, `email`, `telefono`, `direccion`, `descripcion`, `ciudad`, `categoria_comida`, `promociones`, `envio_gratis`, `descuento_activo`, `oferta_2x1`, `plan`, `estado`, `fecha_trial_fin`, `limite_productos`, `activo`, `destacado`, `codigo_referido`, `configuracion_notificaciones`, `fecha_alta`, `created_at`, `updated_at`, `password`) VALUES
+(1, 'Galvis Café', 'admin@galvis.com', '3163127002', 'Calle 123 #45-67, Bogotá', 'Especialistas en carnes a la brasa y parrilla argentina con los mejores cortes', 'Madrid', 'Parrilla', NULL, 1, 1, 0, 'premium', 'activo', NULL, 500, 1, 1, NULL, '{\"email_pedidos\":true,\"whatsapp_pedidos\":true,\"email_reportes\":true}', '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-22 20:09:34', NULL),
+(2, 'Pizzería Don Mario', 'info@donmario.com', '555-0002', 'Avenida Central 456', 'Pizza artesanal al horno de leña con recetas tradicionales napolitanas', 'Barcelona', 'Italiana', NULL, 0, 0, 1, 'basico', 'activo', NULL, 50, 1, 1, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
+(3, 'Café Central', 'hola@cafecentral.com', '555-0003', 'Plaza Mayor 789', 'Café de especialidad con ambiente acogedor y repostería artesanal', 'Valencia', 'Café', NULL, 1, 0, 0, 'basico', 'inactivo', NULL, 50, 0, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
+(4, 'Mariscos La Costa', 'ventas@lacosta.com', '555-0004', 'Malecón 321', 'Mariscos frescos del día preparados con técnicas tradicionales', 'Sevilla', 'Mariscos', NULL, 0, 1, 0, 'enterprise', 'trial', '2025-12-01', 50, 1, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
+(5, 'Burger King Express', 'admin@burgerexpress.com', '555-0005', 'Gran Vía 25', 'Hamburguesas gourmet con ingredientes premium y papas artesanales', 'Madrid', 'Hamburguesas', NULL, 1, 0, 1, 'premium', 'activo', NULL, 100, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
+(6, 'Sushi Zen', 'contacto@sushizen.com', '555-0006', 'Paseo de Gracia 88', 'Auténtica cocina japonesa con los mejores ingredientes frescos', 'Barcelona', 'Japonesa', NULL, 0, 1, 0, 'basico', 'trial', '2025-11-23', 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
+(7, 'Taco Loco', 'info@tacoloco.com', '555-0007', 'Calle Sierpes 15', 'Comida mexicana auténtica con sabores tradicionales y picantes', 'Sevilla', 'Mexicana', NULL, 0, 0, 1, 'basico', 'suspendido', NULL, 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -336,6 +337,28 @@ INSERT INTO `pagos` (`id`, `factura_id`, `monto`, `metodo_pago`, `estado`, `fech
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expires_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `used` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `email`, `token`, `expires_at`, `created_at`, `used`) VALUES
+(1, 'info@donmario.com', '2b66df1fb772ae18ec64a52b6e7bd9b05050f86bc766bb4559f053e2fde10951', '2025-12-01 00:12:08', '2025-11-30 18:12:08', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pedidos`
 --
 
@@ -354,53 +377,62 @@ CREATE TABLE `pedidos` (
   `costo_envio` decimal(10,2) DEFAULT 0.00,
   `impuestos` decimal(10,2) DEFAULT 0.00,
   `total` decimal(10,2) NOT NULL,
+  `medio_pago` enum('efectivo','transferencia') DEFAULT 'efectivo',
   `estado` enum('pendiente','procesando','enviado','completado','cancelado') DEFAULT 'pendiente',
   `fecha_pedido` datetime DEFAULT current_timestamp(),
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `nombre_cliente` varchar(255) DEFAULT NULL,
+  `telefono_cliente` varchar(20) DEFAULT NULL,
+  `direccion_cliente` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `pedidos`
 --
 
-INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `cliente_email`, `cliente_telefono`, `direccion_entrega`, `notas`, `metodo_pago`, `mesa`, `subtotal`, `costo_envio`, `impuestos`, `total`, `estado`, `fecha_pedido`, `created_at`, `updated_at`) VALUES
-(1, 1, 'PED-001', 'Juan Pérez', 'juan@email.com', '300-123-4567', NULL, NULL, NULL, 'Mesa 5', 32.00, 0.00, 3.36, 35.36, 'completado', '2024-01-15 14:30:00', '2025-11-16 22:51:14', '2025-11-17 22:55:17'),
-(2, 1, 'PED-002-2', 'María García', 'maria@email.com', '300-987-6543', NULL, NULL, NULL, 'Mesa 2', 24.00, 0.00, 2.52, 26.52, 'completado', '2024-01-16 19:45:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
-(3, 2, 'PED-003-3', 'Carlos López', 'carlos@email.com', '300-555-1234', NULL, NULL, NULL, 'Mesa 8', 42.50, 0.00, 4.46, 46.96, 'completado', '2024-01-15 20:15:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
-(4, 2, 'PED-004-4', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, NULL, NULL, NULL, 28.00, 0.00, 2.94, 30.94, 'procesando', '2024-01-17 13:20:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
-(5, 4, 'PED-005-5', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, NULL, NULL, NULL, 65.00, 0.00, 6.83, 71.83, 'completado', '2024-01-16 21:00:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29'),
-(6, 1, 'PED-001-6', 'Juan Pérez', 'juan@email.com', '666-111-222', NULL, NULL, NULL, NULL, 32.00, 0.00, 3.36, 35.36, 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
-(7, 1, 'PED-002-7', 'María García', 'maria@email.com', '666-333-444', NULL, NULL, NULL, NULL, 24.00, 0.00, 2.52, 26.52, 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
-(8, 2, 'PED-003-8', 'Carlos López', 'carlos@email.com', '666-555-666', NULL, NULL, NULL, NULL, 42.50, 0.00, 4.46, 46.96, 'completado', '2025-11-15 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
-(9, 2, 'PED-004-9', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, NULL, NULL, NULL, 28.00, 0.00, 2.94, 30.94, 'procesando', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
-(10, 4, 'PED-005-10', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, NULL, NULL, NULL, 65.00, 0.00, 6.83, 71.83, 'completado', '2025-11-14 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29'),
-(11, 1, '364-11', 'Ana Martínez', 'ana@email.com', '300-111-2222', NULL, NULL, NULL, 'Mesa 3', 25000.00, 0.00, 2500.00, 27500.00, 'pendiente', '2025-11-17 22:55:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29'),
-(12, 1, '422-12', 'Luis Rodríguez', 'luis@email.com', '300-333-4444', NULL, NULL, NULL, 'Mesa 7', 18000.00, 0.00, 1800.00, 19800.00, 'procesando', '2025-11-17 22:40:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29'),
-(13, 1, '17-13', 'Sofia Herrera', 'sofia@email.com', '300-777-8888', NULL, NULL, NULL, 'Mesa 1', 32000.00, 0.00, 3200.00, 35200.00, '', '2025-11-17 22:50:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29'),
-(14, 1, 'galvis-0008', 'asdasd', NULL, '234234', 'asdasd', 'asdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'cancelado', '2025-11-19 01:29:04', '2025-11-18 20:29:04', '2025-11-19 01:36:27'),
-(15, 1, 'galvis-0009', '4234', NULL, '3242', 'asdasd', 'asdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, '', '2025-11-19 01:30:04', '2025-11-18 20:30:04', '2025-11-19 01:36:36'),
-(16, 1, 'galvis-0010', 'asdasd', NULL, 'dasd', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, '', '2025-11-19 01:30:22', '2025-11-18 20:30:22', '2025-11-19 01:36:31'),
-(17, 1, 'galvis-0011', 'dasda', NULL, '324234', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-19 01:33:00', '2025-11-18 20:33:00', '2025-11-19 01:36:49'),
-(18, 1, 'galvis-0012', 'asdasd', NULL, 'dasd', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, '', '2025-11-19 01:39:02', '2025-11-18 20:39:02', '2025-11-19 01:39:39'),
-(19, 1, 'galvis-0013', 'sdasda', NULL, 'asda', 'asdasd', 'sdasd', 'efectivo', NULL, 55.50, 3.00, 0.00, 58.50, 'cancelado', '2025-11-19 01:39:10', '2025-11-18 20:39:10', '2025-11-19 01:39:31'),
-(20, 1, 'galvis-0014', 'asdasd', NULL, 'sdasd', 'asda', 'asdasdasd', 'efectivo', NULL, 1232212.00, 3.00, 0.00, 1232215.00, '', '2025-11-19 01:39:20', '2025-11-18 20:39:20', '2025-11-19 01:39:37'),
-(21, 1, 'galvis-0015', 'asdasd', NULL, '21341241234', 'asd', 'asdasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, '', '2025-11-19 02:35:19', '2025-11-18 21:35:19', '2025-11-19 02:35:35'),
-(22, 1, 'galvis-0016', 'aasdasd', NULL, '23234234', 'asdasdasd', 'asdasd', 'efectivo', NULL, 203.50, 3.00, 0.00, 206.50, '', '2025-11-19 02:38:33', '2025-11-18 21:38:33', '2025-11-19 02:39:10'),
-(23, 1, 'galvis-0017', 'asdasd', NULL, '23423423', 'asdasdasd', 'asdasdasd', 'efectivo', NULL, 74.00, 3.00, 0.00, 77.00, 'enviado', '2025-11-19 02:40:51', '2025-11-18 21:40:51', '2025-11-19 02:41:07'),
-(24, 1, 'galvis-0018', 'asdasd', NULL, '324234', 'sdasdsa', 'dasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'enviado', '2025-11-20 04:39:14', '2025-11-19 23:39:14', '2025-11-20 04:39:35'),
-(25, 1, 'galvis-0019', 'asdasd', NULL, '324234', 'asdasd', 'asdasd', 'efectivo', NULL, 55.50, 3.00, 0.00, 58.50, 'cancelado', '2025-11-20 04:42:03', '2025-11-19 23:42:03', '2025-11-20 04:44:54'),
-(26, 1, 'galvis-0020', 'sadasd', NULL, '345435', 'sadasda', 'aasdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'enviado', '2025-11-20 04:43:43', '2025-11-19 23:43:43', '2025-11-20 04:44:56'),
-(27, 1, 'galvis-0021', 'asdasd', NULL, '23423', 'sdasd', '23423', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'enviado', '2025-11-20 04:44:32', '2025-11-19 23:44:32', '2025-11-20 04:44:52'),
-(28, 1, 'galvis-0022', 'asdasd', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-20 04:45:21', '2025-11-19 23:45:21', '2025-11-20 05:22:24'),
-(29, 1, 'galvis-0023', 'asdasd', NULL, '324', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-20 04:47:15', '2025-11-19 23:47:15', '2025-11-20 05:22:19'),
-(30, 1, 'galvis-0024', 'sadasd', NULL, '23424323', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'cancelado', '2025-11-20 04:47:26', '2025-11-19 23:47:26', '2025-11-20 05:22:22'),
-(31, 1, 'galvis-0025', 'sdcsadf', NULL, '345345345', 'dfsdfsdf', 'sdfsdfdsf', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'pendiente', '2025-11-20 05:25:43', '2025-11-20 00:25:43', '2025-11-20 00:25:43'),
-(32, 1, 'galvis-0026', 'asdas', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'pendiente', '2025-11-20 05:26:52', '2025-11-20 00:26:52', '2025-11-20 00:26:52'),
-(33, 1, 'galvis-0027', 'asdsa', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 8.00, 3.00, 0.00, 11.00, 'pendiente', '2025-11-20 19:40:27', '2025-11-20 14:40:27', '2025-11-20 14:40:27'),
-(34, 1, 'galvis-0028', 'asdasd', NULL, '3234234', 'sfdads', 'asdasd', 'efectivo', NULL, 1212246.50, 3.00, 0.00, 1212249.50, 'enviado', '2025-11-22 00:41:09', '2025-11-21 19:41:09', '2025-11-22 00:41:26'),
-(35, 2, 'pizzer-0005', 'asdasd', NULL, '2342342342', 'asdasd', 'asdasdasd', 'efectivo', NULL, 65.00, 3.00, 0.00, 68.00, 'enviado', '2025-11-23 01:28:52', '2025-11-22 20:28:52', '2025-11-23 01:29:09'),
-(36, 2, 'pizzer-0006', 'asda', NULL, '23234234', 'asdasd', 'asdasd', 'efectivo', NULL, 100000.00, 3.00, 0.00, 100003.00, 'enviado', '2025-11-23 03:03:45', '2025-11-22 22:03:45', '2025-11-23 03:04:34');
+INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `cliente_email`, `cliente_telefono`, `direccion_entrega`, `notas`, `metodo_pago`, `mesa`, `subtotal`, `costo_envio`, `impuestos`, `total`, `medio_pago`, `estado`, `fecha_pedido`, `created_at`, `updated_at`, `nombre_cliente`, `telefono_cliente`, `direccion_cliente`) VALUES
+(1, 1, 'PED-001', 'Juan Pérez', 'juan@email.com', '300-123-4567', NULL, NULL, NULL, 'Mesa 5', 32.00, 0.00, 3.36, 35.36, 'efectivo', 'completado', '2024-01-15 14:30:00', '2025-11-16 22:51:14', '2025-11-17 22:55:17', NULL, NULL, NULL),
+(2, 1, 'PED-002-2', 'María García', 'maria@email.com', '300-987-6543', NULL, NULL, NULL, 'Mesa 2', 24.00, 0.00, 2.52, 26.52, 'efectivo', 'completado', '2024-01-16 19:45:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(3, 2, 'PED-003-3', 'Carlos López', 'carlos@email.com', '300-555-1234', NULL, NULL, NULL, 'Mesa 8', 42.50, 0.00, 4.46, 46.96, 'efectivo', 'completado', '2024-01-15 20:15:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(4, 2, 'PED-004-4', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, NULL, NULL, NULL, 28.00, 0.00, 2.94, 30.94, 'efectivo', 'procesando', '2024-01-17 13:20:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(5, 4, 'PED-005-5', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, NULL, NULL, NULL, 65.00, 0.00, 6.83, 71.83, 'efectivo', 'completado', '2024-01-16 21:00:00', '2025-11-16 22:51:14', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(6, 1, 'PED-001-6', 'Juan Pérez', 'juan@email.com', '666-111-222', NULL, NULL, NULL, NULL, 32.00, 0.00, 3.36, 35.36, 'efectivo', 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(7, 1, 'PED-002-7', 'María García', 'maria@email.com', '666-333-444', NULL, NULL, NULL, NULL, 24.00, 0.00, 2.52, 26.52, 'efectivo', 'completado', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(8, 2, 'PED-003-8', 'Carlos López', 'carlos@email.com', '666-555-666', NULL, NULL, NULL, NULL, 42.50, 0.00, 4.46, 46.96, 'efectivo', 'completado', '2025-11-15 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(9, 2, 'PED-004-9', 'Ana Martín', 'ana@email.com', '666-777-888', NULL, NULL, NULL, NULL, 28.00, 0.00, 2.94, 30.94, 'efectivo', 'procesando', '2025-11-16 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(10, 4, 'PED-005-10', 'Luis Rodríguez', 'luis@email.com', '666-999-000', NULL, NULL, NULL, NULL, 65.00, 0.00, 6.83, 71.83, 'efectivo', 'completado', '2025-11-14 00:00:00', '2025-11-16 23:34:46', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(11, 1, '364-11', 'Ana Martínez', 'ana@email.com', '300-111-2222', NULL, NULL, NULL, 'Mesa 3', 25000.00, 0.00, 2500.00, 27500.00, 'efectivo', 'pendiente', '2025-11-17 22:55:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(12, 1, '422-12', 'Luis Rodríguez', 'luis@email.com', '300-333-4444', NULL, NULL, NULL, 'Mesa 7', 18000.00, 0.00, 1800.00, 19800.00, 'efectivo', 'procesando', '2025-11-17 22:40:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(13, 1, '17-13', 'Sofia Herrera', 'sofia@email.com', '300-777-8888', NULL, NULL, NULL, 'Mesa 1', 32000.00, 0.00, 3200.00, 35200.00, 'efectivo', '', '2025-11-17 22:50:17', '2025-11-17 22:55:17', '2025-11-18 20:26:29', NULL, NULL, NULL),
+(14, 1, 'galvis-0008', 'asdasd', NULL, '234234', 'asdasd', 'asdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'efectivo', 'cancelado', '2025-11-19 01:29:04', '2025-11-18 20:29:04', '2025-11-19 01:36:27', NULL, NULL, NULL),
+(15, 1, 'galvis-0009', '4234', NULL, '3242', 'asdasd', 'asdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'efectivo', '', '2025-11-19 01:30:04', '2025-11-18 20:30:04', '2025-11-19 01:36:36', NULL, NULL, NULL),
+(16, 1, 'galvis-0010', 'asdasd', NULL, 'dasd', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', '', '2025-11-19 01:30:22', '2025-11-18 20:30:22', '2025-11-19 01:36:31', NULL, NULL, NULL),
+(17, 1, 'galvis-0011', 'dasda', NULL, '324234', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'cancelado', '2025-11-19 01:33:00', '2025-11-18 20:33:00', '2025-11-19 01:36:49', NULL, NULL, NULL),
+(18, 1, 'galvis-0012', 'asdasd', NULL, 'dasd', 'asdas', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', '', '2025-11-19 01:39:02', '2025-11-18 20:39:02', '2025-11-19 01:39:39', NULL, NULL, NULL),
+(19, 1, 'galvis-0013', 'sdasda', NULL, 'asda', 'asdasd', 'sdasd', 'efectivo', NULL, 55.50, 3.00, 0.00, 58.50, 'efectivo', 'cancelado', '2025-11-19 01:39:10', '2025-11-18 20:39:10', '2025-11-19 01:39:31', NULL, NULL, NULL),
+(20, 1, 'galvis-0014', 'asdasd', NULL, 'sdasd', 'asda', 'asdasdasd', 'efectivo', NULL, 1232212.00, 3.00, 0.00, 1232215.00, 'efectivo', '', '2025-11-19 01:39:20', '2025-11-18 20:39:20', '2025-11-19 01:39:37', NULL, NULL, NULL),
+(21, 1, 'galvis-0015', 'asdasd', NULL, '21341241234', 'asd', 'asdasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'efectivo', '', '2025-11-19 02:35:19', '2025-11-18 21:35:19', '2025-11-19 02:35:35', NULL, NULL, NULL),
+(22, 1, 'galvis-0016', 'aasdasd', NULL, '23234234', 'asdasdasd', 'asdasd', 'efectivo', NULL, 203.50, 3.00, 0.00, 206.50, 'efectivo', '', '2025-11-19 02:38:33', '2025-11-18 21:38:33', '2025-11-19 02:39:10', NULL, NULL, NULL),
+(23, 1, 'galvis-0017', 'asdasd', NULL, '23423423', 'asdasdasd', 'asdasdasd', 'efectivo', NULL, 74.00, 3.00, 0.00, 77.00, 'efectivo', 'enviado', '2025-11-19 02:40:51', '2025-11-18 21:40:51', '2025-11-19 02:41:07', NULL, NULL, NULL),
+(24, 1, 'galvis-0018', 'asdasd', NULL, '324234', 'sdasdsa', 'dasdasd', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'efectivo', 'enviado', '2025-11-20 04:39:14', '2025-11-19 23:39:14', '2025-11-20 04:39:35', NULL, NULL, NULL),
+(25, 1, 'galvis-0019', 'asdasd', NULL, '324234', 'asdasd', 'asdasd', 'efectivo', NULL, 55.50, 3.00, 0.00, 58.50, 'efectivo', 'cancelado', '2025-11-20 04:42:03', '2025-11-19 23:42:03', '2025-11-20 04:44:54', NULL, NULL, NULL),
+(26, 1, 'galvis-0020', 'sadasd', NULL, '345435', 'sadasda', 'aasdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'enviado', '2025-11-20 04:43:43', '2025-11-19 23:43:43', '2025-11-20 04:44:56', NULL, NULL, NULL),
+(27, 1, 'galvis-0021', 'asdasd', NULL, '23423', 'sdasd', '23423', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'efectivo', 'enviado', '2025-11-20 04:44:32', '2025-11-19 23:44:32', '2025-11-20 04:44:52', NULL, NULL, NULL),
+(28, 1, 'galvis-0022', 'asdasd', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'cancelado', '2025-11-20 04:45:21', '2025-11-19 23:45:21', '2025-11-20 05:22:24', NULL, NULL, NULL),
+(29, 1, 'galvis-0023', 'asdasd', NULL, '324', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'cancelado', '2025-11-20 04:47:15', '2025-11-19 23:47:15', '2025-11-20 05:22:19', NULL, NULL, NULL),
+(30, 1, 'galvis-0024', 'sadasd', NULL, '23424323', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'cancelado', '2025-11-20 04:47:26', '2025-11-19 23:47:26', '2025-11-20 05:22:22', NULL, NULL, NULL),
+(31, 1, 'galvis-0025', 'sdcsadf', NULL, '345345345', 'dfsdfsdf', 'sdfsdfdsf', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'pendiente', '2025-11-20 05:25:43', '2025-11-20 00:25:43', '2025-11-20 00:25:43', NULL, NULL, NULL),
+(32, 1, 'galvis-0026', 'asdas', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 18.50, 3.00, 0.00, 21.50, 'efectivo', 'pendiente', '2025-11-20 05:26:52', '2025-11-20 00:26:52', '2025-11-20 00:26:52', NULL, NULL, NULL),
+(33, 1, 'galvis-0027', 'asdsa', NULL, '23423', 'asdasd', 'asdasd', 'efectivo', NULL, 8.00, 3.00, 0.00, 11.00, 'efectivo', 'pendiente', '2025-11-20 19:40:27', '2025-11-20 14:40:27', '2025-11-20 14:40:27', NULL, NULL, NULL),
+(34, 1, 'galvis-0028', 'asdasd', NULL, '3234234', 'sfdads', 'asdasd', 'efectivo', NULL, 1212246.50, 3.00, 0.00, 1212249.50, 'efectivo', 'enviado', '2025-11-22 00:41:09', '2025-11-21 19:41:09', '2025-11-22 00:41:26', NULL, NULL, NULL),
+(35, 2, 'pizzer-0005', 'asdasd', NULL, '2342342342', 'asdasd', 'asdasdasd', 'efectivo', NULL, 65.00, 3.00, 0.00, 68.00, 'efectivo', 'enviado', '2025-11-23 01:28:52', '2025-11-22 20:28:52', '2025-11-23 01:29:09', NULL, NULL, NULL),
+(36, 2, 'pizzer-0006', 'asda', NULL, '23234234', 'asdasd', 'asdasd', 'efectivo', NULL, 100000.00, 3.00, 0.00, 100003.00, 'efectivo', 'enviado', '2025-11-23 03:03:45', '2025-11-22 22:03:45', '2025-11-23 03:04:34', NULL, NULL, NULL),
+(37, 1, 'galvis-0029', 'asdasd', NULL, '234234', 'asdasd', 'asdasda', 'efectivo', NULL, 37.00, 3.00, 0.00, 40.00, 'efectivo', 'cancelado', '2025-11-24 04:34:45', '2025-11-23 23:34:45', '2025-11-24 05:09:29', NULL, NULL, NULL),
+(38, 1, 'galvis-0030', 'asdasd', NULL, '234234', 'asdasd', 'ok', NULL, NULL, 16.00, 3.00, 0.00, 19.00, 'transferencia', 'enviado', '2025-11-24 05:09:22', '2025-11-24 00:09:22', '2025-11-24 05:50:12', NULL, NULL, NULL),
+(39, 1, 'galvis-0031', 'asdasd', NULL, '234234', 'asdasd', 'asdasd', NULL, NULL, 37.00, 3.00, 0.00, 40.00, 'transferencia', 'pendiente', '2025-11-24 05:50:33', '2025-11-24 00:50:33', '2025-11-24 00:50:33', NULL, NULL, NULL),
+(40, 1, 'galvis-0032', 'asdads', NULL, '234234', 'sadasdas', 'dasdasd', NULL, NULL, 34.50, 3.00, 0.00, 37.50, 'efectivo', 'enviado', '2025-11-24 05:50:42', '2025-11-24 00:50:42', '2025-11-24 06:25:26', NULL, NULL, NULL),
+(41, 2, 'pizzer-0007', 'asdasd', NULL, '3215142162', 'jasashak', 'njkkj', NULL, NULL, 100000.00, 3.00, 0.00, 100003.00, 'efectivo', 'enviado', '2025-11-30 18:49:58', '2025-11-30 13:49:58', '2025-11-30 18:51:06', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -471,7 +503,15 @@ INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `preci
 (49, 35, 4, 2, 12.00, 24.00, NULL, '2025-11-22 20:28:52'),
 (50, 35, 5, 2, 14.50, 29.00, NULL, '2025-11-22 20:28:52'),
 (51, 35, 13, 1, 12.00, 12.00, NULL, '2025-11-22 20:28:52'),
-(52, 36, 21, 1, 100000.00, 100000.00, NULL, '2025-11-22 22:03:45');
+(52, 36, 21, 1, 100000.00, 100000.00, NULL, '2025-11-22 22:03:45'),
+(53, 37, 10, 1, 18.50, 18.50, NULL, '2025-11-23 23:34:45'),
+(54, 37, 1, 1, 18.50, 18.50, NULL, '2025-11-23 23:34:45'),
+(55, 38, 2, 2, 8.00, 16.00, NULL, '2025-11-24 00:09:22'),
+(56, 39, 1, 1, 18.50, 18.50, NULL, '2025-11-24 00:50:33'),
+(57, 39, 10, 1, 18.50, 18.50, NULL, '2025-11-24 00:50:33'),
+(58, 40, 10, 1, 18.50, 18.50, NULL, '2025-11-24 00:50:42'),
+(59, 40, 11, 2, 8.00, 16.00, NULL, '2025-11-24 00:50:42'),
+(60, 41, 21, 1, 100000.00, 100000.00, NULL, '2025-11-30 13:49:58');
 
 -- --------------------------------------------------------
 
@@ -528,17 +568,17 @@ CREATE TABLE `productos` (
 INSERT INTO `productos` (`id`, `empresa_id`, `categoria_id`, `nombre`, `descripcion`, `precio`, `imagen`, `categoria`, `activo`, `destacado`, `created_at`, `updated_at`) VALUES
 (1, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447556_ec48ce2325d413782992.jpg', 'Platos principales', 1, 1, '2025-11-16 22:51:14', '2025-11-20 22:18:21'),
 (2, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447575_cba6c52f931fe6f2b16c.jpg', 'Entrantes', 1, 1, '2025-11-16 22:51:14', '2025-11-20 22:18:24'),
-(4, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, NULL, 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-23 01:28:35'),
-(5, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, NULL, 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-23 01:28:36'),
-(6, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, NULL, 'Pasta', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
+(4, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, '1764397805_42ee44045d9821b9cc9d.png', 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-29 06:30:05'),
+(5, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, '1764397814_43b23bbbd8554fd2d36d.jpg', 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-29 06:30:14'),
+(6, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, '1764397840_a165809d422f1b71f17f.jpg', 'Pasta', 1, 0, '2025-11-16 22:51:14', '2025-11-29 06:30:40'),
 (7, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
 (8, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
 (9, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
 (10, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447565_871b1063428fa6677434.jpeg', 'Platos principales', 1, 1, '2025-11-16 23:34:46', '2025-11-20 22:18:22'),
 (11, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447585_88667ffb3952ae2bf490.jpg', 'Entrantes', 1, 1, '2025-11-16 23:34:46', '2025-11-20 22:18:25'),
-(13, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, NULL, 'Pizzas', 1, 1, '2025-11-16 23:34:46', '2025-11-23 01:28:37'),
-(14, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, NULL, 'Pizzas', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
-(15, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, NULL, 'Pasta', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
+(13, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, '1764397822_528faf09377621622329.jpg', 'Pizzas', 1, 1, '2025-11-16 23:34:46', '2025-11-29 06:30:22'),
+(14, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, '1764397830_7e7623d7d0377c2821e9.png', 'Pizzas', 1, 0, '2025-11-16 23:34:46', '2025-11-29 06:30:30'),
+(15, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, '1764397855_018c5c8d7b75196f4b6d.jpeg', 'Pasta', 1, 0, '2025-11-16 23:34:46', '2025-11-29 06:30:55'),
 (16, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
 (17, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
 (18, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
@@ -574,6 +614,34 @@ INSERT INTO `promociones` (`id`, `empresa_id`, `titulo`, `descripcion`, `descuen
 (1, 1, 'Descuento Especial 20%', 'Promoción especial para nuevos clientes', 20, '2024-01-01', '2024-03-31', 'hero', 1, '2025-11-17 05:28:31', '2025-11-17 05:28:31'),
 (2, 2, 'Menú del Día', 'Oferta especial de menú completo', 15, '2024-01-15', '2024-02-15', 'sidebar', 1, '2025-11-17 05:28:31', '2025-11-17 05:28:31'),
 (3, 1, 'Descuento Especial 20%', 'Promoción especial', 20, '2024-01-01', '2024-03-31', 'hero', 1, '2025-11-17 05:34:04', '2025-11-17 05:34:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `solicitudes_registro`
+--
+
+CREATE TABLE `solicitudes_registro` (
+  `id` int(11) NOT NULL,
+  `nombre_empresa` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `direccion` text DEFAULT NULL,
+  `nombre_contacto` varchar(255) NOT NULL,
+  `mensaje` text DEFAULT NULL,
+  `estado` enum('pendiente','aprobada','rechazada') DEFAULT 'pendiente',
+  `fecha_solicitud` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_respuesta` timestamp NULL DEFAULT NULL,
+  `respondido_por` int(11) DEFAULT NULL,
+  `notas_admin` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `solicitudes_registro`
+--
+
+INSERT INTO `solicitudes_registro` (`id`, `nombre_empresa`, `email`, `telefono`, `direccion`, `nombre_contacto`, `mensaje`, `estado`, `fecha_solicitud`, `fecha_respuesta`, `respondido_por`, `notas_admin`) VALUES
+(1, 'Galvis Café', 'douglathsmelo@gmail.com', '3163127002', 'CALLE 3 #15A', 'DOUGLATHS', 'ES PARA VENDER METANFETAMINAS', 'pendiente', '2025-11-30 18:11:54', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -759,6 +827,12 @@ ALTER TABLE `pagos`
   ADD KEY `factura_id` (`factura_id`);
 
 --
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pedidos`
 --
 ALTER TABLE `pedidos`
@@ -797,6 +871,13 @@ ALTER TABLE `productos`
 ALTER TABLE `promociones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `empresa_id` (`empresa_id`);
+
+--
+-- Indexes for table `solicitudes_registro`
+--
+ALTER TABLE `solicitudes_registro`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `usuarios`
@@ -891,16 +972,22 @@ ALTER TABLE `pagos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `pedido_items`
 --
 ALTER TABLE `pedido_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `planes`
@@ -919,6 +1006,12 @@ ALTER TABLE `productos`
 --
 ALTER TABLE `promociones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `solicitudes_registro`
+--
+ALTER TABLE `solicitudes_registro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `usuarios`

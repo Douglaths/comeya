@@ -34,6 +34,7 @@
                     $isAdmin = strpos($currentUrl, 'admin') !== false && strpos($currentUrl, 'admin/') === false;
                     $isMenu = strpos($currentUrl, 'admin/menu') !== false;
                     $isPedidos = strpos($currentUrl, 'admin/pedidos') !== false;
+                    $isReportes = strpos($currentUrl, 'admin/reportes') !== false;
                     $isPlan = strpos($currentUrl, 'admin/plan') !== false;
                     $isConfig = strpos($currentUrl, 'admin/configuracion') !== false;
                     ?>
@@ -83,7 +84,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/reportes') ?>">
+                        <a class="nav-link <?= $isReportes ? 'active' : '' ?>" href="<?= base_url('admin/reportes') ?>">
                             <i class="icon">
                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 3V21H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -260,10 +261,10 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="<?= base_url('public/assets/images/avatars/01.png') ?>" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
+                                    <img src="<?= session()->get('user_photo') ? base_url('uploads/' . session()->get('user_photo')) : base_url('public/assets/images/avatars/01.png') ?>" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
                                     <div class="caption ms-3 d-none d-md-block ">
-                                        <h6 class="mb-0 caption-title">James Patterson</h6>
-                                        <p class="mb-0 caption-sub-title">Marketing Administrator</p>
+                                        <h6 class="mb-0 caption-title"><?= esc(session()->get('user_name')) ?></h6>
+                                        <p class="mb-0 caption-sub-title"><?= esc(session()->get('user_role')) ?></p>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -272,7 +273,7 @@
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="../dashboard/auth/sign-in.html">Logout</a></li>
+                                    <li><a class="dropdown-item" href="<?= base_url('logout') ?>">Logout</a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -29,6 +29,10 @@ $routes->post('/login/authenticate', 'Login::authenticate');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/registro', 'Registro::index');
 $routes->post('/registro/solicitar', 'Registro::solicitar');
+$routes->get('/password/forgot', 'Password::forgot');
+$routes->post('/password/send-reset', 'Password::sendReset');
+$routes->get('/password/reset/(:any)', 'Password::reset/$1');
+$routes->post('/password/update', 'Password::updatePassword');
 $routes->get('uploads/(:any)', function($filename) {
     $filepath = FCPATH . 'uploads/' . $filename;
     if (file_exists($filepath)) {
@@ -54,11 +58,14 @@ $routes->get('admin/productos/ver/(:num)', 'Admin::verProducto/$1');
 $routes->get('admin/pedidos', 'Admin::pedidos');
 $routes->get('admin/pedidos/ver/(:num)', 'Admin::verPedido/$1');
 $routes->post('admin/pedidos/cambiar-estado/(:num)', 'Admin::cambiarEstadoPedido/$1');
+$routes->get('admin/reportes', 'Reportes::index');
+$routes->get('admin/reportes/exportar-excel', 'Reportes::exportarExcel');
 $routes->get('admin/plan', 'Admin::plan');
 $routes->get('admin/configuracion', 'Admin::configuracion');
 $routes->post('admin/cambiar-password', 'Admin::cambiarPassword');
 $routes->post('admin/actualizar-perfil', 'Admin::actualizarPerfil');
 $routes->post('admin/agregar-usuario', 'Admin::agregarUsuario');
+$routes->post('admin/actualizar-usuario', 'Admin::actualizarUsuario');
 $routes->post('admin/actualizar-notificaciones', 'Admin::actualizarNotificaciones');
 $routes->get('admin/categorias/crear', 'Admin::crearCategoria');
 $routes->post('admin/categorias/store', 'Admin::storeCategoria');

@@ -418,8 +418,6 @@ class Admin extends BaseController
     
     public function cambiarPassword()
     {
-        $usuarioModel = new \App\Models\UsuarioModel();
-        
         $passwordActual = $this->request->getPost('password_actual');
         $passwordNuevo = $this->request->getPost('password_nuevo');
         $passwordConfirmar = $this->request->getPost('password_confirmar');
@@ -428,8 +426,39 @@ class Admin extends BaseController
             return redirect()->back()->with('error', 'Las contraseñas no coinciden');
         }
         
-        // For now, password change is disabled since we use empresa login
-        return redirect()->back()->with('info', 'Cambio de contraseña no disponible en modo empresa');
+        if (strlen($passwordNuevo) < 6) {
+            return redirect()->back()->with('error', 'La contraseña debe tener al menos 6 caracteres');
+        }
+        
+        $empresaId = $this->getEmpresaId();
+        $db = \Config\Database::connect();
+        
+        // Obtener empresa actual
+        $empresa = $db->table('empresas')->where('id', $empresaId)->get()->getRowArray();
+        
+        // Verificar contraseña actual
+        $passwordActualValid = false;
+        if ($empresa['password']) {
+            $passwordActualValid = password_verify($passwordActual, $empresa['password']);
+        } else {
+            $passwordActualValid = ($passwordActual === '12345678');
+        }
+        
+        if (!$passwordActualValid) {
+            return redirect()->back()->with('error', 'Contraseña actual incorrecta');
+        }
+        
+        // Actualizar contraseña
+        $hashedPassword = password_hash($passwordNuevo, PASSWORD_DEFAULT);
+        $result = $db->table('empresas')
+                    ->where('id', $empresaId)
+                    ->update(['password' => $hashedPassword]);
+        
+        if ($result) {
+            return redirect()->back()->with('success', 'Contraseña actualizada exitosamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al actualizar la contraseña');
+        }
     }
     
     public function actualizarPerfil()
@@ -522,5 +551,59 @@ class Admin extends BaseController
         $result = $this->empresaModel->update($empresaId, ['activo' => $activo]);
 
         return $this->response->setJSON(['success' => $result]);
+    }
+
+    public function actualizarUsuario()
+    {
+        $usuarioModel = new \App\Models\UsuarioModel();
+        $userId = $this->request->getPost('user_id');
+        $empresaId = $this->getEmpresaId();
+        
+        // Verificar que el usuario pertenece a la empresa
+        $usuarioActual = $usuarioModel->where('id', $userId)->where('empresa_id', $empresaId)->first();
+        if (!$usuarioActual) {
+            return redirect()->back()->with('error', 'Usuario no encontrado');
+        }
+        
+        $data = [
+            'nombre' => $this->request->getPost('nombre')
+        ];
+        
+        // Actualizar contraseña si se proporciona
+        $password = $this->request->getPost('password');
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+        
+        // Manejar subida de foto
+        $foto = $this->request->getFile('foto_perfil');
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $nombreFoto = $foto->getRandomName();
+            if ($foto->move(FCPATH . 'uploads', $nombreFoto)) {
+                $data['foto_perfil'] = $nombreFoto;
+            }
+        }
+        
+        try {
+            $db = \Config\Database::connect();
+            $result = $db->table('usuarios')->where('id', $userId)->update($data);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error en base de datos: ' . $e->getMessage());
+        }
+        
+        if ($result) {
+            // Actualizar sesión si es el usuario actual
+            if (session()->get('user_email') === $usuarioActual['email']) {
+                $usuarioActualizado = $usuarioModel->find($userId);
+                session()->set([
+                    'user_name' => $usuarioActualizado['nombre'],
+                    'user_photo' => $usuarioActualizado['foto_perfil']
+                ]);
+            }
+            
+            return redirect()->to(base_url('admin/configuracion'))->with('success', 'Usuario actualizado exitosamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al actualizar el usuario');
+        }
     }
 }

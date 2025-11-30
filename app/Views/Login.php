@@ -50,7 +50,7 @@
                                                 <input type="checkbox" class="form-check-input" id="customCheck1">
                                                 <label class="form-check-label" for="customCheck1">Recordar contraseña</label>
                                             </div>
-                                            <a href="#" class="text-dark">¿Olvidaste tu contraseña?</a>
+                                            <a href="<?= base_url('password/forgot') ?>" class="text-dark">¿Olvidaste tu contraseña?</a>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn text-white w-100" style="background-color: #ff6b35;">Iniciar Sesión</button>

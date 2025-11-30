@@ -1,1 +1,0 @@
-ALTER TABLE pedidos ADD COLUMN medio_pago ENUM('efectivo', 'transferencia') DEFAULT 'efectivo' AFTER total;

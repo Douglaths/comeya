@@ -140,22 +140,34 @@
                             <?php if (!empty($usuarios)): ?>
                                 <div class="list-group">
                                     <?php foreach ($usuarios as $user): ?>
-                                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="mb-1"><?= esc($user['nombre']) ?></h6>
-                                                <small class="text-muted"><?= esc($user['email']) ?></small><br>
-                                                <span class="badge <?= $user['rol'] == 'admin_empresa' ? 'bg-primary' : 'bg-secondary' ?>">
-                                                    <?= ucfirst(str_replace('_', ' ', $user['rol'])) ?>
-                                                </span>
+                                        <div class="list-group-item">
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?= !empty($user['foto_perfil']) ? base_url('uploads/' . $user['foto_perfil']) : base_url('public/assets/images/avatars/01.png') ?>" 
+                                                     alt="<?= esc($user['nombre']) ?>" 
+                                                     class="rounded-circle me-3" 
+                                                     style="width: 50px; height: 50px; object-fit: cover;">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-1"><?= esc($user['nombre']) ?></h6>
+                                                    <small class="text-muted"><?= esc($user['email']) ?></small><br>
+                                                    <span class="badge <?= $user['rol'] == 'administrador' ? 'bg-primary' : 'bg-secondary' ?>">
+                                                        <?= ucfirst($user['rol']) ?>
+                                                    </span>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button class="btn btn-outline-primary me-2" 
+                                                            onclick="editarUsuario(<?= $user['id'] ?>, '<?= esc($user['nombre']) ?>', '<?= esc($user['email']) ?>', '<?= $user['foto_perfil'] ?? '' ?>')">
+                                                        ✏️ Editar
+                                                    </button>
+                                                    <span class="badge <?= $user['activo'] ? 'bg-success' : 'bg-danger' ?>">
+                                                        <?= $user['activo'] ? 'Activo' : 'Inactivo' ?>
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <span class="badge <?= $user['activo'] ? 'bg-success' : 'bg-danger' ?>">
-                                                <?= $user['activo'] ? 'Activo' : 'Inactivo' ?>
-                                            </span>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else: ?>
-                                <p class="text-muted text-center">No hay usuarios adicionales</p>
+                                <p class="text-muted text-center">No hay usuarios registrados</p>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -230,5 +242,85 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Editar Usuario -->
+    <div class="modal fade" id="editarUsuarioModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?= base_url('admin/actualizar-usuario') ?>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="edit_user_id" name="user_id">
+                    <div class="modal-body">
+                        <div class="mb-3 text-center">
+                            <img id="preview_foto" src="<?= base_url('public/assets/images/avatars/01.png') ?>" 
+                                 alt="Foto de perfil" class="rounded-circle mb-2" 
+                                 style="width: 80px; height: 80px; object-fit: cover;">
+                            <div>
+                                <label for="foto_perfil" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-camera"></i> Cambiar Foto
+                                </label>
+                                <input type="file" id="foto_perfil" name="foto_perfil" class="d-none" accept="image/*">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_nombre" class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="edit_nombre" name="nombre" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="edit_email" name="email" readonly>
+                            <small class="text-muted">El email no se puede modificar</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_password" class="form-label">Nueva Contraseña (opcional)</label>
+                            <input type="password" class="form-control" id="edit_password" name="password">
+                            <small class="text-muted">Dejar en blanco para mantener la contraseña actual</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function editarUsuario(id, nombre, email, foto) {
+        document.getElementById('edit_user_id').value = id;
+        document.getElementById('edit_nombre').value = nombre;
+        document.getElementById('edit_email').value = email;
+        document.getElementById('edit_password').value = '';
+        
+        // Cargar foto actual
+        const previewImg = document.getElementById('preview_foto');
+        if (foto && foto.trim() !== '') {
+            previewImg.src = '<?= base_url('uploads/') ?>' + foto;
+        } else {
+            previewImg.src = '<?= base_url('public/assets/images/avatars/01.png') ?>';
+        }
+        
+        new bootstrap.Modal(document.getElementById('editarUsuarioModal')).show();
+    }
+    
+    // Preview de foto
+    document.getElementById('foto_perfil').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview_foto').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    </script>
 
 <?= $this->include('Admin/templates/footer') ?>

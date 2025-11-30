@@ -21,7 +21,7 @@ class Login extends BaseController
 
             $db = \Config\Database::connect();
             $empresa = $db->table('empresas')
-                ->select('id, nombre, email, activo')
+                ->select('id, nombre, email, password, activo')
                 ->where('email', $email)
                 ->where('activo', 1)
                 ->get()
@@ -31,12 +31,33 @@ class Login extends BaseController
                 return redirect()->back()->with('error', 'Email no encontrado');
             }
 
-            if ($password === '12345678') {
+            // Verificar contraseña
+            $passwordValid = false;
+            
+            if ($empresa['password']) {
+                // Usar contraseña hasheada si existe
+                $passwordValid = password_verify($password, $empresa['password']);
+            } else {
+                // Fallback a contraseña por defecto
+                $passwordValid = ($password === '12345678');
+            }
+
+            if ($passwordValid) {
+                // Buscar usuario asociado a la empresa
+                $usuario = $db->table('usuarios')
+                    ->select('nombre, email, foto_perfil, rol')
+                    ->where('empresa_id', $empresa['id'])
+                    ->where('activo', 1)
+                    ->get()
+                    ->getRowArray();
+                
                 session()->set([
                     'empresa_id' => $empresa['id'],
                     'empresa_nombre' => $empresa['nombre'],
-                    'user_name' => $empresa['nombre'],
-                    'user_email' => $empresa['email'],
+                    'user_name' => $usuario ? $usuario['nombre'] : $empresa['nombre'],
+                    'user_email' => $usuario ? $usuario['email'] : $empresa['email'],
+                    'user_photo' => $usuario ? $usuario['foto_perfil'] : null,
+                    'user_role' => $usuario ? ucfirst($usuario['rol']) : 'Administrador',
                     'logged_in' => true
                 ]);
                 
