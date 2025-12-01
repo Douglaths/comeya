@@ -179,8 +179,15 @@
                 <!-- Información del Sistema -->
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h6 class="mb-0">Información del Sistema</h6>
+                            <?php if (!$usuario['id']): ?>
+                            <form action="<?= base_url('admin/sincronizar-usuarios') ?>" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-warning" title="Sincronizar datos de usuario">
+                                    <i class="fas fa-sync"></i> Sincronizar Usuario
+                                </button>
+                            </form>
+                            <?php endif; ?>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -201,6 +208,17 @@
                                     <span class="badge bg-success">Operativo</span>
                                 </div>
                             </div>
+                            <?php if (!$usuario['id']): ?>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Nota:</strong> Tu perfil de usuario no está completamente sincronizado. 
+                                        Usa el botón "Sincronizar Usuario" para completar la configuración.
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -348,6 +366,17 @@
                                     <input type="text" class="form-control" id="empresa_categoria" name="categoria_comida" 
                                            value="<?= esc($empresa['categoria_comida'] ?? '') ?>" 
                                            placeholder="Ej: Italiana, Mexicana, Asiática">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_costo_envio" class="form-label">Costo de Envío/Domicilio</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" id="empresa_costo_envio" name="costo_envio" 
+                                               value="<?= esc($empresa['costo_envio'] ?? '3.00') ?>" 
+                                               step="0.01" min="0" placeholder="3.00">
+                                    </div>
+                                    <small class="text-muted">Valor que se cobrará por envío a domicilio</small>
                                 </div>
                             </div>
                             

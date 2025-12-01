@@ -21,14 +21,14 @@ class UsuarioModel extends Model
 
     protected $validationRules = [
         'nombre' => 'required|min_length[3]|max_length[255]',
-        'email' => 'required|valid_email|is_unique[usuarios.email]',
-        'password' => 'required|min_length[6]',
-        'rol' => 'required|in_list[superadmin,admin_empresa,usuario]'
+        'email' => 'required|valid_email|is_unique[usuarios.email,id,{id}]',
+        'password' => 'permit_empty|min_length[6]',
+        'rol' => 'permit_empty|in_list[superadmin,admin_empresa,usuario]'
     ];
 
     protected $validationMessages = [
         'email' => [
-            'is_unique' => 'Este email ya está registrado.'
+            'is_unique' => 'Este email ya está registrado por otro usuario.'
         ]
     ];
 

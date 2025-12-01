@@ -391,19 +391,42 @@ class Admin extends BaseController
         $empresaId = $this->getEmpresaId();
         $empresa = $empresaModel->find($empresaId);
         
-        // DEBUG: Obtener usuario actual por email
+        // Obtener usuario actual por email
         $userEmail = session()->get('user_email');
-        $usuarioActual = $usuarioModel->where('email', $userEmail)->first();
+        $usuarioActual = $usuarioModel->where('email', $userEmail)->where('empresa_id', $empresaId)->first();
         
-        // DEBUG: Mostrar datos
-        log_message('debug', 'Email en sesion: ' . $userEmail);
-        log_message('debug', 'Usuario encontrado: ' . json_encode($usuarioActual));
+        // Si no existe el usuario en la tabla usuarios, crearlo automáticamente
+        if (!$usuarioActual && $userEmail && $empresa) {
+            $nuevoUsuario = [
+                'empresa_id' => $empresaId,
+                'nombre' => session()->get('user_name') ?? 'Admin ' . $empresa['nombre'],
+                'email' => $userEmail,
+                'telefono' => null,
+                'direccion' => null,
+                'password' => password_hash('12345678', PASSWORD_DEFAULT),
+                'rol' => 'admin_empresa',
+                'activo' => 1
+            ];
+            
+            try {
+                $usuarioModel->skipValidation(true);
+                $usuarioId = $usuarioModel->insert($nuevoUsuario);
+                if ($usuarioId) {
+                    $usuarioActual = $usuarioModel->find($usuarioId);
+                }
+            } catch (\Exception $e) {
+                // Si falla la creación, continuar con datos de sesión
+            }
+        }
         
+        // Si no existe el usuario en la tabla usuarios, usar datos de sesión
         $usuario = $usuarioActual ?: [
+            'id' => null,
             'nombre' => session()->get('user_name') ?? 'Usuario',
             'email' => $userEmail,
             'telefono' => '',
-            'direccion' => ''
+            'direccion' => '',
+            'foto_perfil' => null
         ];
         
         // Usuarios de la empresa
@@ -476,34 +499,41 @@ class Admin extends BaseController
         $empresaId = $this->getEmpresaId();
         $userEmail = session()->get('user_email');
         
-        // Buscar usuario actual por email
-        $usuarioActual = $usuarioModel->where('email', $userEmail)->first();
+        // Buscar usuario actual por email y empresa
+        $usuarioActual = $usuarioModel->where('email', $userEmail)->where('empresa_id', $empresaId)->first();
         
         $dataUsuario = [
             'nombre' => $this->request->getPost('nombre_usuario'),
             'email' => $this->request->getPost('email_usuario'),
-            'telefono' => $this->request->getPost('telefono_usuario'),
-            'direccion' => $this->request->getPost('direccion_usuario')
+            'telefono' => $this->request->getPost('telefono_usuario') ?: null,
+            'direccion' => $this->request->getPost('direccion_usuario') ?: null
         ];
         
+        // Validar que el nuevo email no esté en uso por otro usuario
+        if ($dataUsuario['email'] !== $userEmail) {
+            $whereClause = $usuarioModel->where('email', $dataUsuario['email']);
+            if ($usuarioActual && isset($usuarioActual['id'])) {
+                $whereClause->where('id !=', $usuarioActual['id']);
+            }
+            $emailExiste = $whereClause->first();
+            if ($emailExiste) {
+                return redirect()->back()->with('error', 'Este email ya está en uso por otro usuario');
+            }
+        }
+        
         try {
-            // DEBUG
-            log_message('debug', 'Datos a actualizar: ' . json_encode($dataUsuario));
-            log_message('debug', 'Usuario actual: ' . json_encode($usuarioActual));
-            
             if ($usuarioActual) {
-                log_message('debug', 'Actualizando usuario ID: ' . $usuarioActual['id']);
+                // Actualizar usuario existente
+                $usuarioModel->skipValidation(true);
                 $result = $usuarioModel->update($usuarioActual['id'], $dataUsuario);
-                log_message('debug', 'Resultado update: ' . ($result ? 'true' : 'false'));
             } else {
                 // Crear usuario si no existe
                 $dataUsuario['empresa_id'] = $empresaId;
                 $dataUsuario['rol'] = 'admin_empresa';
                 $dataUsuario['activo'] = 1;
                 $dataUsuario['password'] = password_hash('12345678', PASSWORD_DEFAULT);
-                log_message('debug', 'Creando nuevo usuario');
+                $usuarioModel->skipValidation(true);
                 $result = $usuarioModel->insert($dataUsuario);
-                log_message('debug', 'Resultado insert: ' . ($result ? 'true' : 'false'));
             }
             
             if ($result) {
@@ -514,7 +544,9 @@ class Admin extends BaseController
                 ]);
                 return redirect()->back()->with('success', 'Perfil personal actualizado exitosamente');
             } else {
-                return redirect()->back()->with('error', 'Error al actualizar el perfil personal');
+                $errors = $usuarioModel->errors();
+                $errorMsg = !empty($errors) ? implode(', ', $errors) : 'Error al actualizar el perfil personal';
+                return redirect()->back()->with('error', $errorMsg);
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
@@ -657,7 +689,8 @@ class Admin extends BaseController
             'direccion' => $this->request->getPost('direccion'),
             'descripcion' => $this->request->getPost('descripcion'),
             'ciudad' => $this->request->getPost('ciudad'),
-            'categoria_comida' => $this->request->getPost('categoria_comida')
+            'categoria_comida' => $this->request->getPost('categoria_comida'),
+            'costo_envio' => floatval($this->request->getPost('costo_envio')) ?: 3.00
         ];
         
         // Manejar subida de logo
@@ -678,10 +711,53 @@ class Admin extends BaseController
             }
         }
         
-        if ($empresaModel->update($empresaId, $data)) {
-            return redirect()->to(base_url('admin/configuracion'))->with('success', 'Empresa actualizada exitosamente');
-        } else {
-            return redirect()->back()->with('error', 'Error al actualizar la empresa');
+        try {
+            $result = $empresaModel->update($empresaId, $data);
+            if ($result) {
+                return redirect()->to(base_url('admin/configuracion'))->with('success', 'Empresa actualizada exitosamente');
+            } else {
+                $errors = $empresaModel->errors();
+                $errorMsg = !empty($errors) ? implode(', ', $errors) : 'Error al actualizar la empresa';
+                return redirect()->back()->with('error', $errorMsg);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+    
+    public function sincronizarUsuarios()
+    {
+        $usuarioModel = new \App\Models\UsuarioModel();
+        $empresaModel = new \App\Models\EmpresaModel();
+        
+        try {
+            $db = \Config\Database::connect();
+            
+            $sql = "
+            INSERT INTO usuarios (empresa_id, nombre, email, password, rol, activo, created_at, updated_at)
+            SELECT 
+                e.id as empresa_id,
+                CONCAT('Admin ', e.nombre) as nombre,
+                e.email,
+                ? as password,
+                'admin_empresa' as rol,
+                1 as activo,
+                NOW() as created_at,
+                NOW() as updated_at
+            FROM empresas e
+            LEFT JOIN usuarios u ON u.email = e.email AND u.empresa_id = e.id
+            WHERE u.id IS NULL
+            AND e.activo = 1
+            ";
+            
+            $hashedPassword = password_hash('12345678', PASSWORD_DEFAULT);
+            $result = $db->query($sql, [$hashedPassword]);
+            
+            $affectedRows = $db->affectedRows();
+            
+            return redirect()->back()->with('success', "Sincronización completada. {$affectedRows} usuarios creados.");
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error en la sincronización: ' . $e->getMessage());
         }
     }
 }

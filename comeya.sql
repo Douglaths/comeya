@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2025 at 03:36 AM
+-- Generation Time: Dec 01, 2025 at 11:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -116,7 +116,9 @@ INSERT INTO `categorias` (`id`, `empresa_id`, `nombre`, `descripcion`, `orden`, 
 (10, 4, 'Mariscos', 'Categoría Mariscos', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
 (11, 4, 'Entrantes', 'Categoría Entrantes', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
 (12, 4, 'Platos principales', 'Categoría Platos principales', 1, 1, '2025-11-18 01:18:45', '2025-11-18 01:18:45'),
-(13, 2, 'Pizza de gato', 'son pizzas pero con carne de gato', 3, 1, '2025-11-23 01:29:33', '2025-11-23 01:29:33');
+(13, 2, 'Pizza de gato', 'son pizzas pero con carne de gato', 3, 1, '2025-11-23 01:29:33', '2025-11-23 01:29:33'),
+(14, 8, 'ASADOS', 'asados al carbon', 1, 1, '2025-12-01 02:46:09', '2025-12-01 02:46:09'),
+(15, 8, 'Potencializadores', 'vitaminas', 2, 1, '2025-12-01 02:47:12', '2025-12-01 02:47:12');
 
 -- --------------------------------------------------------
 
@@ -210,6 +212,8 @@ CREATE TABLE `empresas` (
   `descripcion` text DEFAULT NULL,
   `ciudad` varchar(100) DEFAULT NULL,
   `categoria_comida` varchar(100) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `foto_presentacion` varchar(255) DEFAULT NULL,
   `promociones` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`promociones`)),
   `envio_gratis` tinyint(1) DEFAULT 0,
   `descuento_activo` tinyint(1) DEFAULT 0,
@@ -232,14 +236,15 @@ CREATE TABLE `empresas` (
 -- Dumping data for table `empresas`
 --
 
-INSERT INTO `empresas` (`id`, `nombre`, `email`, `telefono`, `direccion`, `descripcion`, `ciudad`, `categoria_comida`, `promociones`, `envio_gratis`, `descuento_activo`, `oferta_2x1`, `plan`, `estado`, `fecha_trial_fin`, `limite_productos`, `activo`, `destacado`, `codigo_referido`, `configuracion_notificaciones`, `fecha_alta`, `created_at`, `updated_at`, `password`) VALUES
-(1, 'Galvis Café', 'admin@galvis.com', '3163127002', 'Calle 123 #45-67, Bogotá', 'Especialistas en carnes a la brasa y parrilla argentina con los mejores cortes', 'Madrid', 'Parrilla', NULL, 1, 1, 0, 'premium', 'activo', NULL, 500, 1, 1, NULL, '{\"email_pedidos\":true,\"whatsapp_pedidos\":true,\"email_reportes\":true}', '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-22 20:09:34', NULL),
-(2, 'Pizzería Don Mario', 'info@donmario.com', '555-0002', 'Avenida Central 456', 'Pizza artesanal al horno de leña con recetas tradicionales napolitanas', 'Barcelona', 'Italiana', NULL, 0, 0, 1, 'basico', 'activo', NULL, 50, 1, 1, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
-(3, 'Café Central', 'hola@cafecentral.com', '555-0003', 'Plaza Mayor 789', 'Café de especialidad con ambiente acogedor y repostería artesanal', 'Valencia', 'Café', NULL, 1, 0, 0, 'basico', 'inactivo', NULL, 50, 0, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
-(4, 'Mariscos La Costa', 'ventas@lacosta.com', '555-0004', 'Malecón 321', 'Mariscos frescos del día preparados con técnicas tradicionales', 'Sevilla', 'Mariscos', NULL, 0, 1, 0, 'enterprise', 'trial', '2025-12-01', 50, 1, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
-(5, 'Burger King Express', 'admin@burgerexpress.com', '555-0005', 'Gran Vía 25', 'Hamburguesas gourmet con ingredientes premium y papas artesanales', 'Madrid', 'Hamburguesas', NULL, 1, 0, 1, 'premium', 'activo', NULL, 100, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
-(6, 'Sushi Zen', 'contacto@sushizen.com', '555-0006', 'Paseo de Gracia 88', 'Auténtica cocina japonesa con los mejores ingredientes frescos', 'Barcelona', 'Japonesa', NULL, 0, 1, 0, 'basico', 'trial', '2025-11-23', 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
-(7, 'Taco Loco', 'info@tacoloco.com', '555-0007', 'Calle Sierpes 15', 'Comida mexicana auténtica con sabores tradicionales y picantes', 'Sevilla', 'Mexicana', NULL, 0, 0, 1, 'basico', 'suspendido', NULL, 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL);
+INSERT INTO `empresas` (`id`, `nombre`, `email`, `telefono`, `direccion`, `descripcion`, `ciudad`, `categoria_comida`, `logo`, `foto_presentacion`, `promociones`, `envio_gratis`, `descuento_activo`, `oferta_2x1`, `plan`, `estado`, `fecha_trial_fin`, `limite_productos`, `activo`, `destacado`, `codigo_referido`, `configuracion_notificaciones`, `fecha_alta`, `created_at`, `updated_at`, `password`) VALUES
+(1, 'Galvis Café', 'admin@galvis.com', '3163127002', 'Calle 12#45-67, zipakira', 'el mejor cafe del mundo', 'VALLEDUPAR', 'CAFETERIA', NULL, NULL, NULL, 0, 0, 0, 'premium', 'activo', NULL, 500, 1, 1, NULL, '{\"email_pedidos\":true,\"whatsapp_pedidos\":true,\"email_reportes\":true}', '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-30 22:01:58', NULL),
+(2, 'Pizzería Don Mario', 'info@donmario.com', '555-0002', 'Avenida Central 456', 'Pizza artesanal al horno de leña con recetas tradicionales napolitanas', 'Barcelona', 'Francesaitaliana', '1764623533_22aede486349dbe37dd0.png', '1764623533_9398e2b1ffe9bff55257.jpeg', NULL, 0, 0, 1, 'basico', 'activo', NULL, 50, 1, 1, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-12-01 16:15:06', NULL),
+(3, 'Café Central', 'hola@cafecentral.com', '555-0003', 'Plaza Mayor 789', 'Café de especialidad con ambiente acogedor y repostería artesanal', 'Valencia', 'Café', NULL, NULL, NULL, 1, 0, 0, 'basico', 'inactivo', NULL, 50, 0, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
+(4, 'Mariscos La Costa', 'ventas@lacosta.com', '555-0004', 'Malecón 321', 'Mariscos frescos del día preparados con técnicas tradicionales', 'Sevilla', 'Mariscos', NULL, NULL, NULL, 0, 1, 0, 'enterprise', 'trial', '2025-12-01', 50, 1, 0, NULL, NULL, '2025-11-16 18:43:33', '2025-11-16 18:43:33', '2025-11-18 00:39:47', NULL),
+(5, 'Burger King Express', 'admin@burgerexpress.com', '555-0005', 'Gran Vía 25', 'Hamburguesas gourmet con ingredientes premium y papas artesanales', 'Madrid', 'Hamburguesas', NULL, NULL, NULL, 1, 0, 1, 'premium', 'activo', NULL, 100, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
+(6, 'Sushi Zen', 'contacto@sushizen.com', '555-0006', 'Paseo de Gracia 88', 'Auténtica cocina japonesa con los mejores ingredientes frescos', 'Barcelona', 'Japonesa', NULL, NULL, NULL, 0, 1, 0, 'basico', 'trial', '2025-11-23', 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
+(7, 'Taco Loco', 'info@tacoloco.com', '555-0007', 'Calle Sierpes 15', 'Comida mexicana auténtica con sabores tradicionales y picantes', 'Sevilla', 'Mexicana', NULL, NULL, NULL, 0, 0, 1, 'basico', 'suspendido', NULL, 25, 1, 0, NULL, NULL, '2025-11-16 22:43:50', '2025-11-16 22:43:50', '2025-11-18 00:39:47', NULL),
+(8, 'EL POLLO PEPE', 'douglathsmelo4@gmail.com', '3215411553', 'Cra 8 #15a-45', 'El pollo pepe es el mejor pollo de la ciudad', 'Bosconia', 'Pollo asado re asado', '1764623831_9ff7d125fa9c551cf69c.jpg', '1764623831_1ab6b0203d0befcb5b50.webp', NULL, 1, 1, 1, 'premium', 'activo', NULL, 50, 1, 1, NULL, NULL, '2025-11-30 21:41:58', '2025-11-30 21:41:58', '2025-12-01 16:17:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -433,7 +438,8 @@ INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `c
 (39, 1, 'galvis-0031', 'asdasd', NULL, '234234', 'asdasd', 'asdasd', NULL, NULL, 37.00, 3.00, 0.00, 40.00, 'transferencia', 'pendiente', '2025-11-24 05:50:33', '2025-11-24 00:50:33', '2025-11-24 00:50:33', NULL, NULL, NULL),
 (40, 1, 'galvis-0032', 'asdads', NULL, '234234', 'sadasdas', 'dasdasd', NULL, NULL, 34.50, 3.00, 0.00, 37.50, 'efectivo', 'enviado', '2025-11-24 05:50:42', '2025-11-24 00:50:42', '2025-11-24 06:25:26', NULL, NULL, NULL),
 (41, 2, 'pizzer-0007', 'asdasd', NULL, '3215142162', 'jasashak', 'njkkj', NULL, NULL, 100000.00, 3.00, 0.00, 100003.00, 'efectivo', 'enviado', '2025-11-30 18:49:58', '2025-11-30 13:49:58', '2025-11-30 18:51:06', NULL, NULL, NULL),
-(42, 2, 'pizzer-0008', 'asjkdasdk', NULL, '1212', 'asdjkasd', 'jsdkaks', NULL, NULL, 36.00, 3.00, 0.00, 39.00, 'efectivo', 'pendiente', '2025-12-01 02:29:32', '2025-11-30 21:29:32', '2025-11-30 21:29:32', NULL, NULL, NULL);
+(42, 2, 'pizzer-0008', 'asjkdasdk', NULL, '1212', 'asdjkasd', 'jsdkaks', NULL, NULL, 36.00, 3.00, 0.00, 39.00, 'efectivo', 'pendiente', '2025-12-01 02:29:32', '2025-11-30 21:29:32', '2025-11-30 21:29:32', NULL, NULL, NULL),
+(43, 8, 'elpoll-0001', 'douglaths', NULL, '3163127002', 'casa', 'ojo ñapa', NULL, NULL, 38000.00, 3.00, 0.00, 38003.00, 'efectivo', 'enviado', '2025-12-01 02:49:17', '2025-11-30 21:49:17', '2025-12-01 02:50:12', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -514,7 +520,9 @@ INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `preci
 (59, 40, 11, 2, 8.00, 16.00, NULL, '2025-11-24 00:50:42'),
 (60, 41, 21, 1, 100000.00, 100000.00, NULL, '2025-11-30 13:49:58'),
 (61, 42, 4, 2, 12.00, 24.00, NULL, '2025-11-30 21:29:32'),
-(62, 42, 13, 1, 12.00, 12.00, NULL, '2025-11-30 21:29:32');
+(62, 42, 13, 1, 12.00, 12.00, NULL, '2025-11-30 21:29:32'),
+(63, 43, 23, 1, 18000.00, 18000.00, NULL, '2025-11-30 21:49:17'),
+(64, 43, 22, 1, 20000.00, 20000.00, NULL, '2025-11-30 21:49:17');
 
 -- --------------------------------------------------------
 
@@ -587,7 +595,9 @@ INSERT INTO `productos` (`id`, `empresa_id`, `categoria_id`, `nombre`, `descripc
 (18, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
 (19, 1, 2, 'PROGRAMACION dkajshdahsdiahdiajsdñakjsdlkajsd{lakjdslakdasdasdads', 'asdasdasdxcbdbzdbzdhb5r6u457435i7623iu095834tj938jt9824jwewe\r\n\r\nwer\r\nwer\r\nwe\r\nrw\r\nere\r\nwr\r\n', 1212212.00, '1763437426_c75eb5b32759b1bb1793.jpeg', NULL, 1, 1, '2025-11-18 03:38:28', '2025-11-20 20:51:08'),
 (20, 1, 2, 'Torta fria de arequipe', 'torta fria que viene decorada con arequipe, deliciosa', 20000.00, '1763446907_24cc91e68b0fe6cf53d6.jpg', NULL, 1, 1, '2025-11-18 06:21:47', '2025-11-20 22:18:19'),
-(21, 2, 13, 'gato suizo en pizza', 'es pizza pero con gato suizo', 100000.00, '1763866912_4b6177902e566245b166.png', NULL, 1, 1, '2025-11-23 03:01:52', '2025-12-01 02:10:21');
+(21, 2, 13, 'gato suizo en pizza', 'es pizza pero con gato suizo', 100000.00, '1763866912_4b6177902e566245b166.png', NULL, 1, 1, '2025-11-23 03:01:52', '2025-12-01 02:10:21'),
+(22, 8, 14, 'POLLO ASADO', 'Pollo asado al carbon para mejor gustosidad', 20000.00, '1764557213_e4e22a07f6efa6356fd8.avif', NULL, 1, 1, '2025-12-01 02:46:53', '2025-12-01 02:46:57'),
+(23, 8, 15, 'Enano pichon', 'SUPER POTENCIALIZADOR', 18000.00, '1764557294_5e33cd53167f03d8b4f6.png', NULL, 1, 0, '2025-12-01 02:48:14', '2025-12-01 02:48:14');
 
 -- --------------------------------------------------------
 
@@ -644,7 +654,8 @@ CREATE TABLE `solicitudes_registro` (
 --
 
 INSERT INTO `solicitudes_registro` (`id`, `nombre_empresa`, `email`, `telefono`, `direccion`, `nombre_contacto`, `mensaje`, `estado`, `fecha_solicitud`, `fecha_respuesta`, `respondido_por`, `notas_admin`) VALUES
-(1, 'Galvis Café', 'douglathsmelo@gmail.com', '3163127002', 'CALLE 3 #15A', 'DOUGLATHS', 'ES PARA VENDER METANFETAMINAS', 'pendiente', '2025-11-30 18:11:54', NULL, NULL, NULL);
+(1, 'Galvis Café', 'douglathsmelo@gmail.com', '3163127002', 'CALLE 3 #15A', 'DOUGLATHS', 'ES PARA VENDER METANFETAMINAS', 'rechazada', '2025-11-30 18:11:54', '2025-12-01 07:41:50', NULL, 'no cumple con los estandares'),
+(3, 'EL POLLO PEPE', 'douglathsmelo4@gmail.com', '3215411553', 'Cra 8 #15a-45', 'DOUGLATHS', 'es un restairante chino', 'aprobada', '2025-12-01 02:40:40', '2025-12-01 07:41:58', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -657,6 +668,8 @@ CREATE TABLE `usuarios` (
   `empresa_id` int(11) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `direccion` text DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `rol` enum('superadmin','admin_empresa','usuario') DEFAULT 'usuario',
   `activo` tinyint(1) DEFAULT 1,
@@ -669,16 +682,17 @@ CREATE TABLE `usuarios` (
 -- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `empresa_id`, `nombre`, `email`, `password`, `rol`, `activo`, `created_at`, `updated_at`, `foto_perfil`) VALUES
-(1, NULL, 'Super Administrador', 'superadmin@comeya.com', '$2y$10$6iGPu8o4sFIWqhgq4GUcauyFid0ey6sy8ceJUJ8To5CNac9erx8f.', 'superadmin', 1, '2025-11-16 18:43:33', '2025-11-18 04:10:36', NULL),
-(2, 1, 'Petrosky GUstavo', 'admin@galvis.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-17 23:09:44', '2025-11-30 14:13:11', '1764529973_1c7e373d9fd965693070.jpg'),
-(3, 1, 'mesero', 'mesero@gmail.com', '$2y$10$XPD3zE7hNFnIKvjZyIemsOlhjVKKATS5YlPhHAyqpZQoVuYS6nwxa', 'admin_empresa', 1, '2025-11-18 04:48:56', '2025-11-30 14:13:39', '1764530019_3a416f52b0f523674f70.jpg'),
-(4, 2, 'Admin Pizzería Don Mario', 'info@donmario.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:14', '1764529855_d799f63e4d7b9187d9de.jpeg'),
-(5, 3, 'Admin Café Central', 'hola@cafecentral.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:32', NULL),
-(6, 4, 'Admin Mariscos La Costa', 'ventas@lacosta.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:27', NULL),
-(7, 5, 'Admin Burger King Express', 'admin@burgerexpress.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
-(8, 6, 'Admin Sushi Zen', 'contacto@sushizen.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
-(9, 7, 'Admin Taco Loco', 'info@tacoloco.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL);
+INSERT INTO `usuarios` (`id`, `empresa_id`, `nombre`, `email`, `telefono`, `direccion`, `password`, `rol`, `activo`, `created_at`, `updated_at`, `foto_perfil`) VALUES
+(1, NULL, 'Super Administrador', 'superadmin@comeya.com', NULL, NULL, '$2y$10$6iGPu8o4sFIWqhgq4GUcauyFid0ey6sy8ceJUJ8To5CNac9erx8f.', 'superadmin', 1, '2025-11-16 18:43:33', '2025-11-18 04:10:36', NULL),
+(2, 1, 'Petrosky GUstavo', 'admin@galvis.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-17 23:09:44', '2025-11-30 14:13:11', '1764529973_1c7e373d9fd965693070.jpg'),
+(3, 1, 'mesero', 'mesero@gmail.com', NULL, NULL, '$2y$10$XPD3zE7hNFnIKvjZyIemsOlhjVKKATS5YlPhHAyqpZQoVuYS6nwxa', 'admin_empresa', 1, '2025-11-18 04:48:56', '2025-11-30 14:13:39', '1764530019_3a416f52b0f523674f70.jpg'),
+(4, 2, 'Juan Pizzería Don Mario', 'info@donmario.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-12-01 16:49:28', '1764529855_d799f63e4d7b9187d9de.jpeg'),
+(5, 3, 'Admin Café Central', 'hola@cafecentral.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:32', NULL),
+(6, 4, 'Admin Mariscos La Costa', 'ventas@lacosta.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:27', NULL),
+(7, 5, 'Admin Burger King Express', 'admin@burgerexpress.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
+(8, 6, 'Admin Sushi Zen', 'contacto@sushizen.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
+(9, 7, 'Admin Taco Loco', 'info@tacoloco.com', NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
+(10, 8, 'EL POLLO PEPE numero dos', 'douglathsmelo4@gmail.com', '3163127002', 'la jagua', '$2y$10$lD.KQuVDPYNGf.LqNxMniu0zewxhrhDBsq4uSvX7Cw9tNif.1WylG', 'admin_empresa', 1, '2025-12-01 21:34:47', '2025-12-01 21:34:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -937,7 +951,7 @@ ALTER TABLE `campanas`
 -- AUTO_INCREMENT for table `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `codigos_referidos`
@@ -961,7 +975,7 @@ ALTER TABLE `email_campanas`
 -- AUTO_INCREMENT for table `empresas`
 --
 ALTER TABLE `empresas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `facturas`
@@ -991,13 +1005,13 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `pedido_items`
 --
 ALTER TABLE `pedido_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `planes`
@@ -1009,7 +1023,7 @@ ALTER TABLE `planes`
 -- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `promociones`
@@ -1021,7 +1035,7 @@ ALTER TABLE `promociones`
 -- AUTO_INCREMENT for table `solicitudes_registro`
 --
 ALTER TABLE `solicitudes_registro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `usuarios`
