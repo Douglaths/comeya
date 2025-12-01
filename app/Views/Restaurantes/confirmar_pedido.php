@@ -262,10 +262,9 @@
             const carritoData = localStorage.getItem('carrito');
             if (carritoData) {
                 const carrito = JSON.parse(carritoData);
-                const restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
-                window.location.href = restauranteUrl;
+                window.location.replace(carrito.restauranteUrl || '<?= base_url('/') ?>');
             } else {
-                history.back();
+                window.location.replace('<?= base_url('/') ?>');
             }
         }
 

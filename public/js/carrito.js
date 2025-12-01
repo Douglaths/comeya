@@ -22,7 +22,7 @@ class Carrito {
                     nombre: btn.dataset.nombre,
                     precio: parseFloat(btn.dataset.precio),
                     imagen: btn.dataset.imagen,
-                    restauranteId: btn.dataset.restauranteId || this.getRestauranteId(),
+                    restauranteId: btn.dataset.restauranteId,
                     restauranteNombre: btn.dataset.restauranteNombre || this.getRestauranteNombre()
                 };
                 this.agregarProducto(producto);
@@ -47,10 +47,22 @@ class Carrito {
     }
 
     getRestauranteId() {
-        // Obtener ID del restaurante desde la URL o datos de la página
-        const url = window.location.pathname;
-        const match = url.match(/\/([^\/]+)$/);
-        return match ? match[1] : 'default';
+        // Si estamos en confirmar-pedido, obtener del localStorage
+        if (window.location.pathname.includes('confirmar-pedido')) {
+            const carritoGuardado = localStorage.getItem('carrito');
+            if (carritoGuardado) {
+                const data = JSON.parse(carritoGuardado);
+                return data.restauranteId;
+            }
+        }
+        
+        // Obtener ID numérico desde el primer botón de agregar
+        const btnAgregar = document.querySelector('.btn-agregar');
+        if (btnAgregar && btnAgregar.dataset.restauranteId) {
+            return btnAgregar.dataset.restauranteId;
+        }
+        
+        return null;
     }
 
     getRestauranteUrl() {
@@ -63,31 +75,35 @@ class Carrito {
     }
 
     cargarCarrito() {
-        const carritoGuardado = localStorage.getItem('carrito');
+        const restauranteActual = this.getRestauranteId();
+        if (!restauranteActual) return;
+        
+        const carritoKey = `carrito_${restauranteActual}`;
+        const carritoGuardado = localStorage.getItem(carritoKey);
+        
         if (carritoGuardado) {
             const data = JSON.parse(carritoGuardado);
-            const restauranteActual = this.getRestauranteId();
-            
-            // Solo cargar si es del mismo restaurante
-            if (data.restauranteId === restauranteActual) {
-                this.items = data.items || [];
-                this.restauranteId = data.restauranteId;
-                this.restauranteNombre = data.restauranteNombre;
-                this.restauranteUrl = data.restauranteUrl;
-            } else {
-                // Limpiar carrito si es de otro restaurante
-                this.limpiarCarrito();
-            }
+            this.items = data.items || [];
+            this.restauranteId = data.restauranteId;
+            this.restauranteNombre = data.restauranteNombre;
+            this.restauranteUrl = data.restauranteUrl;
         }
     }
 
     guardarCarrito() {
+        if (!this.restauranteId) return;
+        
         const data = {
             restauranteId: this.restauranteId,
             restauranteNombre: this.restauranteNombre,
             restauranteUrl: this.getRestauranteUrl(),
             items: this.items
         };
+        
+        const carritoKey = `carrito_${this.restauranteId}`;
+        localStorage.setItem(carritoKey, JSON.stringify(data));
+        
+        // También guardar en 'carrito' para confirmar-pedido
         localStorage.setItem('carrito', JSON.stringify(data));
     }
 
@@ -158,7 +174,6 @@ class Carrito {
         this.items = [];
         this.restauranteId = null;
         this.restauranteNombre = '';
-        localStorage.removeItem('carrito');
         this.actualizarUI();
     }
 
@@ -273,7 +288,7 @@ function goToConfirm() {
         return;
     }
     
-    window.location.href = 'restaurantes/confirmar-pedido';
+    window.location.replace('restaurantes/confirmar-pedido');
 }
 
 // Inicializar carrito cuando se carga la página
