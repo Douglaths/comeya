@@ -56,9 +56,9 @@
                 
                 <?php foreach ($items as $producto): ?>
                 <div class="menu-item">
-                    <img src="<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop' ?>" alt="<?= esc($producto['nombre']) ?>">
+                    <img src="<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&h=100&fit=crop' ?>" alt="<?= esc($producto['nombre']) ?>" onclick="verProductoDetalle(<?= $producto['id'] ?>, '<?= esc($producto['nombre']) ?>', '<?= esc($producto['descripcion']) ?>', '<?= $producto['precio'] ?>', '<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop' ?>', '<?= isset($empresa) ? $empresa['id'] : $nombreRestaurante ?>', '<?= isset($empresa) ? esc($empresa['nombre']) : ucfirst(str_replace('-', ' ', $nombreRestaurante)) ?>')" style="cursor: pointer;">
                     <div class="menu-item-content">
-                        <div class="menu-item-title"><?= esc($producto['nombre']) ?></div>
+                        <div class="menu-item-title" onclick="verProductoDetalle(<?= $producto['id'] ?>, '<?= esc($producto['nombre']) ?>', '<?= esc($producto['descripcion']) ?>', '<?= $producto['precio'] ?>', '<?= $producto['imagen'] ? base_url('uploads/' . $producto['imagen']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop' ?>', '<?= isset($empresa) ? $empresa['id'] : $nombreRestaurante ?>', '<?= isset($empresa) ? esc($empresa['nombre']) : ucfirst(str_replace('-', ' ', $nombreRestaurante)) ?>')" style="cursor: pointer;"><?= esc($producto['nombre']) ?></div>
                         <div class="menu-item-description"><?= esc($producto['descripcion']) ?></div>
                         <button class="btn-agregar" 
                                 data-id="<?= $producto['id'] ?>"
@@ -119,6 +119,65 @@
         </div>
     </div>
 
+    <!-- Modal Detalle del Producto -->
+    <div class="modal fade" id="modalDetalleProducto" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modal-producto-imagen" src="" alt="" class="img-fluid rounded mb-3" style="max-height: 300px; width: auto;">
+                    <div class="menu-item-title mb-2" id="modal-producto-nombre" style="font-size: 1.5rem;"></div>
+                    <div class="menu-item-description mb-3" id="modal-producto-descripcion"></div>
+                    <div class="menu-item-price mb-4" id="modal-producto-precio" style="font-size: 1.8rem;"></div>
+                    <button id="modal-btn-agregar" class="btn-agregar btn-lg px-4">
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+    function verProductoDetalle(id, nombre, descripcion, precio, imagen, restauranteId, restauranteNombre) {
+        // Llenar datos del modal
+        document.getElementById('modal-producto-imagen').src = imagen;
+        document.getElementById('modal-producto-imagen').alt = nombre;
+        document.getElementById('modal-producto-nombre').textContent = nombre;
+        document.getElementById('modal-producto-descripcion').textContent = descripcion;
+        document.getElementById('modal-producto-precio').textContent = '$' + parseInt(precio).toLocaleString();
+        
+        // Configurar botón agregar con los mismos atributos que el botón original
+        const btnAgregar = document.getElementById('modal-btn-agregar');
+        btnAgregar.setAttribute('data-id', id);
+        btnAgregar.setAttribute('data-nombre', nombre);
+        btnAgregar.setAttribute('data-precio', precio);
+        btnAgregar.setAttribute('data-imagen', imagen);
+        btnAgregar.setAttribute('data-restaurante-id', restauranteId);
+        btnAgregar.setAttribute('data-restaurante-nombre', restauranteNombre);
+        
+        // Remover event listener anterior si existe
+        btnAgregar.replaceWith(btnAgregar.cloneNode(true));
+        const newBtnAgregar = document.getElementById('modal-btn-agregar');
+        
+        // Agregar el mismo event listener que usan los botones del menú
+        newBtnAgregar.addEventListener('click', function() {
+            // Cerrar modal primero
+            bootstrap.Modal.getInstance(document.getElementById('modalDetalleProducto')).hide();
+        });
+        
+        // Configurar atributos nuevamente después del clonado
+        newBtnAgregar.setAttribute('data-id', id);
+        newBtnAgregar.setAttribute('data-nombre', nombre);
+        newBtnAgregar.setAttribute('data-precio', precio);
+        newBtnAgregar.setAttribute('data-imagen', imagen);
+        newBtnAgregar.setAttribute('data-restaurante-id', restauranteId);
+        newBtnAgregar.setAttribute('data-restaurante-nombre', restauranteNombre);
+        
+        // Mostrar modal
+        new bootstrap.Modal(document.getElementById('modalDetalleProducto')).show();
+    }
+    </script>
 
 <?= $this->include('templates/footer') ?>

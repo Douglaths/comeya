@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2025 at 07:53 PM
+-- Generation Time: Dec 01, 2025 at 03:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -432,7 +432,8 @@ INSERT INTO `pedidos` (`id`, `empresa_id`, `numero_pedido`, `cliente_nombre`, `c
 (38, 1, 'galvis-0030', 'asdasd', NULL, '234234', 'asdasd', 'ok', NULL, NULL, 16.00, 3.00, 0.00, 19.00, 'transferencia', 'enviado', '2025-11-24 05:09:22', '2025-11-24 00:09:22', '2025-11-24 05:50:12', NULL, NULL, NULL),
 (39, 1, 'galvis-0031', 'asdasd', NULL, '234234', 'asdasd', 'asdasd', NULL, NULL, 37.00, 3.00, 0.00, 40.00, 'transferencia', 'pendiente', '2025-11-24 05:50:33', '2025-11-24 00:50:33', '2025-11-24 00:50:33', NULL, NULL, NULL),
 (40, 1, 'galvis-0032', 'asdads', NULL, '234234', 'sadasdas', 'dasdasd', NULL, NULL, 34.50, 3.00, 0.00, 37.50, 'efectivo', 'enviado', '2025-11-24 05:50:42', '2025-11-24 00:50:42', '2025-11-24 06:25:26', NULL, NULL, NULL),
-(41, 2, 'pizzer-0007', 'asdasd', NULL, '3215142162', 'jasashak', 'njkkj', NULL, NULL, 100000.00, 3.00, 0.00, 100003.00, 'efectivo', 'enviado', '2025-11-30 18:49:58', '2025-11-30 13:49:58', '2025-11-30 18:51:06', NULL, NULL, NULL);
+(41, 2, 'pizzer-0007', 'asdasd', NULL, '3215142162', 'jasashak', 'njkkj', NULL, NULL, 100000.00, 3.00, 0.00, 100003.00, 'efectivo', 'enviado', '2025-11-30 18:49:58', '2025-11-30 13:49:58', '2025-11-30 18:51:06', NULL, NULL, NULL),
+(42, 2, 'pizzer-0008', 'asjkdasdk', NULL, '1212', 'asdjkasd', 'jsdkaks', NULL, NULL, 36.00, 3.00, 0.00, 39.00, 'efectivo', 'pendiente', '2025-12-01 02:29:32', '2025-11-30 21:29:32', '2025-11-30 21:29:32', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -511,7 +512,9 @@ INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `preci
 (57, 39, 10, 1, 18.50, 18.50, NULL, '2025-11-24 00:50:33'),
 (58, 40, 10, 1, 18.50, 18.50, NULL, '2025-11-24 00:50:42'),
 (59, 40, 11, 2, 8.00, 16.00, NULL, '2025-11-24 00:50:42'),
-(60, 41, 21, 1, 100000.00, 100000.00, NULL, '2025-11-30 13:49:58');
+(60, 41, 21, 1, 100000.00, 100000.00, NULL, '2025-11-30 13:49:58'),
+(61, 42, 4, 2, 12.00, 24.00, NULL, '2025-11-30 21:29:32'),
+(62, 42, 13, 1, 12.00, 12.00, NULL, '2025-11-30 21:29:32');
 
 -- --------------------------------------------------------
 
@@ -568,23 +571,23 @@ CREATE TABLE `productos` (
 INSERT INTO `productos` (`id`, `empresa_id`, `categoria_id`, `nombre`, `descripcion`, `precio`, `imagen`, `categoria`, `activo`, `destacado`, `created_at`, `updated_at`) VALUES
 (1, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447556_ec48ce2325d413782992.jpg', 'Platos principales', 1, 1, '2025-11-16 22:51:14', '2025-11-20 22:18:21'),
 (2, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447575_cba6c52f931fe6f2b16c.jpg', 'Entrantes', 1, 1, '2025-11-16 22:51:14', '2025-11-20 22:18:24'),
-(4, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, '1764397805_42ee44045d9821b9cc9d.png', 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-29 06:30:05'),
-(5, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, '1764397814_43b23bbbd8554fd2d36d.jpg', 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-11-29 06:30:14'),
+(4, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, '1764397805_42ee44045d9821b9cc9d.png', 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-12-01 02:16:29'),
+(5, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, '1764397814_43b23bbbd8554fd2d36d.jpg', 'Pizzas', 1, 1, '2025-11-16 22:51:14', '2025-12-01 02:14:59'),
 (6, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, '1764397840_a165809d422f1b71f17f.jpg', 'Pasta', 1, 0, '2025-11-16 22:51:14', '2025-11-29 06:30:40'),
 (7, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
 (8, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
 (9, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 22:51:14', '2025-11-18 01:18:45'),
 (10, 1, 6, 'Paella Valenciana', 'Paella tradicional con pollo y verduras', 18.50, '1763447565_871b1063428fa6677434.jpeg', 'Platos principales', 1, 1, '2025-11-16 23:34:46', '2025-11-20 22:18:22'),
 (11, 1, 7, 'Gazpacho Andaluz', 'Sopa fría tradicional', 8.00, '1763447585_88667ffb3952ae2bf490.jpg', 'Entrantes', 1, 1, '2025-11-16 23:34:46', '2025-11-20 22:18:25'),
-(13, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, '1764397822_528faf09377621622329.jpg', 'Pizzas', 1, 1, '2025-11-16 23:34:46', '2025-11-29 06:30:22'),
-(14, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, '1764397830_7e7623d7d0377c2821e9.png', 'Pizzas', 1, 0, '2025-11-16 23:34:46', '2025-11-29 06:30:30'),
-(15, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, '1764397855_018c5c8d7b75196f4b6d.jpeg', 'Pasta', 1, 0, '2025-11-16 23:34:46', '2025-11-29 06:30:55'),
+(13, 2, 8, 'Pizza Margherita', 'Pizza con tomate, mozzarella y albahaca', 12.00, '1764397822_528faf09377621622329.jpg', 'Pizzas', 1, 0, '2025-11-16 23:34:46', '2025-12-01 02:10:04'),
+(14, 2, 8, 'Pizza Pepperoni', 'Pizza con pepperoni y queso', 14.50, '1764397830_7e7623d7d0377c2821e9.png', 'Pizzas', 1, 0, '2025-11-16 23:34:46', '2025-12-01 02:10:11'),
+(15, 2, 9, 'Lasaña Boloñesa', 'Lasaña tradicional italiana', 16.00, '1764397855_018c5c8d7b75196f4b6d.jpeg', 'Pasta', 1, 1, '2025-11-16 23:34:46', '2025-12-01 02:16:14'),
 (16, 4, 10, 'Parrillada de Mariscos', 'Selección de mariscos a la parrilla', 28.00, NULL, 'Mariscos', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
 (17, 4, 11, 'Ceviche Peruano', 'Pescado marinado en limón', 15.00, NULL, 'Entrantes', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
 (18, 4, 12, 'Arroz con Mariscos', 'Arroz con variedad de mariscos', 22.00, NULL, 'Platos principales', 1, 0, '2025-11-16 23:34:46', '2025-11-18 01:18:45'),
 (19, 1, 2, 'PROGRAMACION dkajshdahsdiahdiajsdñakjsdlkajsd{lakjdslakdasdasdads', 'asdasdasdxcbdbzdbzdhb5r6u457435i7623iu095834tj938jt9824jwewe\r\n\r\nwer\r\nwer\r\nwe\r\nrw\r\nere\r\nwr\r\n', 1212212.00, '1763437426_c75eb5b32759b1bb1793.jpeg', NULL, 1, 1, '2025-11-18 03:38:28', '2025-11-20 20:51:08'),
 (20, 1, 2, 'Torta fria de arequipe', 'torta fria que viene decorada con arequipe, deliciosa', 20000.00, '1763446907_24cc91e68b0fe6cf53d6.jpg', NULL, 1, 1, '2025-11-18 06:21:47', '2025-11-20 22:18:19'),
-(21, 2, 13, 'gato suizo en pizza', 'es pizza pero con gato suizo', 100000.00, '1763866912_4b6177902e566245b166.png', NULL, 1, 0, '2025-11-23 03:01:52', '2025-11-23 03:01:52');
+(21, 2, 13, 'gato suizo en pizza', 'es pizza pero con gato suizo', 100000.00, '1763866912_4b6177902e566245b166.png', NULL, 1, 1, '2025-11-23 03:01:52', '2025-12-01 02:10:21');
 
 -- --------------------------------------------------------
 
@@ -658,17 +661,24 @@ CREATE TABLE `usuarios` (
   `rol` enum('superadmin','admin_empresa','usuario') DEFAULT 'usuario',
   `activo` tinyint(1) DEFAULT 1,
   `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `foto_perfil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `empresa_id`, `nombre`, `email`, `password`, `rol`, `activo`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Super Administrador', 'superadmin@comeya.com', '$2y$10$6iGPu8o4sFIWqhgq4GUcauyFid0ey6sy8ceJUJ8To5CNac9erx8f.', 'superadmin', 1, '2025-11-16 18:43:33', '2025-11-18 04:10:36'),
-(2, 1, 'Admin Galvis', 'admin@galvis.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-17 23:09:44', '2025-11-17 23:09:44'),
-(3, 1, 'mesero', 'mesero@gmail.com', '$2y$10$ghePMxeOBH1dr4Aohy9uMuT0GBapzNyodh4CjSUnWMudeBQGT/PTq', 'admin_empresa', 1, '2025-11-18 04:48:56', '2025-11-18 04:48:56');
+INSERT INTO `usuarios` (`id`, `empresa_id`, `nombre`, `email`, `password`, `rol`, `activo`, `created_at`, `updated_at`, `foto_perfil`) VALUES
+(1, NULL, 'Super Administrador', 'superadmin@comeya.com', '$2y$10$6iGPu8o4sFIWqhgq4GUcauyFid0ey6sy8ceJUJ8To5CNac9erx8f.', 'superadmin', 1, '2025-11-16 18:43:33', '2025-11-18 04:10:36', NULL),
+(2, 1, 'Petrosky GUstavo', 'admin@galvis.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-17 23:09:44', '2025-11-30 14:13:11', '1764529973_1c7e373d9fd965693070.jpg'),
+(3, 1, 'mesero', 'mesero@gmail.com', '$2y$10$XPD3zE7hNFnIKvjZyIemsOlhjVKKATS5YlPhHAyqpZQoVuYS6nwxa', 'admin_empresa', 1, '2025-11-18 04:48:56', '2025-11-30 14:13:39', '1764530019_3a416f52b0f523674f70.jpg'),
+(4, 2, 'Admin Pizzería Don Mario', 'info@donmario.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:14', '1764529855_d799f63e4d7b9187d9de.jpeg'),
+(5, 3, 'Admin Café Central', 'hola@cafecentral.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:32', NULL),
+(6, 4, 'Admin Mariscos La Costa', 'ventas@lacosta.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin_empresa', 1, '2025-11-30 13:58:07', '2025-11-30 17:06:27', NULL),
+(7, 5, 'Admin Burger King Express', 'admin@burgerexpress.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
+(8, 6, 'Admin Sushi Zen', 'contacto@sushizen.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL),
+(9, 7, 'Admin Taco Loco', 'info@tacoloco.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '', 1, '2025-11-30 13:58:07', '2025-11-30 13:58:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -981,13 +991,13 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `pedido_items`
 --
 ALTER TABLE `pedido_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `planes`
@@ -1017,7 +1027,7 @@ ALTER TABLE `solicitudes_registro`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `ventas`

@@ -154,7 +154,7 @@
                                                                    <?= isset($producto['destacado']) && $producto['destacado'] ? 'checked' : '' ?>
                                                                    onchange="toggleDestacado(<?= $producto['id'] ?>)">
                                                             <label class="form-check-label">
-                                                                <?= isset($producto['destacado']) && $producto['destacado'] ? 'Destacado' : 'Normal' ?>
+                                                                ⭐ Destacado
                                                             </label>
                                                         </div>
                                                     </div>
