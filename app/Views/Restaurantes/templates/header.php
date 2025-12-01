@@ -468,8 +468,8 @@
     <div class="header">
         <div class="container">
             <div class="d-flex align-items-center">
-                <i class="fas fa-arrow-left me-3" style="font-size: 1.3rem; cursor: pointer;" onclick="window.history.back()"></i>
-                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=100&h=100&fit=crop" alt="Logo" class="restaurant-logo me-3">
+                <i class="fas fa-arrow-left me-3" style="font-size: 1.3rem; cursor: pointer; color: var(--text-dark);" onclick="window.history.back()"></i>
+                <img src="<?= isset($empresa) && !empty($empresa['logo']) ? base_url('uploads/' . $empresa['logo']) : 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=100&h=100&fit=crop' ?>" alt="Logo" class="restaurant-logo me-3">
                 <div>
                     <h1 class="restaurant-name"><?= isset($empresa) ? esc($empresa['nombre']) : (isset($nombreRestaurante) ? ucfirst(str_replace('-', ' ', $nombreRestaurante)) : 'La Parrilla Dorada') ?></h1>
                     <div class="restaurant-info">

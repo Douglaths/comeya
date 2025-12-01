@@ -391,10 +391,19 @@ class Admin extends BaseController
         $empresaId = $this->getEmpresaId();
         $empresa = $empresaModel->find($empresaId);
         
-        // Simular usuario desde empresa
-        $usuario = [
-            'nombre' => $empresa['nombre'],
-            'email' => $empresa['email']
+        // DEBUG: Obtener usuario actual por email
+        $userEmail = session()->get('user_email');
+        $usuarioActual = $usuarioModel->where('email', $userEmail)->first();
+        
+        // DEBUG: Mostrar datos
+        log_message('debug', 'Email en sesion: ' . $userEmail);
+        log_message('debug', 'Usuario encontrado: ' . json_encode($usuarioActual));
+        
+        $usuario = $usuarioActual ?: [
+            'nombre' => session()->get('user_name') ?? 'Usuario',
+            'email' => $userEmail,
+            'telefono' => '',
+            'direccion' => ''
         ];
         
         // Usuarios de la empresa
@@ -464,22 +473,51 @@ class Admin extends BaseController
     public function actualizarPerfil()
     {
         $usuarioModel = new \App\Models\UsuarioModel();
-        $empresaModel = new \App\Models\EmpresaModel();
+        $empresaId = $this->getEmpresaId();
+        $userEmail = session()->get('user_email');
         
-        $dataEmpresa = [
-            'nombre' => $this->request->getPost('nombre_empresa'),
-            'email' => $this->request->getPost('email'),
-            'telefono' => $this->request->getPost('telefono'),
-            'direccion' => $this->request->getPost('direccion')
+        // Buscar usuario actual por email
+        $usuarioActual = $usuarioModel->where('email', $userEmail)->first();
+        
+        $dataUsuario = [
+            'nombre' => $this->request->getPost('nombre_usuario'),
+            'email' => $this->request->getPost('email_usuario'),
+            'telefono' => $this->request->getPost('telefono_usuario'),
+            'direccion' => $this->request->getPost('direccion_usuario')
         ];
         
-        $empresaId = $this->getEmpresaId();
-        $empresaActualizada = $empresaModel->update($empresaId, $dataEmpresa);
-        
-        if ($empresaActualizada) {
-            return redirect()->back()->with('success', 'Perfil actualizado exitosamente');
-        } else {
-            return redirect()->back()->with('error', 'Error al actualizar el perfil');
+        try {
+            // DEBUG
+            log_message('debug', 'Datos a actualizar: ' . json_encode($dataUsuario));
+            log_message('debug', 'Usuario actual: ' . json_encode($usuarioActual));
+            
+            if ($usuarioActual) {
+                log_message('debug', 'Actualizando usuario ID: ' . $usuarioActual['id']);
+                $result = $usuarioModel->update($usuarioActual['id'], $dataUsuario);
+                log_message('debug', 'Resultado update: ' . ($result ? 'true' : 'false'));
+            } else {
+                // Crear usuario si no existe
+                $dataUsuario['empresa_id'] = $empresaId;
+                $dataUsuario['rol'] = 'admin_empresa';
+                $dataUsuario['activo'] = 1;
+                $dataUsuario['password'] = password_hash('12345678', PASSWORD_DEFAULT);
+                log_message('debug', 'Creando nuevo usuario');
+                $result = $usuarioModel->insert($dataUsuario);
+                log_message('debug', 'Resultado insert: ' . ($result ? 'true' : 'false'));
+            }
+            
+            if ($result) {
+                // Actualizar sesión
+                session()->set([
+                    'user_name' => $dataUsuario['nombre'],
+                    'user_email' => $dataUsuario['email']
+                ]);
+                return redirect()->back()->with('success', 'Perfil personal actualizado exitosamente');
+            } else {
+                return redirect()->back()->with('error', 'Error al actualizar el perfil personal');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
     
@@ -604,6 +642,46 @@ class Admin extends BaseController
             return redirect()->to(base_url('admin/configuracion'))->with('success', 'Usuario actualizado exitosamente');
         } else {
             return redirect()->back()->with('error', 'Error al actualizar el usuario');
+        }
+    }
+    
+    public function actualizarEmpresa()
+    {
+        $empresaModel = new \App\Models\EmpresaModel();
+        $empresaId = $this->getEmpresaId();
+        
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'email' => $this->request->getPost('email'),
+            'telefono' => $this->request->getPost('telefono'),
+            'direccion' => $this->request->getPost('direccion'),
+            'descripcion' => $this->request->getPost('descripcion'),
+            'ciudad' => $this->request->getPost('ciudad'),
+            'categoria_comida' => $this->request->getPost('categoria_comida')
+        ];
+        
+        // Manejar subida de logo
+        $logo = $this->request->getFile('logo');
+        if ($logo && $logo->isValid() && !$logo->hasMoved()) {
+            $nombreLogo = $logo->getRandomName();
+            if ($logo->move(FCPATH . 'uploads', $nombreLogo)) {
+                $data['logo'] = $nombreLogo;
+            }
+        }
+        
+        // Manejar subida de foto de presentación
+        $fotoPresentacion = $this->request->getFile('foto_presentacion');
+        if ($fotoPresentacion && $fotoPresentacion->isValid() && !$fotoPresentacion->hasMoved()) {
+            $nombreFoto = $fotoPresentacion->getRandomName();
+            if ($fotoPresentacion->move(FCPATH . 'uploads', $nombreFoto)) {
+                $data['foto_presentacion'] = $nombreFoto;
+            }
+        }
+        
+        if ($empresaModel->update($empresaId, $data)) {
+            return redirect()->to(base_url('admin/configuracion'))->with('success', 'Empresa actualizada exitosamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al actualizar la empresa');
         }
     }
 }

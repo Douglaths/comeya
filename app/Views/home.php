@@ -169,7 +169,7 @@
                 <?php if (isset($restaurante['envio_gratis']) && $restaurante['envio_gratis']): ?>
                   <span class="badge bg-success position-absolute" style="top: 40px; left: 8px; z-index: 9; font-size: 0.7rem;">Envío Gratis</span>
                 <?php endif; ?>
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" class="restaurant-img w-100" alt="<?= esc($restaurante['nombre']) ?>">
+                <img src="<?= !empty($restaurante['foto_presentacion']) ? base_url('uploads/' . $restaurante['foto_presentacion']) : 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400' ?>" class="restaurant-img w-100" alt="<?= esc($restaurante['nombre']) ?>">
                 <div class="p-3">
                   <h5 class="fw-bold"><?= esc($restaurante['nombre']) ?></h5>
                   <p class="small text-muted mb-2"><?= esc($restaurante['descripcion'] ?? 'Deliciosa comida con los mejores ingredientes') ?></p>

@@ -169,9 +169,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h6>Información del Cliente</h6>
-                                <p><strong>Nombre:</strong> ${pedido.nombre_cliente}</p>
-                                <p><strong>Teléfono:</strong> ${pedido.telefono_cliente}</p>
-                                <p><strong>Dirección:</strong> ${pedido.direccion_cliente || 'No especificada'}</p>
+                                <p><strong>Nombre:</strong> ${pedido.cliente_nombre || 'No especificado'}</p>
+                                <p><strong>Teléfono:</strong> ${pedido.cliente_telefono || 'No especificado'}</p>
+                                <p><strong>Dirección:</strong> ${pedido.direccion_entrega || 'No especificada'}</p>
+                                ${pedido.notas ? `<p><strong>Observaciones:</strong> ${pedido.notas}</p>` : ''}
                                 <p><strong>Medio de Pago:</strong> ${pedido.medio_pago === 'efectivo' ? 'Efectivo' : 'Transferencia'}</p>
                             </div>
                             <div class="col-md-6">
@@ -184,6 +185,7 @@
                                     pedido.estado === 'completado' ? 'bg-success' : 'bg-danger'
                                 }">${pedido.estado.charAt(0).toUpperCase() + pedido.estado.slice(1)}</span></p>
                                 <p><strong>Total:</strong> $${parseInt(pedido.total).toLocaleString()}</p>
+                                <p><strong>Fecha:</strong> ${fechaPedido.toLocaleString()}</p>
                             </div>
                         </div>
                         
@@ -191,24 +193,15 @@
                         
                         <h6>Timeline del Pedido</h6>
                         <div class="timeline mb-3">
-                            <div class="timeline-item ${pedido.estado === 'pendiente' ? 'active' : 'completed'}">
+                            <div class="timeline-item completed">
                                 <strong>Pedido Recibido:</strong> ${fechaPedido.toLocaleString()}
                             </div>
-                            ${fechaProcesando ? `
-                                <div class="timeline-item ${pedido.estado === 'procesando' ? 'active' : 'completed'}">
-                                    <strong>En Preparación:</strong> ${fechaProcesando.toLocaleString()}
-                                </div>
-                            ` : ''}
-                            ${fechaEnviado ? `
-                                <div class="timeline-item ${pedido.estado === 'enviado' ? 'active' : 'completed'}">
-                                    <strong>Enviado:</strong> ${fechaEnviado.toLocaleString()}
-                                </div>
-                            ` : ''}
-                            ${fechaCompletado ? `
-                                <div class="timeline-item completed">
-                                    <strong>Completado:</strong> ${fechaCompletado.toLocaleString()}
-                                </div>
-                            ` : ''}
+                            <div class="timeline-item ${pedido.estado === 'procesando' || pedido.estado === 'enviado' ? 'completed' : ''}">
+                                <strong>En Preparación:</strong> ${pedido.estado === 'pendiente' ? 'Pendiente' : 'Procesando'}
+                            </div>
+                            <div class="timeline-item ${pedido.estado === 'enviado' ? 'completed' : ''}">
+                                <strong>Enviado:</strong> ${pedido.estado === 'enviado' ? 'Enviado' : 'Pendiente'}
+                            </div>
                         </div>
                         
                         <hr>

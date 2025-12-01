@@ -66,6 +66,7 @@ $routes->post('admin/cambiar-password', 'Admin::cambiarPassword');
 $routes->post('admin/actualizar-perfil', 'Admin::actualizarPerfil');
 $routes->post('admin/agregar-usuario', 'Admin::agregarUsuario');
 $routes->post('admin/actualizar-usuario', 'Admin::actualizarUsuario');
+$routes->post('admin/actualizar-empresa', 'Admin::actualizarEmpresa');
 $routes->post('admin/actualizar-notificaciones', 'Admin::actualizarNotificaciones');
 $routes->get('admin/categorias/crear', 'Admin::crearCategoria');
 $routes->post('admin/categorias/store', 'Admin::storeCategoria');

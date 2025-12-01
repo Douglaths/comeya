@@ -12,6 +12,9 @@
             <div class="row">
                 <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
                     <h4>Mi Cuenta y Configuración ⚙️</h4>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#configurarEmpresaModal">
+                        <i class="fas fa-building"></i> Configurar Empresa
+                    </button>
                 </div>
                 
                 <!-- Información Personal -->
@@ -23,29 +26,29 @@
                         <div class="card-body">
                             <form action="<?= base_url('admin/actualizar-perfil') ?>" method="POST">
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" 
-                                           value="<?= esc($empresa['email'] ?? '') ?>" required>
+                                    <label for="nombre_usuario" class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" 
+                                           value="<?= esc($usuario['nombre'] ?? '') ?>" required>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="nombre_empresa" class="form-label">Nombre del Restaurante</label>
-                                    <input type="text" class="form-control" id="nombre_empresa" name="nombre_empresa" 
-                                           value="<?= esc($empresa['nombre'] ?? 'Galvis Café') ?>" required>
+                                    <label for="email_usuario" class="form-label">Email Personal</label>
+                                    <input type="email" class="form-control" id="email_usuario" name="email_usuario" 
+                                           value="<?= esc($usuario['email'] ?? '') ?>" required>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="telefono" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="telefono" name="telefono" 
-                                           value="<?= esc($empresa['telefono'] ?? '') ?>">
+                                    <label for="telefono_usuario" class="form-label">Teléfono Personal</label>
+                                    <input type="tel" class="form-control" id="telefono_usuario" name="telefono_usuario" 
+                                           value="<?= esc($usuario['telefono'] ?? '') ?>">
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="direccion" class="form-label">Dirección</label>
-                                    <textarea class="form-control" id="direccion" name="direccion" rows="2"><?= esc($empresa['direccion'] ?? '') ?></textarea>
+                                    <label for="direccion_usuario" class="form-label">Dirección Personal</label>
+                                    <textarea class="form-control" id="direccion_usuario" name="direccion_usuario" rows="2"><?= esc($usuario['direccion'] ?? '') ?></textarea>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                                <button type="submit" class="btn btn-primary">Actualizar Información Personal</button>
                             </form>
                         </div>
                     </div>
@@ -292,6 +295,100 @@
         </div>
     </div>
 
+    <!-- Modal Configurar Empresa -->
+    <div class="modal fade" id="configurarEmpresaModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Configuración de la Empresa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?= base_url('admin/actualizar-empresa') ?>" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Información Básica</h6>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_nombre" class="form-label">Nombre de la Empresa</label>
+                                    <input type="text" class="form-control" id="empresa_nombre" name="nombre" 
+                                           value="<?= esc($empresa['nombre'] ?? '') ?>" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_email" class="form-label">Email de la Empresa</label>
+                                    <input type="email" class="form-control" id="empresa_email" name="email" 
+                                           value="<?= esc($empresa['email'] ?? '') ?>" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_telefono" class="form-label">Teléfono de la Empresa</label>
+                                    <input type="tel" class="form-control" id="empresa_telefono" name="telefono" 
+                                           value="<?= esc($empresa['telefono'] ?? '') ?>">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_direccion" class="form-label">Dirección de la Empresa</label>
+                                    <textarea class="form-control" id="empresa_direccion" name="direccion" rows="2"><?= esc($empresa['direccion'] ?? '') ?></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_descripcion" class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="empresa_descripcion" name="descripcion" rows="3"><?= esc($empresa['descripcion'] ?? '') ?></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_ciudad" class="form-label">Ciudad</label>
+                                    <input type="text" class="form-control" id="empresa_ciudad" name="ciudad" 
+                                           value="<?= esc($empresa['ciudad'] ?? '') ?>">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="empresa_categoria" class="form-label">Categoría de Comida</label>
+                                    <input type="text" class="form-control" id="empresa_categoria" name="categoria_comida" 
+                                           value="<?= esc($empresa['categoria_comida'] ?? '') ?>" 
+                                           placeholder="Ej: Italiana, Mexicana, Asiática">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Imágenes</h6>
+                                
+                                <!-- Logo -->
+                                <div class="mb-4">
+                                    <label class="form-label">Logo de la Empresa</label>
+                                    <div class="text-center mb-2">
+                                        <img id="preview_logo" src="<?= !empty($empresa['logo']) ? base_url('uploads/' . $empresa['logo']) : 'https://via.placeholder.com/100x100?text=Logo' ?>" 
+                                             alt="Logo" class="border rounded" 
+                                             style="width: 100px; height: 100px; object-fit: cover;">
+                                    </div>
+                                    <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                                    <small class="text-muted">Usado para favicon y marca. Recomendado: 100x100px</small>
+                                </div>
+                                
+                                <!-- Foto de Presentación -->
+                                <div class="mb-3">
+                                    <label class="form-label">Foto de Presentación</label>
+                                    <div class="text-center mb-2">
+                                        <img id="preview_foto_presentacion" src="<?= !empty($empresa['foto_presentacion']) ? base_url('uploads/' . $empresa['foto_presentacion']) : 'https://via.placeholder.com/300x200?text=Foto+Presentaci%C3%B3n' ?>" 
+                                             alt="Foto Presentación" class="border rounded" 
+                                             style="width: 300px; height: 200px; object-fit: cover;">
+                                    </div>
+                                    <input type="file" class="form-control" id="foto_presentacion" name="foto_presentacion" accept="image/*">
+                                    <small class="text-muted">Mostrada en el menú de restaurantes. Recomendado: 800x600px</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Actualizar Empresa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
     function editarUsuario(id, nombre, email, foto) {
         document.getElementById('edit_user_id').value = id;
@@ -317,6 +414,30 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById('preview_foto').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Preview de logo
+    document.getElementById('logo').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview_logo').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Preview de foto de presentación
+    document.getElementById('foto_presentacion').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview_foto_presentacion').src = e.target.result;
             };
             reader.readAsDataURL(file);
         }

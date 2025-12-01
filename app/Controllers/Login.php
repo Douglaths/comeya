@@ -45,7 +45,7 @@ class Login extends BaseController
             if ($passwordValid) {
                 // Buscar usuario asociado a la empresa
                 $usuario = $db->table('usuarios')
-                    ->select('nombre, email, foto_perfil, rol')
+                    ->select('id, nombre, email, foto_perfil, rol')
                     ->where('empresa_id', $empresa['id'])
                     ->where('activo', 1)
                     ->orderBy('id', 'ASC')
@@ -68,6 +68,7 @@ class Login extends BaseController
                 session()->set([
                     'empresa_id' => $empresa['id'],
                     'empresa_nombre' => $empresa['nombre'],
+                    'user_id' => $usuario ? $usuario['id'] : null,
                     'user_name' => $usuario ? $usuario['nombre'] : $empresa['nombre'],
                     'user_email' => $usuario ? $usuario['email'] : $empresa['email'],
                     'user_photo' => $usuario ? $usuario['foto_perfil'] : null,

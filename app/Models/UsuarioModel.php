@@ -12,7 +12,7 @@ class UsuarioModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['empresa_id', 'nombre', 'email', 'password', 'rol', 'activo'];
+    protected $allowedFields = ['empresa_id', 'nombre', 'email', 'password', 'rol', 'activo', 'telefono', 'direccion', 'foto_perfil'];
 
     protected $useTimestamps = true;
     protected $dateFormat = 'datetime';
