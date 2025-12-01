@@ -29,6 +29,15 @@ class Pedidos extends BaseController
         $numeroSecuencial = $ultimoPedido ? (intval(substr($ultimoPedido['numero_pedido'], -4)) + 1) : 1;
         $numeroPedido = $restauranteSlug . '-' . str_pad($numeroSecuencial, 4, '0', STR_PAD_LEFT);
         
+        // Obtener costo de envío de la empresa
+        $empresa = $db->table('empresas')
+                     ->select('costo_envio')
+                     ->where('id', $request->restaurante->id)
+                     ->get()
+                     ->getRowArray();
+        
+        $costoEnvioEmpresa = $empresa ? floatval($empresa['costo_envio']) : 3.00;
+        
         // Insertar pedido
         $pedidoData = [
             'numero_pedido' => $numeroPedido,
@@ -39,8 +48,8 @@ class Pedidos extends BaseController
             'notas' => $request->notas ?? '',
             'medio_pago' => $request->metodoPago,
             'subtotal' => $request->total,
-            'costo_envio' => $request->envio,
-            'total' => $request->totalFinal,
+            'costo_envio' => $costoEnvioEmpresa,
+            'total' => $request->total + $costoEnvioEmpresa,
             'estado' => 'pendiente',
             'fecha_pedido' => date('Y-m-d H:i:s')
         ];

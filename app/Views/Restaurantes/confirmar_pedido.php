@@ -296,6 +296,16 @@
                 total: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0)
             };
             
+            // Obtener costo de envío y mostrar formulario
+            obtenerCostoEnvio(pedido.restaurante.id)
+                .then(costoEnvio => {
+                    mostrarFormularioPedido(pedido, costoEnvio);
+                });
+        });
+        
+        function mostrarFormularioPedido(pedido, costoEnvio) {
+            const container = document.getElementById('pedidoContainer');
+            
             container.innerHTML = `
                 <!-- Resumen del Pedido -->
                 <div class="summary-box">
@@ -309,9 +319,13 @@
                             <span class="summary-item-price">$${(item.precio * item.cantidad).toFixed(2)}</span>
                         </div>
                     `).join('')}
+                    <div class="summary-item">
+                        <span class="summary-item-name">Costo de envío</span>
+                        <span class="summary-item-price">$${costoEnvio.toFixed(2)}</span>
+                    </div>
                     <div class="summary-total">
                         <span class="summary-total-label">Total</span>
-                        <span class="summary-total-price">$${(pedido.total + 3).toFixed(2)}</span>
+                        <span class="summary-total-price">$${(pedido.total + costoEnvio).toFixed(2)}</span>
                     </div>
                 </div>
 
@@ -352,15 +366,16 @@
                         </div>
                         
                         <input type="hidden" name="empresa_id" value="${pedido.restaurante.id}">
-                        <input type="hidden" name="total" value="${pedido.total + 3}">
+                        <input type="hidden" name="total" value="${pedido.total + costoEnvio}">
+                        <input type="hidden" name="costo_envio" value="${costoEnvio}">
                     </div>
 
-                    <button type="button" class="btn-confirm" onclick="confirmOrder()">Confirmar Pedido - $${(pedido.total + 3).toFixed(2)}</button>
+                    <button type="button" class="btn-confirm" onclick="confirmOrder(${costoEnvio})">Confirmar Pedido - $${(pedido.total + costoEnvio).toFixed(2)}</button>
                 </form>
             `;
-        });
+        }
 
-        function confirmOrder() {
+        function confirmOrder(costoEnvio = 3.00) {
             const customerName = document.getElementById('customerName').value;
             const customerPhone = document.getElementById('customerPhone').value;
             const customerAddress = document.getElementById('customerAddress').value;
@@ -386,8 +401,8 @@
                 direccion: customerAddress,
                 notas: specialNotes,
                 metodoPago: medioPago,
-                envio: 3.00,
-                totalFinal: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0) + 3
+                envio: costoEnvio,
+                totalFinal: carrito.items.reduce((total, item) => total + (item.precio * item.cantidad), 0) + costoEnvio
             };
 
             // Enviar pedido al servidor
@@ -438,6 +453,14 @@
                                 <span style="font-weight: 600;">${pedido.restaurante.nombre}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
+                                <span>Subtotal</span>
+                                <span style="font-weight: 600;">$${pedido.total.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
+                                <span>Costo de envío</span>
+                                <span style="font-weight: 600;">$${pedido.envio.toFixed(2)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e9ecef;">
                                 <span>Total</span>
                                 <span style="font-weight: 700;">$${pedido.totalFinal.toFixed(2)}</span>
                             </div>
@@ -479,6 +502,20 @@
             }
         }
 
+        async function obtenerCostoEnvio(empresaId) {
+            try {
+                const response = await fetch('<?= base_url('carrito/costo-envio') ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ empresaId: empresaId })
+                });
+                const data = await response.json();
+                return data.costo_envio || 3.00;
+            } catch (error) {
+                return 3.00;
+            }
+        }
+        
         function volverRestaurante() {
             // Usar la URL guardada en la variable global
             if (window.restauranteUrl) {

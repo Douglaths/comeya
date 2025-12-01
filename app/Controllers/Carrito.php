@@ -164,4 +164,27 @@ class Carrito extends BaseController
             'carrito' => $carrito
         ]);
     }
+
+    public function obtenerCostoEnvio()
+    {
+        $input = $this->request->getJSON();
+        $empresaId = $input->empresaId ?? null;
+        
+        $costoEnvio = 3.00; // Valor por defecto
+        
+        if ($empresaId) {
+            $db = \Config\Database::connect();
+            $empresa = $db->table('empresas')
+                         ->select('costo_envio')
+                         ->where('id', $empresaId)
+                         ->get()
+                         ->getRowArray();
+            
+            if ($empresa && isset($empresa['costo_envio'])) {
+                $costoEnvio = floatval($empresa['costo_envio']);
+            }
+        }
+
+        return $this->response->setJSON(['costo_envio' => $costoEnvio]);
+    }
 }

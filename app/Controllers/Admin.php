@@ -682,6 +682,7 @@ class Admin extends BaseController
         $empresaModel = new \App\Models\EmpresaModel();
         $empresaId = $this->getEmpresaId();
         
+        $costoEnvio = $this->request->getPost('costo_envio');
         $data = [
             'nombre' => $this->request->getPost('nombre'),
             'email' => $this->request->getPost('email'),
@@ -690,7 +691,7 @@ class Admin extends BaseController
             'descripcion' => $this->request->getPost('descripcion'),
             'ciudad' => $this->request->getPost('ciudad'),
             'categoria_comida' => $this->request->getPost('categoria_comida'),
-            'costo_envio' => floatval($this->request->getPost('costo_envio')) ?: 3.00
+            'costo_envio' => $costoEnvio ? floatval($costoEnvio) : 3.00
         ];
         
         // Manejar subida de logo

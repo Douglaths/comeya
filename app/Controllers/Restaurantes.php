@@ -16,7 +16,25 @@ class Restaurantes extends BaseController
 
     public function confirmarPedido()
     {
-        return view('Restaurantes/confirmar_pedido');
+        // Obtener empresa del carrito en sesión o localStorage
+        $empresaId = $this->request->getGet('empresa_id');
+        $costoEnvio = 3.00; // Valor por defecto
+        
+        if ($empresaId) {
+            $db = \Config\Database::connect();
+            $empresa = $db->table('empresas')
+                         ->select('costo_envio')
+                         ->where('id', $empresaId)
+                         ->get()
+                         ->getRowArray();
+            
+            if ($empresa) {
+                $costoEnvio = floatval($empresa['costo_envio']);
+            }
+        }
+        
+        $data = ['costo_envio_default' => $costoEnvio];
+        return view('Restaurantes/confirmar_pedido', $data);
     }
 
     public function verPorNombre($nombreRestaurante)
