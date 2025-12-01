@@ -36,3 +36,5 @@ writable/session/ci_session920cd3f6a089481fc8c5394c427785c9
 writable/session/ci_session9eaa4ad6d93fc615378956ddbab97ee0
 writable/session/ci_sessione4cae7b1c1489b870e9075ce48b3ea37
 writable/session/ci_sessione74c331edaf2d6871603d88299b84a14
+*.log
+*.log

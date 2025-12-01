@@ -10,20 +10,28 @@ class Notificaciones extends BaseController
         header('Cache-Control: no-cache');
         header('Connection: keep-alive');
         
+        $empresaId = session()->get('empresa_id') ?? 1;
         $db = \Config\Database::connect();
         
-        // Obtener el último pedido para la empresa
-        $ultimoPedido = $db->table('pedidos')
-            ->where('empresa_id', 1)
+        // Solo enviar si hay pedidos nuevos
+        $ultimoIdSesion = session()->get('ultimo_pedido_id') ?? 0;
+        
+        $nuevosPedidos = $db->table('pedidos')
+            ->where('empresa_id', $empresaId)
+            ->where('id >', $ultimoIdSesion)
+            ->where('estado', 'pendiente')
             ->orderBy('id', 'DESC')
-            ->limit(1)
             ->get()
-            ->getRowArray();
+            ->getResultArray();
             
-        if ($ultimoPedido) {
+        if (!empty($nuevosPedidos)) {
+            $ultimoId = $nuevosPedidos[0]['id'];
+            session()->set('ultimo_pedido_id', $ultimoId);
+            
             $data = [
-                'type' => 'nuevo_pedido',
-                'pedido' => $ultimoPedido
+                'type' => 'nuevos_pedidos',
+                'count' => count($nuevosPedidos),
+                'pedidos' => $nuevosPedidos
             ];
             
             echo "data: " . json_encode($data) . "\n\n";
@@ -35,10 +43,11 @@ class Notificaciones extends BaseController
     public function checkNuevosPedidos()
     {
         $ultimoId = $this->request->getGet('ultimo_id') ?? 0;
+        $empresaId = session()->get('empresa_id') ?? 1;
         $db = \Config\Database::connect();
         
         $nuevosPedidos = $db->table('pedidos')
-            ->where('empresa_id', 1)
+            ->where('empresa_id', $empresaId)
             ->where('id >', $ultimoId)
             ->where('estado', 'pendiente')
             ->orderBy('id', 'DESC')
@@ -48,7 +57,8 @@ class Notificaciones extends BaseController
         return $this->response->setJSON([
             'success' => true,
             'pedidos' => $nuevosPedidos,
-            'count' => count($nuevosPedidos)
+            'count' => count($nuevosPedidos),
+            'ultimo_id' => !empty($nuevosPedidos) ? $nuevosPedidos[0]['id'] : $ultimoId
         ]);
     }
 }

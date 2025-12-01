@@ -48,8 +48,8 @@
                                 </div>
                                 <div class="col-md-3 d-flex align-items-end justify-content-end">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
-                                        <label class="form-check-label" for="autoRefresh">Auto-actualizar</label>
+                                        <input class="form-check-input" type="checkbox" id="autoRefresh">
+                                        <label class="form-check-label" for="autoRefresh">Auto-actualizar (30s)</label>
                                     </div>
                                 </div>
                             </form>
@@ -233,16 +233,13 @@ if (pedidos.length > 0) {
     ultimoPedidoId = parseInt(ultimoCard.dataset.pedidoId) || 0;
 }
 
-// Función para verificar nuevos pedidos
+// Función para verificar nuevos pedidos (solo recarga, sin notificaciones)
 function checkNuevosPedidos() {
     fetch(`<?= base_url('notificaciones/check') ?>?ultimo_id=${ultimoPedidoId}`)
         .then(response => response.json())
         .then(data => {
             if (data.success && data.count > 0) {
-                // Mostrar notificación
-                mostrarNotificacion(`${data.count} nuevo(s) pedido(s) recibido(s)`);
-                
-                // Actualizar último ID
+                // Solo actualizar último ID y recargar
                 if (data.pedidos.length > 0) {
                     ultimoPedidoId = Math.max(...data.pedidos.map(p => p.id));
                 }
@@ -256,54 +253,21 @@ function checkNuevosPedidos() {
         .catch(error => console.error('Error checking pedidos:', error));
 }
 
-// Función para mostrar notificaciones
-function mostrarNotificacion(mensaje) {
-    // Crear notificación visual
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #28a745;
-        color: white;
-        padding: 15px 20px;
-        border-radius: 8px;
-        z-index: 9999;
-        font-weight: 600;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        animation: slideIn 0.3s ease;
-    `;
-    notification.textContent = mensaje;
-    document.body.appendChild(notification);
-    
-    // Reproducir sonido (opcional)
-    try {
-        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
-        audio.play();
-    } catch(e) {}
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 4000);
-}
+// Función removida - las notificaciones se manejan desde footer.php
 
 // Auto-refresh
 document.getElementById('autoRefresh').addEventListener('change', function() {
     if (this.checked) {
         autoRefreshInterval = setInterval(() => {
-            checkNuevosPedidos();
-        }, 10000); // 10 segundos
+            location.reload();
+        }, 30000); // 30 segundos
     } else {
         clearInterval(autoRefreshInterval);
     }
 });
 
-// Iniciar auto-refresh por defecto
-if (document.getElementById('autoRefresh').checked) {
-    autoRefreshInterval = setInterval(() => {
-        checkNuevosPedidos();
-    }, 10000);
-}
+// No iniciar auto-refresh por defecto
+// El usuario debe activarlo manualmente si lo desea
 
 // CSS para animación
 const style = document.createElement('style');

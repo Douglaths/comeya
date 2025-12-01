@@ -136,7 +136,7 @@ class Carrito {
 
         this.guardarCarrito();
         this.actualizarUI();
-        this.mostrarNotificacion('Producto agregado al carrito');
+        this.mostrarNotificacionCarrito('Producto agregado al carrito');
     }
 
     aumentarCantidad(productId) {
@@ -171,6 +171,20 @@ class Carrito {
     }
 
     limpiarCarrito() {
+        this.items = [];
+        this.restauranteId = null;
+        this.restauranteNombre = '';
+        this.actualizarUI();
+    }
+
+    limpiarTodoElCarrito() {
+        // Limpiar carrito específico del restaurante
+        if (this.restauranteId) {
+            localStorage.removeItem(`carrito_${this.restauranteId}`);
+        }
+        // Limpiar carrito general
+        localStorage.removeItem('carrito');
+        // Limpiar estado interno
         this.items = [];
         this.restauranteId = null;
         this.restauranteNombre = '';
@@ -244,7 +258,7 @@ class Carrito {
         if (footer) footer.style.display = 'block';
     }
 
-    mostrarNotificacion(mensaje) {
+    mostrarNotificacionCarrito(mensaje) {
         // Crear notificación temporal
         const notification = document.createElement('div');
         notification.className = 'cart-notification';

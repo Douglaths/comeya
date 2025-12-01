@@ -423,8 +423,14 @@
                     // Guardar URL del restaurante antes de limpiar
                     window.restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
                     
-                    // Limpiar carrito
+                    // Limpiar carrito completamente
                     localStorage.removeItem('carrito');
+                    localStorage.removeItem(`carrito_${carrito.restauranteId}`);
+                    
+                    // Si existe el objeto carrito global, limpiarlo también
+                    if (typeof window.carrito !== 'undefined') {
+                        window.carrito.limpiarTodoElCarrito();
+                    }
                     
                     // Cambiar el contenido a la vista de comprobante
                     document.querySelector('.confirm-title').textContent = '¡Pedido Confirmado!';

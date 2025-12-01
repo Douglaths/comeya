@@ -33,6 +33,87 @@
     <!-- app JavaScript -->
     <script src="<?= base_url('public/assets/js/app.js') ?>"></script>
     
+    <!-- Notificaciones JavaScript -->
+    <script>
+        let ultimoPedidoId = localStorage.getItem('ultimo_pedido_id') || 0;
+
+        function checkNuevosPedidos() {
+            fetch(`<?= base_url('notificaciones/check') ?>?ultimo_id=${ultimoPedidoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.count > 0) {
+                        mostrarNotificacion(`${data.count} nuevo${data.count > 1 ? 's' : ''} pedido${data.count > 1 ? 's' : ''} recibido${data.count > 1 ? 's' : ''}`);
+                        actualizarDropdownNotificaciones(data.pedidos);
+                        ultimoPedidoId = data.ultimo_id;
+                        localStorage.setItem('ultimo_pedido_id', ultimoPedidoId);
+                        
+                        const badge = document.getElementById('notification-badge');
+                        if (badge) badge.style.display = 'block';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function mostrarNotificacion(mensaje) {
+            // Evitar duplicados
+            const existing = document.querySelector('.order-notification');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'order-notification';
+            toast.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                    <i class="fas fa-bell me-2"></i>${mensaje}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 5000);
+        }
+
+        function actualizarDropdownNotificaciones(pedidos) {
+            const container = document.getElementById('notificaciones-container');
+            if (!container) return;
+            
+            if (pedidos.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center p-3">
+                        <p class="mb-0 text-muted">No hay notificaciones nuevas</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const html = pedidos.map(pedido => `
+                <a href="<?= base_url('admin/pedidos') ?>" class="iq-sub-card">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-40 rounded-pill bg-soft-success p-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-shopping-cart text-success"></i>
+                        </div>
+                        <div class="ms-3 w-100">
+                            <h6 class="mb-0">Nuevo pedido #${pedido.numero_pedido}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="mb-0">${pedido.cliente_nombre || 'Cliente'}</p>
+                                <small class="float-end font-size-12">Ahora</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+
+        setInterval(checkNuevosPedidos, 10000);
+        document.addEventListener('DOMContentLoaded', checkNuevosPedidos);
+    </script>
+    
     <!-- Superadmin JavaScript -->
     <script>
         function toggleEmpresa(empresaId, nuevoEstado) {
