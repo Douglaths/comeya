@@ -80,6 +80,8 @@ $routes->get('/superadmin/impersonar/(:num)', 'Superadmin::impersonar/$1');
 $routes->get('/superadmin/empresas', 'Empresas::index');
 $routes->get('/superadmin/empresas/crear', 'Empresas::crear');
 $routes->post('/superadmin/empresas/store', 'Empresas::store');
+$routes->get('/superadmin/empresas/editar/(:num)', 'Empresas::editar/$1');
+$routes->post('/superadmin/empresas/actualizar/(:num)', 'Empresas::actualizar/$1');
 $routes->get('/superadmin/empresas/inactivas', 'Empresas::inactivas');
 $routes->get('/superadmin/empresas/trial', 'Empresas::trial');
 $routes->get('/superadmin/empresas/solicitudes', 'Empresas::solicitudes');

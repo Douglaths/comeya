@@ -27,7 +27,7 @@ class Restaurantes extends BaseController
         $nombreBuscar = str_replace('-', ' ', $nombreRestaurante);
         $empresa = $db->table('empresas')
             ->where('LOWER(nombre)', strtolower($nombreBuscar))
-            ->where('activo', 1)
+            ->where('estado', 'activo')
             ->get()
             ->getRowArray();
             

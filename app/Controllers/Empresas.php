@@ -269,4 +269,73 @@ class Empresas extends BaseController
             return redirect()->back()->with('error', 'Error al rechazar la solicitud');
         }
     }
+
+    public function editar($id)
+    {
+        $empresa = $this->empresaModel->find($id);
+        
+        if (!$empresa) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Empresa no encontrada');
+        }
+
+        $data = ['empresa' => $empresa];
+        return view('dashboard/empresas/editar', $data);
+    }
+
+    public function actualizar($id)
+    {
+        $empresa = $this->empresaModel->find($id);
+        
+        if (!$empresa) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Empresa no encontrada');
+        }
+
+        $validation = \Config\Services::validation();
+        
+        $validation->setRules([
+            'nombre' => 'required|min_length[3]|max_length[255]',
+            'email' => "required|valid_email|is_unique[empresas.email,id,{$id}]",
+            'telefono' => 'permit_empty|max_length[20]',
+            'direccion' => 'permit_empty',
+            'descripcion' => 'permit_empty',
+            'ciudad' => 'permit_empty|max_length[100]',
+            'categoria_comida' => 'permit_empty|max_length[100]',
+            'plan' => 'required|in_list[basico,premium,enterprise]',
+            'estado' => 'required|in_list[activo,inactivo,suspendido,trial]',
+            'limite_productos' => 'permit_empty|integer',
+            'fecha_trial_fin' => 'permit_empty|valid_date'
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        try {
+            $data = [
+                'nombre' => $this->request->getPost('nombre'),
+                'email' => $this->request->getPost('email'),
+                'telefono' => $this->request->getPost('telefono'),
+                'direccion' => $this->request->getPost('direccion'),
+                'descripcion' => $this->request->getPost('descripcion'),
+                'ciudad' => $this->request->getPost('ciudad'),
+                'categoria_comida' => $this->request->getPost('categoria_comida'),
+                'plan' => $this->request->getPost('plan'),
+                'estado' => $this->request->getPost('estado'),
+                'limite_productos' => $this->request->getPost('limite_productos') ?: $this->getLimiteByPlan($this->request->getPost('plan')),
+                'envio_gratis' => $this->request->getPost('envio_gratis') ? 1 : 0,
+                'descuento_activo' => $this->request->getPost('descuento_activo') ? 1 : 0,
+                'oferta_2x1' => $this->request->getPost('oferta_2x1') ? 1 : 0,
+                'destacado' => $this->request->getPost('destacado') ? 1 : 0,
+                'fecha_trial_fin' => $this->request->getPost('fecha_trial_fin') ?: null,
+                'codigo_referido' => $this->request->getPost('codigo_referido')
+            ];
+
+            $this->empresaModel->update($id, $data);
+
+            return redirect()->to(base_url('superadmin/empresas'))->with('success', 'Empresa actualizada exitosamente');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Error al actualizar la empresa: ' . $e->getMessage());
+        }
+    }
 }

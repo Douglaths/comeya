@@ -109,6 +109,10 @@
                                                         <td><?= date('d/m/Y', strtotime($empresa['fecha_alta'])) ?></td>
                                                         <td>
                                                             <div class="btn-group" role="group">
+                                                                <a href="<?= base_url('superadmin/empresas/editar/' . $empresa['id']) ?>" 
+                                                                   class="btn btn-sm btn-warning" title="Editar">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
                                                                 <a href="<?= base_url('superadmin/empresas/impersonar/' . $empresa['id']) ?>" 
                                                                    class="btn btn-sm btn-primary" title="Impersonar">
                                                                     <i class="fas fa-sign-in-alt"></i>

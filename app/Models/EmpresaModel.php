@@ -12,8 +12,7 @@ class EmpresaModel extends Model
 
     public function getRestaurantesActivos($filters = [])
     {
-        $builder = $this->where('activo', 1)
-                        ->where('estado', 'activo');
+        $builder = $this->where('estado', 'activo');
 
         if (!empty($filters['search'])) {
             $builder->like('nombre', $filters['search']);
@@ -59,7 +58,6 @@ class EmpresaModel extends Model
     public function getCiudades()
     {
         return $this->select('ciudad')
-                   ->where('activo', 1)
                    ->where('estado', 'activo')
                    ->groupBy('ciudad')
                    ->orderBy('ciudad', 'ASC')
@@ -70,7 +68,6 @@ class EmpresaModel extends Model
     {
         try {
             return $this->select('categoria_comida')
-                       ->where('activo', 1)
                        ->where('estado', 'activo')
                        ->where('categoria_comida IS NOT NULL')
                        ->groupBy('categoria_comida')
