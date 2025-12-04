@@ -276,7 +276,7 @@
                     <input type="hidden" id="edit_user_id" name="user_id">
                     <div class="modal-body">
                         <div class="mb-3 text-center">
-                            <img id="preview_foto" src="<?= base_url('public/assets/images/avatars/01.png') ?>" 
+                            <img id="preview_foto" src="<?= base_url('assets/images/avatars/01.png') ?>" 
                                  alt="Foto de perfil" class="rounded-circle mb-2" 
                                  style="width: 80px; height: 80px; object-fit: cover;">
                             <div>
@@ -430,7 +430,7 @@
         if (foto && foto.trim() !== '') {
             previewImg.src = '<?= base_url('uploads/') ?>' + foto;
         } else {
-            previewImg.src = '<?= base_url('public/assets/images/avatars/01.png') ?>';
+            previewImg.src = '<?= base_url('assets/images/avatars/01.png') ?>';
         }
         
         new bootstrap.Modal(document.getElementById('editarUsuarioModal')).show();

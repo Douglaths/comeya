@@ -8,7 +8,7 @@ class EmpresaModel extends Model
 {
     protected $table = 'empresas';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nombre', 'email', 'telefono', 'direccion', 'descripcion', 'ciudad', 'categoria_comida', 'promociones', 'envio_gratis', 'descuento_activo', 'oferta_2x1', 'plan', 'estado', 'activo', 'destacado', 'logo', 'foto_presentacion'];
+    protected $allowedFields = ['nombre', 'email', 'telefono', 'direccion', 'descripcion', 'ciudad', 'categoria_comida', 'promociones', 'envio_gratis', 'descuento_activo', 'oferta_2x1', 'plan', 'estado', 'activo', 'destacado', 'logo', 'foto_presentacion', 'costo_envio'];
 
     public function getRestaurantesActivos($filters = [])
     {

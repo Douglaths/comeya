@@ -1,0 +1,27 @@
+Archivos principales que necesitan corrección:
+
+1. Admin templates:
+   - app/Views/Admin/templates/header.php
+   - app/Views/Admin/templates/footer.php
+   - app/Views/Admin/templates/navbar.php
+
+2. Dashboard templates:
+   - app/Views/Dashboard/templates/header.php
+   - app/Views/Dashboard/templates/footer.php
+   - app/Views/Dashboard/templates/navbar.php
+
+3. Login y registro:
+   - app/Views/Login.php
+   - app/Views/registro.php
+   - app/Views/password/forgot.php
+   - app/Views/password/reset.php
+
+Cambiar todas las referencias de:
+base_url('public/assets/...') 
+por:
+base_url('assets/...')
+
+Y de:
+base_url('public/js/...')
+por:
+base_url('js/...')

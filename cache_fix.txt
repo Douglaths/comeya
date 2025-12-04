@@ -1,0 +1,4 @@
+// En app/Config/Cache.php línea 24, cambia:
+public string $handler = 'dummy';
+
+// Esto desactiva el cache temporalmente hasta que se resuelva el problema de archivos

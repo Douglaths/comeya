@@ -3,10 +3,12 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
+use Throwable;
 use CodeIgniter\Debug\ExceptionHandler;
 use CodeIgniter\Debug\ExceptionHandlerInterface;
+
+
 use Psr\Log\LogLevel;
-use Throwable;
 
 /**
  * Setup how the exception handler works.
@@ -78,7 +80,8 @@ class Exceptions extends BaseConfig
      * The related `Config\Logger::$threshold` should be adjusted, if needed,
      * to capture logging the deprecations.
      */
-    public string $deprecationLogLevel = LogLevel::WARNING;
+    public string $deprecationLogLevel = 'warning';
+
 
     /*
      * DEFINE THE HANDLERS USED

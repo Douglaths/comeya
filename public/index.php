@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use CodeIgniter\Boot;
 use Config\Paths;
@@ -47,13 +47,27 @@ if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
  */
 
 // LOAD OUR PATHS CONFIG FILE
-// This is the line that might need to be changed, depending on your folder structure.
 require FCPATH . '../app/Config/Paths.php';
-// ^^^ Change this line if you move your application folder
 
 $paths = new Paths();
 
-// LOAD THE FRAMEWORK BOOTSTRAP FILE
+// Cargar autoload de Composer
+$composerAutoload = dirname(__DIR__) . '/vendor/autoload.php';
+if (is_file($composerAutoload)) {
+    require $composerAutoload;
+}
+
+// LOAD THE FRAMEWORK BOOTSTRAP FILE 
 require $paths->systemDirectory . '/Boot.php';
 
-exit(Boot::bootWeb($paths));
+try {
+    exit(Boot::bootWeb($paths));
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo '<pre>';
+    echo "ERROR: " . $e->getMessage() . "\n\n";
+    echo "FILE: " . $e->getFile() . ':' . $e->getLine() . "\n\n";
+    echo $e->getTraceAsString();
+    echo '</pre>';
+}
+

@@ -1,0 +1,15 @@
+// Estructura temporal para servidores que no permiten cambiar Document Root:
+
+1. Mover contenido de public/ a la raíz:
+   - Mover public/index.php a /
+   - Mover public/assets/ a /assets/
+   - Mover public/js/ a /js/
+   - Mover public/uploads/ a /uploads/
+
+2. Editar index.php en la raíz:
+   Cambiar línea 18:
+   $pathsPath = FCPATH . '../app/Config/Paths.php';
+   
+3. Editar app/Config/Paths.php:
+   Cambiar línea 25:
+   public string $publicDirectory = ROOTPATH;

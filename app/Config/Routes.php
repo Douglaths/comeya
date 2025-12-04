@@ -135,5 +135,12 @@ $routes->match(['get', 'post'], '/superadmin/publicidad/crear-material', 'Public
 $routes->get('/superadmin/publicidad/destacados', 'Publicidad::destacados');
 $routes->post('/superadmin/publicidad/toggle-destacado/(:num)', 'Publicidad::toggleDestacado/$1');
 
+// Rutas de Configuración de Página Principal
+$routes->get('/superadmin/configuracion-pagina/obtener', 'ConfiguracionPagina::obtener');
+$routes->post('/superadmin/configuracion-pagina/guardar', 'ConfiguracionPagina::guardar');
+
+// Ruta para obtener teléfono de empresa
+$routes->get('/empresas/telefono/(:num)', 'Empresas::obtenerTelefono/$1');
+
 // Ruta para restaurantes (debe ir al final)
 $routes->get('(:any)', 'Restaurantes::verPorNombre/$1');

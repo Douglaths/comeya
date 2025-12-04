@@ -5,10 +5,10 @@
             <a href="<?= base_url('admin') ?>" class="navbar-brand">
                 <!--Logo start-->
                 <div class="iq-logo" style="background: linear-gradient(135deg, #FE9436 0%, #FF6B35 100%); padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                    <img src="<?= base_url('public/assets/images/logos/logo.png') ?>" alt="Comeya" style="height: 32px; width: auto;">
+                    <img src="<?= base_url('assets/images/logos/logo.png') ?>" alt="Comeya" style="height: 32px; width: auto;">
                 </div>
                 <!--logo End-->
-                <img src="<?= base_url('public/assets/images/logos/ico.png') ?>" alt="Comeya" class="logo-mini mt-2" style="height: 32px; width: auto;">
+                <img src="<?= base_url('assets/images/logos/ico.png') ?>" alt="Comeya" class="logo-mini mt-2" style="height: 32px; width: auto;">
             </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                 <i class="icon">

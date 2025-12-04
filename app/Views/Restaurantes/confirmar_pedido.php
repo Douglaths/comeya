@@ -423,6 +423,9 @@
                     // Guardar URL del restaurante antes de limpiar
                     window.restauranteUrl = carrito.restauranteUrl || carrito.restauranteId;
                     
+                    // Generar mensaje de WhatsApp
+                    generarMensajeWhatsApp(pedido, data.numeroPedido);
+                    
                     // Limpiar carrito completamente
                     localStorage.removeItem('carrito');
                     localStorage.removeItem(`carrito_${carrito.restauranteId}`);
@@ -528,6 +531,47 @@
             } else {
                 window.location.href = '<?= base_url('/') ?>';
             }
+        }
+        
+        function generarMensajeWhatsApp(pedido, numeroPedido) {
+            // Obtener teléfono de la empresa
+            fetch('<?= base_url('empresas/telefono') ?>/' + pedido.restaurante.id)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.telefono) {
+                        const telefono = data.telefono.replace(/[^0-9]/g, '');
+                        
+                        // Generar detalle de productos
+                        let detalleProductos = '';
+                        pedido.items.forEach(item => {
+                            const precio = (item.precio * item.cantidad).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            detalleProductos += `${item.cantidad} × ${item.nombre} — $${precio} 🤤🔥\n\n`;
+                        });
+                        
+                        // Construir mensaje
+                        const mensaje = `🌟 Nuevo Pedido: ${numeroPedido}\n` +
+                            `¡Hola! 😄✨\n` +
+                            `Soy ${pedido.nombre} y me gustaría realizar un pedido. 🛍️💛\n\n` +
+                            `📍 Dirección: ${pedido.direccion}\n` +
+                            `📱 Celular: ${pedido.telefono}\n\n` +
+                            `🛍️ Detalle del pedido:\n\n${detalleProductos}\n` +
+                            `🏦 Punto de atención / Tienda: ${pedido.restaurante.nombre}\n` +
+                            `🚚 Envío a domicilio: $${pedido.envio.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}\n` +
+                            `💳 Forma de pago: ${pedido.metodoPago === 'efectivo' ? 'Efectivo' : 'Transferencia'}\n\n` +
+                            `💰 Total del pedido: $${pedido.totalFinal.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}\n\n` +
+                            `${pedido.notas ? `💬 Comentario: ${pedido.notas}\n\n` : ''}` +
+                            `✨ ¡Muchas gracias por tu atención! ✨\n` +
+                            `💛😊`;
+                        
+                        // Codificar mensaje para URL
+                        const mensajeCodificado = encodeURIComponent(mensaje);
+                        const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${mensajeCodificado}`;
+                        
+                        // Abrir WhatsApp
+                        window.open(urlWhatsApp, '_blank');
+                    }
+                })
+                .catch(error => console.error('Error obteniendo teléfono:', error));
         }
     </script>
 </body>

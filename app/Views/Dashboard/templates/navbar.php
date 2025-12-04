@@ -5,10 +5,10 @@
             <a href="<?= base_url('public/superadmin') ?>" class="navbar-brand">
                 <!--Logo start-->
                 <div class="iq-logo" style="background: linear-gradient(135deg, #FE9436 0%, #FF6B35 100%); padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                    <img src="<?= base_url('public/assets/images/logos/logo.png') ?>" alt="Comeya" style="height: 32px; width: auto;">
+                    <img src="<?= base_url('assets/images/logos/logo.png') ?>" alt="Comeya" style="height: 32px; width: auto;">
                 </div>
                 <!--logo End-->
-                <img src="<?= base_url('public/assets/images/logos/ico.png') ?>" alt="Comeya" class="logo-mini mt-2" style="height: 32px; width: auto;">
+                <img src="<?= base_url('assets/images/logos/ico.png') ?>" alt="Comeya" class="logo-mini mt-2" style="height: 32px; width: auto;">
             </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                 <i class="icon">
@@ -225,7 +225,7 @@
                                         <div class="card-body p-0">
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/01.png') ?>" alt="">
+                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('assets/images/shapes/01.png') ?>" alt="">
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Emma Watson Bni</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -238,7 +238,7 @@
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
-                                                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/02.png') ?>" alt="">
+                                                        <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('assets/images/shapes/02.png') ?>" alt="">
                                                     </div>
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">New customer is join</h6>
@@ -251,7 +251,7 @@
                                             </a>
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/03.png') ?>" alt="">
+                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('assets/images/shapes/03.png') ?>" alt="">
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Two customer is left</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -263,7 +263,7 @@
                                             </a>
                                             <a href="#" class="iq-sub-card">
                                                 <div class="d-flex align-items-center">
-                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('public/assets/images/shapes/04.png') ?>" alt="">
+                                                    <img class="avatar-40 rounded-pill bg-soft-primary p-1" src="<?= base_url('assets/images/shapes/04.png') ?>" alt="">
                                                     <div class="w-100 ms-3">
                                                         <h6 class="mb-0 ">New Mail from Fenny</h6>
                                                         <div class="d-flex justify-content-between align-items-center">
@@ -279,7 +279,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="<?= base_url('public/assets/images/avatars/01.png') ?>" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
+                                    <img src="<?= base_url('assets/images/avatars/01.png') ?>" alt="User-Profile" class="img-fluid avatar avatar-40 avatar-rounded">
                                     <div class="caption ms-3 d-none d-md-block ">
                                         <h6 class="mb-0 caption-title">James Patterson</h6>
                                         <p class="mb-0 caption-sub-title">Marketing Administrator</p>

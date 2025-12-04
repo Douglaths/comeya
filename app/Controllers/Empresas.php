@@ -338,4 +338,21 @@ class Empresas extends BaseController
             return redirect()->back()->withInput()->with('error', 'Error al actualizar la empresa: ' . $e->getMessage());
         }
     }
+    
+    public function obtenerTelefono($id)
+    {
+        $empresa = $this->empresaModel->find($id);
+        
+        if ($empresa && $empresa['telefono']) {
+            return $this->response->setJSON([
+                'success' => true,
+                'telefono' => $empresa['telefono']
+            ]);
+        }
+        
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Teléfono no encontrado'
+        ]);
+    }
 }
